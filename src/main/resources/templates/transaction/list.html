@@ -33,23 +33,31 @@
                     <div class="total-box">
                         합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
                     </div>
+                    <div class="income-box">
+                        수입 : <span th:text="${listResponseDto.incomeTotal}">0</span> 원
+                    </div>
+                    <div class="expense-box">
+                        지출 : <span th:text="${listResponseDto.expenseTotal}">0</span> 원
+                    </div>
 
                     <a th:href="@{/transaction/new}" class="create-btn">작성하기</a>
                 </div>
             </div>
             <ul class="transaction-category-list">
+                <li>날짜</li>
+                <li>유형</li>
                 <li>지출내용</li>
                 <li>카테고리</li>
                 <li>금액</li>
-                <li>날짜</li>
             </ul>
             <ul class="transaction-list">
                 <li th:each="transaction: ${listResponseDto.transactionList}">
-                    <a th:href="@{|/transaction/expense/${transaction.id}|}">
-                        <span th:text="${transaction.detail}">지출내용</span>
-                        <span th:text="${transaction.transactionCategory}">카테고리</span>
-                        <span th:text="${#numbers.formatInteger(transaction.amount, 3, 'COMMA')}">지출금</span>
+                    <a th:href="@{|/transaction/${transaction.id}|}">
                         <span th:text="${transaction.transactionDate}">지출날짜</span>
+                        <span th:text="${transaction.transactionType.name() == 'INCOME' ? '수입' : '지출'}">유형</span>
+                        <span th:text="${transaction.detail}">지출내용</span>
+                        <span th:text="${transaction.transactionCategory.displayName}">카테고리</span>
+                        <span th:text="${#numbers.formatInteger(transaction.amount, 3, 'COMMA')}">지출금</span>
                     </a>
                 </li>
             </ul>

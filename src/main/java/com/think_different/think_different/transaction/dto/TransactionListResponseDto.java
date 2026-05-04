@@ -15,9 +15,11 @@ public class TransactionListResponseDto {
 
     private List<TransactionResponseDto> transactionList;
     private Long totalAmount;
+    private Long incomeTotal;
+    private Long expenseTotal;
     private YearMonth yearMonth;
 
-    public static TransactionListResponseDto fromTransaction(List<Transaction> transactionList, long totalAmount, YearMonth yearMonth) {
+    public static TransactionListResponseDto fromTransaction(List<Transaction> transactionList, long totalAmount, long incomeTotal, long expenseTotal, YearMonth yearMonth) {
 
         List<TransactionResponseDto> responseDtoList = transactionList.stream()
                                                     .map(TransactionResponseDto::fromExpense).toList();
@@ -25,6 +27,8 @@ public class TransactionListResponseDto {
         return new TransactionListResponseDto(
                 responseDtoList,
                 totalAmount,
+                incomeTotal,
+                expenseTotal,
                 yearMonth
         );
     }
