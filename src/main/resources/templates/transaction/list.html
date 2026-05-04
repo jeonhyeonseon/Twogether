@@ -33,6 +33,12 @@
                     <div class="total-box">
                         합계 : <span th:text="${listResponseDto.totalAmount}">0</span> 원
                     </div>
+                    <div class="income-box">
+                        수입 : <span th:text="${listResponseDto.incomeTotal}">0</span> 원
+                    </div>
+                    <div class="expense-box">
+                        지출 : <span th:text="${listResponseDto.expenseTotal}">0</span> 원
+                    </div>
 
                     <a th:href="@{/transaction/new}" class="create-btn">작성하기</a>
                 </div>

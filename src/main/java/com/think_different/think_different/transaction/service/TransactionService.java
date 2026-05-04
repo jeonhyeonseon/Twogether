@@ -30,17 +30,20 @@ public class TransactionService {
 
         List<Transaction> transactionList = transactionRepository.findByMemberAndTransactionDateBetween(member, start, end);
 
-        long totalAmount = 0;
+        long incomeTotal = 0;
+        long expenseTotal = 0;
 
         for (Transaction t : transactionList) {
             if (t.getTransactionType() == TransactionType.EXPENSE) {
-                totalAmount = totalAmount - t.getAmount();
+                expenseTotal = expenseTotal + t.getAmount();
             } else {
-                totalAmount = totalAmount + t.getAmount();
+                incomeTotal = incomeTotal + t.getAmount();
             }
         }
 
-        return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, yearMonth);
+        long totalAmount = incomeTotal - expenseTotal;
+
+        return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, incomeTotal, expenseTotal, yearMonth);
     }
 
     public List<YearMonth> findWrittenMonth(Member member) {
