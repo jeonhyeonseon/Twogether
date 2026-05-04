@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
     const typeSelect = document.getElementById("type");
     const categorySelect = document.getElementById("category");
+    const amountInput = document.getElementById("amount");
+    const form = document.querySelector(".transaction-container");
 
     function filterCategory() {
         const selectType = typeSelect.value;
@@ -21,6 +23,20 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     typeSelect.addEventListener("change", filterCategory);
+    filterCategory();
 
-    window.onload = filterCategory;
+    amountInput.addEventListener("input", function () {
+        let value = this.value.replace(/,/g, "").replace(/[^0-9]/g, "");
+
+        if(!value) {
+            this.value = "";
+            return;
+        }
+
+        this.value = Number(value).toLocaleString();
+    });
+
+    form.addEventListener("submit", function () {
+        amountInput.value = amountInput.value.replace(/,/g, "");
+    });
 })

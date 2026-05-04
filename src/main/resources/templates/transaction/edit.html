@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Transaction Edit</title>
     <link rel="stylesheet" th:href="@{/css/transaction/edit.css}">
+    <script th:src="@{/js/transaction/create.js}"></script>
 </head>
 <body>
     <th:block layout:fragment="content">
@@ -35,7 +36,7 @@
                   <select name="transactionCategory" id="category">
                       <option th:each="category : ${categories}"
                               th:value="${category}"
-                              th:text="${category}"
+                              th:text="${category.displayName}"
                               th:selected="${category == updateRequestDto.transactionCategory}">
                       </option>
                   </select>
