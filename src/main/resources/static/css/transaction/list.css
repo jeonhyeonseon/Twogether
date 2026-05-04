@@ -71,15 +71,13 @@
 
 .transaction-category-list {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.3fr 0.7fr 2fr 1fr 1fr;
     align-items: center;
-
     padding: 12px 8px;
     background: #f3f4f6;
     font-weight: 700;
     border-top: 2px solid #e5e7eb;
     border-bottom: 1px solid #e5e7eb;
-
     list-style: none;
     margin: 0;
     width: 100%;
@@ -103,13 +101,11 @@
 
 .transaction-list > li > a {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr;
+    grid-template-columns: 1.3fr 0.7fr 2fr 1fr 1fr;
     align-items: center;
-
     width: 100%;
     box-sizing: border-box;
     padding: 18px 8px;
-
     text-decoration: none;
     color: inherit;
 }
@@ -124,8 +120,7 @@
     background-color: palevioletred;
 }
 
-/* 내용 말줄임 처리 (지출내용) */
-.transaction-list span:first-child {
+.transaction-list span:nth-child(3) {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

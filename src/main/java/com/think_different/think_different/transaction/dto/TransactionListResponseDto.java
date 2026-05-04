@@ -1,6 +1,7 @@
 package com.think_different.think_different.transaction.dto;
 
 import com.think_different.think_different.transaction.domain.Transaction;
+import com.think_different.think_different.transaction.domain.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
