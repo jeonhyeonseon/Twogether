@@ -10,6 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Transaction Create</title>
     <link rel="stylesheet" th:href="@{/css/transaction/create.css}">
+    <script th:src="@{/js/transaction/create.js}"></script>
 </head>
 <body>
     <th:block layout:fragment="content">
@@ -19,7 +20,7 @@
                     <select id="type">
                         <option th:each="type : ${types}"
                                 th:value="${type}"
-                                th:text="${type}">
+                                th:text="${type.displayName}">
                         </option>
                     </select>
                 </label>
@@ -45,7 +46,7 @@
 
             <div class="amount-box">
                 <label for="amount">금액
-                    <input type="number" name="amount" id="amount">
+                    <input type="text" name="amount" id="amount">
                 </label>
             </div>
 

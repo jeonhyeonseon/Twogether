@@ -7,11 +7,23 @@
     <meta charset="UTF-8">
     <title>Transaction Edit</title>
     <link rel="stylesheet" th:href="@{/css/transaction/edit.css}">
+    <script th:src="@{/js/transaction/create.js}"></script>
 </head>
 <body>
     <th:block layout:fragment="content">
       <form th:action="@{|/transaction/${updateRequestDto.id}/edit|}" method="post" class="transaction-edit-container">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+          <div class="type-box">
+              <label for="type">거래 유형
+                  <select id="type">
+                      <option th:each="type : ${types}"
+                              th:value="${type}"
+                              th:text="${type.displayName}">
+                      </option>
+                  </select>
+              </label>
+          </div>
 
           <div class="detail-box">
               <label for="detail"> 지출내용
@@ -24,7 +36,7 @@
                   <select name="transactionCategory" id="category">
                       <option th:each="category : ${categories}"
                               th:value="${category}"
-                              th:text="${category}"
+                              th:text="${category.displayName}"
                               th:selected="${category == updateRequestDto.transactionCategory}">
                       </option>
                   </select>
@@ -32,7 +44,7 @@
           </div>
 
           <div class="amount-box">
-              <label for="amount"> 지출금액
+              <label for="amount"> 금액
                   <input type="text" name="amount" id="amount"
                          th:value="${updateRequestDto.amount}">
               </label>

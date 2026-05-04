@@ -1,4 +1,7 @@
 $(function () {
+    let isLoginIdChecked = false;
+    let isEmailChecked = false;
+
     $("#check-id").on('click', function () {
         const loginId = $("#loginId").val().trim();
         if(!loginId) {
@@ -16,22 +19,22 @@ $(function () {
                 $("#loginId-msg").text(
                     isDuplicated ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다."
                 );
+                isLoginIdChecked = !isDuplicated;
             }
         });
     });
 
     // 비밀번호 일치 여부
-    $("#password-confirm").on("input", function (e) {
+    $("#password-confirm, input[name='password']").on("input", function () {
         const pw = $("input[name='password']").val();
         const pwConfirm = $("#password-confirm").val();
 
-        if (pw !== pwConfirm) {
-            e.preventDefault(); // 제출 막기
+        if(pwConfirm && pw !== pwConfirm) {
             $("#password-msg").text("비밀번호가 일치하지 않습니다.");
-            $("#password-confirm").focus();
-            return;
+        } else {
+            $("#password-msg").text("");
         }
-    })
+    });
 
     // 전화번호
     $("#phone").on("input", function () {
@@ -49,10 +52,11 @@ $(function () {
         }
 
         $(this).val(number);
-    })
+    });
 
     $("#check-email").on('click', function () {
         const email = $("#email").val().trim();
+
         if(!email) {
             alert("이메일을 입력해주세요.");
             return;
@@ -68,7 +72,36 @@ $(function () {
                 $("#email-msg").text(
                     isDuplicated ? "이미 사용 중인 이메일입니다." : "사용 가능한 이메일입니다."
                 );
+                isEmailChecked = !isDuplicated;
             }
         });
+    });
+
+    $("#email").on("input", function () {
+        isEmailChecked = false;
+        $("#email-msg").text("이메일 중복 체크 해주세요");
+    });
+
+    $(".join-form").on("submit", function (e) {
+        const pw = $("input[name='password']").val();
+        const pwConfirm = $("#password-confirm").val();
+
+        if (!isLoginIdChecked) {
+            e.preventDefault();
+            alert("아이디 중복 체크 해주세요.");
+            return;
+        }
+
+        if (pw !== pwConfirm) {
+            e.preventDefault();
+            alert("비밀번호가 일치하지 않습니다.");
+            $("#password-confirm").focus();
+            return;
+        }
+
+        if (!isEmailChecked) {
+            e.preventDefault();
+            alert("이메일 중복 체크 해주세요.");
+        }
     });
 });
