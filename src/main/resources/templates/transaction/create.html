@@ -19,7 +19,7 @@
                     <select id="type">
                         <option th:each="type : ${types}"
                                 th:value="${type}"
-                                th:text="${type}">
+                                th:text="${type.displayName}">
                         </option>
                     </select>
                 </label>
