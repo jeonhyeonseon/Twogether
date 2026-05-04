@@ -2,6 +2,7 @@ package com.think_different.think_different.transaction.service;
 
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.transaction.domain.Transaction;
+import com.think_different.think_different.transaction.domain.TransactionType;
 import com.think_different.think_different.transaction.dto.TransactionCreateRequestDto;
 import com.think_different.think_different.transaction.dto.TransactionListResponseDto;
 import com.think_different.think_different.transaction.dto.TransactionUpdateRequestDto;
@@ -29,9 +30,15 @@ public class TransactionService {
 
         List<Transaction> transactionList = transactionRepository.findByMemberAndTransactionDateBetween(member, start, end);
 
-        long totalAmount = transactionList.stream()
-                                       .mapToLong(Transaction::getAmount)
-                                       .sum();
+        long totalAmount = 0;
+
+        for (Transaction t : transactionList) {
+            if (t.getTransactionType() == TransactionType.EXPENSE) {
+                totalAmount = totalAmount - t.getAmount();
+            } else {
+                totalAmount = totalAmount + t.getAmount();
+            }
+        }
 
         return TransactionListResponseDto.fromTransaction(transactionList, totalAmount, yearMonth);
     }
