@@ -99,7 +99,9 @@ public class TransactionController {
 
         transactionService.updateTransaction(id, updateRequestDto, member);
 
-        return "redirect:/transaction";
+        YearMonth yearMonth = YearMonth.from(updateRequestDto.getTransactionDate());
+
+        return "redirect:/transaction?month=" + yearMonth;
     }
 
     @PostMapping("/{id}/delete")
