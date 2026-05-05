@@ -22,6 +22,11 @@ public class Board {
 
     @Column(nullable = false, length = 200)
     private String title; // 제목
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BoardCategory boardCategory;
+
     private String contents; // 내용
 
     @CreatedDate
