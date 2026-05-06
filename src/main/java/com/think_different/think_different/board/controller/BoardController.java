@@ -62,12 +62,18 @@ public class BoardController {
 
     // 상세
     @GetMapping("/{id}")
-    public String detailBoard(@PathVariable Long id, Model model) {
+    public String detailBoard(@PathVariable Long id,
+                              @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                              Model model) {
         log.info("GET: board/detailBoard");
+
+        Member member = customUserDetails.getMember();
 
         BoardDetailResponseDto boardDetail = boardService.getBoardDetail(id);
 
         model.addAttribute("boardDetail", boardDetail);
+        model.addAttribute("loginMemberId", member.getId());
+
         return "board/detail";
     }
 
@@ -84,10 +90,13 @@ public class BoardController {
 
     @PostMapping("/{id}/edit")
     public String actionUpdateBoard(@PathVariable Long id,
-                                    @ModelAttribute BoardUpdateRequestDto boardUpdateRequestDto ) {
+                                    @ModelAttribute BoardUpdateRequestDto boardUpdateRequestDto,
+                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         log.info("POST: board/updateBoard");
 
-        boardService.updateBoard(id, boardUpdateRequestDto);
+        Member member = customUserDetails.getMember();
+
+        boardService.updateBoard(id, boardUpdateRequestDto, member);
 
         return "redirect:/board/" + id;
     }

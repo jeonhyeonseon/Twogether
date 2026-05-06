@@ -54,10 +54,14 @@ public class BoardService {
         return BoardUpdateRequestDto.fromBoard(board);
     }
 
-    public void updateBoard(Long id, BoardUpdateRequestDto boardUpdateRequestDto) {
+    public void updateBoard(Long id, BoardUpdateRequestDto boardUpdateRequestDto, Member member) {
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        if (!board.getMember().getId().equals(member.getId())) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
 
         board.updateBoard(boardUpdateRequestDto.getTitle(), boardUpdateRequestDto.getContents());
     }

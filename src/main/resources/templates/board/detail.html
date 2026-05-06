@@ -19,10 +19,10 @@
             </div>
             <div class="summary">
                 <div class="left-info">
-                    <span id="nickname">닉네임</span>
+                    <span id="nickname" th:text="${boardDetail.nickname}">닉네임</span>
                     <span id="createdAt" th:text="${#temporals.format(boardDetail.createdAt, 'yyyy-MM-dd HH:mm')}">생성일</span>
                 </div>
-                <div class="right-info">
+                <div class="right-info" th:if="${boardDetail.writerId == loginMemberId}">
                     <div class="more-menu">
                         <button type="button" class="more-btn">⋮</button>
                     </div>
