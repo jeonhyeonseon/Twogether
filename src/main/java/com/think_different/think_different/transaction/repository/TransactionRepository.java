@@ -1,6 +1,8 @@
 package com.think_different.think_different.transaction.repository;
 
 import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.statistics.dto.CategoryExpenseDto;
+import com.think_different.think_different.statistics.dto.MonthlyExpenseDto;
 import com.think_different.think_different.transaction.domain.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +25,49 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     
         """)
     List<String> findDistinctYearMonthByMember(@Param("member") Member member);
+
+    // 총 수입
+    @Query("""
+        select coalesce(sum(t.amount), 0)
+        from Transaction t
+        where t.member = :member
+        and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.INCOME
+        """)
+    Long sumIncomeByMember(Member member);
+
+    // 총 지출
+    @Query("""
+        select coalesce(sum(t.amount), 0)
+        from Transaction t
+        where t.member = :member
+        and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
+        """)
+    Long sumExpenseByMember(Member member);
+
+    // 카테고리별
+    @Query("""
+        select new com.think_different.think_different.statistics.dto.CategoryExpenseDto(
+                cast(t.transactionCategory AS string),
+                sum(t.amount)
+                )
+        from Transaction t
+        where t.member = :member
+        and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
+        group by t.transactionCategory
+        """)
+    List<CategoryExpenseDto> findCategoryExpenses(Member member);
+
+    // 월별
+    @Query("""
+        select new com.think_different.think_different.statistics.dto.MonthlyExpenseDto(
+                function('DATE_FORMAT', t.transactionDate, '%Y-%m'),
+                sum(t.amount)
+                )
+        from Transaction t
+        where t.member = :member
+        and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
+        group by function('DATE_FORMAT', t.transactionDate, '%Y-%m')
+        order by function('DATE_FORMAT', t.transactionDate, '%Y-%m')
+        """)
+    List<MonthlyExpenseDto> findMonthlyExpenses(Member member);
 }
