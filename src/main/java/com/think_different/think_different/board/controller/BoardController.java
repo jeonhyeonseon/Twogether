@@ -5,11 +5,14 @@ import com.think_different.think_different.board.dto.BoardListResponseDto;
 import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
 import com.think_different.think_different.board.dto.BoardUpdateRequestDto;
 import com.think_different.think_different.board.service.BoardService;
+import com.think_different.think_different.config.webSecurity.CustomUserDetails;
+import com.think_different.think_different.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -46,10 +49,13 @@ public class BoardController {
     }
 
     @PostMapping
-    public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto) {
+    public String actionRegisterBoard(@ModelAttribute BoardRegisterRequestDto boardRegisterRequestDto,
+                                      @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         log.info("POST: board/actionRegisterBoard");
 
-        boardService.registerBoard(boardRegisterRequestDto);
+        Member member = customUserDetails.getMember();
+
+        boardService.registerBoard(boardRegisterRequestDto, member);
 
         return "redirect:/board";
     }

@@ -6,6 +6,7 @@ import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
 import com.think_different.think_different.board.dto.BoardUpdateRequestDto;
 import com.think_different.think_different.board.entity.Board;
 import com.think_different.think_different.board.repository.BoardRepository;
+import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,9 @@ public class BoardService {
         return page.map(BoardListResponseDto::fromBoard);
     }
 
-    public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
+    public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto, Member member) {
         // DTO를 Entity로 변환하기
-        Board board = boardRegisterRequestDto.toBoard();
+        Board board = boardRegisterRequestDto.toBoard(member);
 
         boardRepository.save(board);
     }
