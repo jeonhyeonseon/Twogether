@@ -1,5 +1,6 @@
 package com.think_different.think_different.board.entity;
 
+import com.think_different.think_different.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +23,15 @@ public class Board {
 
     @Column(nullable = false, length = 200)
     private String title; // 제목
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private BoardCategory boardCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
     private String contents; // 내용
 
     @CreatedDate

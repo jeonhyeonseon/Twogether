@@ -6,6 +6,7 @@ import com.think_different.think_different.board.dto.BoardRegisterRequestDto;
 import com.think_different.think_different.board.dto.BoardUpdateRequestDto;
 import com.think_different.think_different.board.entity.Board;
 import com.think_different.think_different.board.repository.BoardRepository;
+import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +31,9 @@ public class BoardService {
         return page.map(BoardListResponseDto::fromBoard);
     }
 
-    public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto) {
+    public void registerBoard(BoardRegisterRequestDto boardRegisterRequestDto, Member member) {
         // DTO를 Entity로 변환하기
-        Board board = boardRegisterRequestDto.toBoard();
+        Board board = boardRegisterRequestDto.toBoard(member);
 
         boardRepository.save(board);
     }
@@ -53,10 +54,14 @@ public class BoardService {
         return BoardUpdateRequestDto.fromBoard(board);
     }
 
-    public void updateBoard(Long id, BoardUpdateRequestDto boardUpdateRequestDto) {
+    public void updateBoard(Long id, BoardUpdateRequestDto boardUpdateRequestDto, Member member) {
 
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        if (!board.getMember().getId().equals(member.getId())) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
 
         board.updateBoard(boardUpdateRequestDto.getTitle(), boardUpdateRequestDto.getContents());
     }
