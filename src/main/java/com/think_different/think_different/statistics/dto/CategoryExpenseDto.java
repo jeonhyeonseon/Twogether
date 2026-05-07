@@ -1,5 +1,6 @@
 package com.think_different.think_different.statistics.dto;
 
+import com.think_different.think_different.transaction.domain.TransactionCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -7,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CategoryExpenseDto {
 
-    private String category;
+    private TransactionCategory category;
     private Long amount;
 
 }

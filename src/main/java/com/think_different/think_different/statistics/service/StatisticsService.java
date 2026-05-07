@@ -43,8 +43,8 @@ public class StatisticsService {
                 .totalIncome(totalIncome)
                 .totalExpense(totalExpense)
                 .balance(balance)
-                .categoryExpenseList(categoryExpense)
-                .monthlyExpenseList(monthlyExpense)
+                .categoryExpenses(categoryExpense)
+                .monthlyExpenses(monthlyExpense)
                 .build();
     }
 }

@@ -47,7 +47,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     // 카테고리별
     @Query("""
         select new com.think_different.think_different.statistics.dto.CategoryExpenseDto(
-                cast(t.transactionCategory AS string),
+                t.transactionCategory,
                 sum(t.amount)
                 )
         from Transaction t
@@ -60,14 +60,15 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     // 월별
     @Query("""
         select new com.think_different.think_different.statistics.dto.MonthlyExpenseDto(
-                function('DATE_FORMAT', t.transactionDate, '%Y-%m'),
+                year(t.transactionDate),
+                month(t.transactionDate),
                 sum(t.amount)
                 )
         from Transaction t
         where t.member = :member
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
-        group by function('DATE_FORMAT', t.transactionDate, '%Y-%m')
-        order by function('DATE_FORMAT', t.transactionDate, '%Y-%m')
+        group by year(t.transactionDate), month(t.transactionDate)
+        order by year(t.transactionDate), month(t.transactionDate)
         """)
     List<MonthlyExpenseDto> findMonthlyExpenses(Member member);
 }
