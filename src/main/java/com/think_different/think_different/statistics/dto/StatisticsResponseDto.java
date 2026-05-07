@@ -17,6 +17,6 @@ public class StatisticsResponseDto {
     private Long totalExpense; // 총 지출
     private Long balance; // 잔액
 
-    private List<CategoryExpenseDto> categoryExpenseList; // 카테고리별 소비
-    private List<MonthlyExpenseDto> monthlyExpenseList; // 월별 소비
+    private List<CategoryExpenseDto> categoryExpenses; // 카테고리별 소비
+    private List<MonthlyExpenseDto> monthlyExpenses; // 월별 소비
 }
