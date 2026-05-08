@@ -32,8 +32,11 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         from Transaction t
         where t.member = :member
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.INCOME
+        and t.transactionDate between :startDate and :endDate
         """)
-    Long sumIncomeByMember(@Param("member") Member member);
+    Long sumIncomeByMemberAndMonth(@Param("member") Member member,
+                                   @Param("startDate") LocalDate startDate,
+                                   @Param("endDate") LocalDate endDate);
 
     // 총 지출
     @Query("""
@@ -42,7 +45,9 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         where t.member = :member
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
         """)
-    Long sumExpenseByMember(@Param("member") Member member);
+    Long sumExpenseByMemberAndMonth(@Param("member") Member member,
+                                    @Param("startDate") LocalDate startDate,
+                                    @Param("endDate") LocalDate endDate);
 
     // 카테고리별
     @Query("""
@@ -52,10 +57,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
                 )
         from Transaction t
         where t.member = :member
-        and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
+            and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
+            and t.transactionDate between :startDate and :endDate
         group by t.transactionCategory
         """)
-    List<CategoryExpenseDto> findCategoryExpenses(@Param("member") Member member);
+    List<CategoryExpenseDto> findCategoryExpenses(@Param("member") Member member,
+                                                  @Param("startDate") LocalDate startDate,
+                                                  @Param("endDate") LocalDate endDate);
 
     // 월별
     @Query("""

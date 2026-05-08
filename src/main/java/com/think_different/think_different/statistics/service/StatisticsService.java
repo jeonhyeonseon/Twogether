@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 
 @Service
@@ -18,11 +20,14 @@ public class StatisticsService {
 
     private final TransactionRepository transactionRepository;
 
-    public StatisticsResponseDto getStatistics(Member member) {
+    public StatisticsResponseDto getStatistics(Member member, YearMonth yearMonth) {
 
-        Long totalIncome = transactionRepository.sumIncomeByMember(member);
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
 
-        Long totalExpense = transactionRepository.sumExpenseByMember(member);
+        Long totalIncome = transactionRepository.sumIncomeByMemberAndMonth(member, startDate, endDate);
+
+        Long totalExpense = transactionRepository.sumExpenseByMemberAndMonth(member, startDate, endDate);
 
         if (totalIncome == null) {
             totalIncome = 0L;
@@ -35,7 +40,7 @@ public class StatisticsService {
         // 잔액
         Long balance = totalIncome - totalExpense;
 
-        List<CategoryExpenseDto> categoryExpense = transactionRepository.findCategoryExpenses(member);
+        List<CategoryExpenseDto> categoryExpense = transactionRepository.findCategoryExpenses(member, startDate, endDate);
 
         List<MonthlyExpenseDto> monthlyExpense = transactionRepository.findMonthlyExpenses(member);
 
