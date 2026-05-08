@@ -33,7 +33,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         where t.member = :member
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.INCOME
         """)
-    Long sumIncomeByMember(Member member);
+    Long sumIncomeByMember(@Param("member") Member member);
 
     // 총 지출
     @Query("""
@@ -42,7 +42,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         where t.member = :member
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
         """)
-    Long sumExpenseByMember(Member member);
+    Long sumExpenseByMember(@Param("member") Member member);
 
     // 카테고리별
     @Query("""
@@ -55,7 +55,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         and t.transactionType = com.think_different.think_different.transaction.domain.TransactionType.EXPENSE
         group by t.transactionCategory
         """)
-    List<CategoryExpenseDto> findCategoryExpenses(Member member);
+    List<CategoryExpenseDto> findCategoryExpenses(@Param("member") Member member);
 
     // 월별
     @Query("""
@@ -70,5 +70,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
         group by year(t.transactionDate), month(t.transactionDate)
         order by year(t.transactionDate), month(t.transactionDate)
         """)
-    List<MonthlyExpenseDto> findMonthlyExpenses(Member member);
+    List<MonthlyExpenseDto> findMonthlyExpenses(@Param("member") Member member);
 }
