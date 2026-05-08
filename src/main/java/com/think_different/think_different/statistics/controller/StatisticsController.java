@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.YearMonth;
 
 @Controller
 @RequestMapping("/statistics")
@@ -19,12 +22,17 @@ public class StatisticsController {
     private final StatisticsService statisticsService;
 
     @GetMapping
-    public String statistics(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    public String statistics(@RequestParam(required = false) String month,
+                             @AuthenticationPrincipal CustomUserDetails customUserDetails,
                              Model model) {
+
+        YearMonth currentMonth = month == null || month.isBlank()
+                ? YearMonth.now()
+                : YearMonth.parse(month);
 
         Member member = customUserDetails.getMember();
 
-        StatisticsResponseDto statisticsDto = statisticsService.getStatistics(member);
+        StatisticsResponseDto statisticsDto = statisticsService.getStatistics(member, currentMonth);
 
         model.addAttribute("statistics", statisticsDto);
 
