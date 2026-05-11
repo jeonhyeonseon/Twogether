@@ -42,6 +42,7 @@ public class SecurityConfig {
                     ).permitAll()
                     .requestMatchers( // authenticated
                             "/transaction/**",
+                            "statistics/**",
                             "/board/**"
                     ).authenticated()
                     .anyRequest().authenticated();
@@ -52,7 +53,7 @@ public class SecurityConfig {
                    .loginProcessingUrl("/login")
                    .usernameParameter("loginId")
                    .passwordParameter("password")
-                   .defaultSuccessUrl("/transaction", true)
+                   .defaultSuccessUrl("/statistics", true)
                    .permitAll();
         });
 
