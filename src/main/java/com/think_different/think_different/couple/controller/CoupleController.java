@@ -18,7 +18,7 @@ public class CoupleController {
     private final CoupleService coupleService;
 
     @GetMapping
-    public String getCoupleStatus(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String status(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Member member = customUserDetails.getMember();
 
