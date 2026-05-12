@@ -23,7 +23,7 @@ public class CoupleController {
 
         Member member = customUserDetails.getMember();
 
-        boolean connected = coupleService.getCoupleStatus(member);
+        boolean connected = coupleService.isConnected(member);
 
         if (connected) {
             return "couple/dashboard";

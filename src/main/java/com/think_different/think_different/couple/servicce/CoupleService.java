@@ -14,7 +14,7 @@ public class CoupleService {
 
     private final CoupleMemberRepository coupleMemberRepository;
 
-    public boolean getCoupleStatus(Member member) {
+    public boolean isConnected(Member member) {
 
         return coupleMemberRepository.existsByMember(member);
     }
