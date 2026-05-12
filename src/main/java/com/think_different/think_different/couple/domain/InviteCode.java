@@ -3,6 +3,7 @@ package com.think_different.think_different.couple.domain;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class InviteCode {
 
     @Id
@@ -23,5 +25,7 @@ public class InviteCode {
 
     @Column(nullable = false, unique = true)
     private String code;
+
+    private boolean used;
 
 }

@@ -37,4 +37,14 @@ public class CoupleController {
 
         return "couple/connect";
     }
+
+    @PostMapping("/invite-code")
+    public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        Member member = customUserDetails.getMember();
+
+        coupleService.createInviteCode(member);
+
+        return "redirect:/couple/connect";
+    }
 }
