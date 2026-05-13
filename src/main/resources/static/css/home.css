@@ -1,5 +1,17 @@
 @import "reset.css";
 
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
 body {
     font-family: Arial, sans-serif;
     color: #222;
@@ -109,17 +121,11 @@ body {
     gap: 16px;
 }
 
-.feature {
-    text-align: center;
-    margin-bottom: 48px;
+.features {
+    margin-top: 100px;
 }
 
-.feature h2 {
-    font-size: 28px;
-    margin-bottom: 32px;
-}
-
-.feature-list {
+.features-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 32px;
@@ -129,8 +135,8 @@ body {
     min-height: 240px;
     padding: 40px 24px;
     border: 1px solid #ddd;
-    border-radius: 10px;
-    background-color: #fff;
+    border-radius: 12px;
+    text-align: center;
 }
 
 .icon {
