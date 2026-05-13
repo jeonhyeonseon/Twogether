@@ -6,10 +6,10 @@ import com.think_different.think_different.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/couple")
@@ -46,5 +46,16 @@ public class CoupleController {
         coupleService.createInviteCode(member);
 
         return "redirect:/couple/connect";
+    }
+
+    @PostMapping("/connect")
+    public String connectCouple(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @RequestParam String code) {
+
+        Member member = customUserDetails.getMember();
+
+        coupleService.connectCouple(member, code);
+
+        return "redirect:/couple";
     }
 }
