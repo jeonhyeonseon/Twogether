@@ -16,19 +16,10 @@
     <!-- 헤더 -->
     <div th:replace="~{fragments/header :: headerFragment}"></div>
 
-    <div class="layout">
-            <!-- 오른쪽 -->
-            <aside class="right-side">
-                <div th:replace="~{fragments/right-side-nav :: rightSideFragment}"></div>
-            </aside>
-            <!-- 본문 -->
-            <main class="main-content">
-                <div class="content-container" layout:fragment="content"></div>
-            </main>
-            <!-- 왼쪽 -->
-            <aside class="left-side">
-                <div th:replace="~{fragments/left-side-nav :: leftSideFragment}"></div>
-            </aside>
-    </div>
+    <!-- 본문 -->
+    <main class="main-content">
+        <div class="content-container" layout:fragment="content"></div>
+    </main>
+
 </body>
 </html>
