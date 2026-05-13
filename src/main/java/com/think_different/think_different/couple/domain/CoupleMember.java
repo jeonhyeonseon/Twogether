@@ -3,6 +3,7 @@ package com.think_different.think_different.couple.domain;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class CoupleMember {
 
     @Id

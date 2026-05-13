@@ -28,4 +28,7 @@ public class InviteCode {
 
     private boolean used;
 
+    public void use() {
+        this.used = true;
+    }
 }
