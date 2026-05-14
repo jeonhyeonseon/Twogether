@@ -1,0 +1,206 @@
+@import "reset.css";
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #222;
+    background-color: #fff;
+}
+
+.header {
+    width: 100%;
+    height: 80px;
+    padding: 0 64px;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.nav {
+    display: flex;
+    gap: 48px;
+}
+
+.nav a {
+    color: #333;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.auth-button {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.auth-button a {
+    padding: 10px 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    color: #222;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100px;
+    height: 44px;
+    padding: 0 20px;
+
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-dark {
+    background-color: #ffb5b5;
+    color: #fff;
+}
+
+.btn-outline {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #999;
+}
+
+.home-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 24px;
+}
+
+.hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.hero-image {
+    height: 420px;
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff5f2;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+}
+
+.hero-text h1 {
+    font-size: 44px;
+    line-height: 1.35;
+    margin-bottom: 24px;
+}
+
+.hero-text p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 32px;
+}
+
+.hero-button {
+    display: flex;
+    gap: 16px;
+}
+
+.features {
+    margin-top: 100px;
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.features-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.feature-card {
+    min-height: 240px;
+    padding: 40px 24px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 24px;
+
+    border-radius: 50%;
+    background-color: #f1f1f1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 32px;
+}
+
+.feature-card h3 {
+    font-size: 20px;
+    margin-bottom: 16px;
+}
+
+.feature-card p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.cta {
+    margin-top: 40px;
+    padding: 40px;
+    text-align: center;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fafafa;
+}
+
+.cta h2 {
+    font-size: 26px;
+    margin-bottom: 12px;
+}
+
+.cta p {
+    color: #666;
+    margin-bottom: 24px;
+}

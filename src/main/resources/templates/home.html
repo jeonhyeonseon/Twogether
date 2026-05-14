@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+    <link rel="stylesheet" th:href="@{/css/home.css}">
+</head>
+<body>
+<header class="header">
+    <div class="logo">Two-Gether</div>
+
+    <nav class="nav">
+        <a href="#service">서비스 소개</a>
+        <a href="#features">기능</a>
+        <a href="#guide">이용 방법</a>
+    </nav>
+
+    <div class="auth-button">
+        <a th:href="@{/login}">로그인</a>
+        <a th:href="@{/member/join}">회원 가입</a>
+    </div>
+</header>
+
+<main class="home-container">
+    <section class="hero" id="service">
+        <div class="hero-image">
+            <img th:src="@{/images/main-banner.png}" alt="메인 이미지">
+        </div>
+
+        <div class="hero-text">
+            <h1>당신과 나의 추억을<br>함께 기록해요</h1>
+            <p>
+                데이트 일정, 비용, 추억을 한 곳에서<br>
+                간편하게 관리하는 커플 서비스
+            </p>
+
+            <div class="hero-button">
+                <a th:href="@{/member/join}" class="btn btn-dark">시작하기</a>
+                <a href="#features" class="btn btn-outline">서비스 둘러보기</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2>주요 기능</h2>
+
+        <div class="features-list">
+            <div class="feature-card">
+                <div class="icon">📅</div>
+                <h3>공유 캘린더</h3>
+                <p>데이트 일정을 함께 관리하고<br>기념일을 놓치지 마세요.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">💳</div>
+                <h3>데이트 비용 관리</h3>
+                <p>데이트 비용을 기록하고<br>이번 달 지출을 확인해보세요.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="icon">🖼️</div>
+                <h3>데이트 기록</h3>
+                <p>사진과 메모로 우리의 추억을<br>예쁘게 기록해요.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <h2>지금 바로 시작해보세요</h2>
+        <p>소중한 사람과의 시간을 더 특별하게 만들어줄 거예요.</p>
+        <a th:href="@{/member/join}" class="btn btn-dark">회원가입</a>
+    </section>
+</main>
+</body>
+</html>
