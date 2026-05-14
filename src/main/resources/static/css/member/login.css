@@ -1,34 +1,118 @@
-.login-container {
-    width: 400px;
-    margin: 120px auto;
-    padding: 40px;
-}
-
-.login-container input {
-    width: 100%;
-    height: 50px;
-    margin-bottom: 16px;
-    padding: 0 16px;
-    font-size: 16px;
+* {
     box-sizing: border-box;
 }
 
-.login-container button {
+body {
+    font-family: Arial, sans-serif;
+    color: #222;
+    background-color: #fff;
+}
+
+.login-header {
+    height: 80px;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-header a {
+    color: #222;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.login-page {
+    max-width: 960px;
+    margin: 80px auto;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+}
+
+.login-intro {
+    padding: 64px 56px;
+    border-right: 1px solid #ddd;
+    text-align: center;
+}
+
+.login-intro h2 {
+    font-size: 32px;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+
+.login-intro p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 40px;
+}
+
+.login-image {
     width: 100%;
-    height: 56px;
-    font-size: 18px;
-    font-weight: bold;
+    height: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.login-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.login-form {
+    padding: 80px 56px;
+}
+
+.login-form h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 36px;
+}
+
+.login-form input {
+    width: 100%;
+    height: 52px;
+    margin-bottom: 16px;
+    padding: 0 16px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.login-form button {
+    width: 100%;
+    height: 54px;
+    margin-top: 12px;
+
+    border: none;
+    border-radius: 8px;
+    background-color: #ffaaa7;
+    color: #222;
+
+    font-size: 16px;
+    font-weight: 700;
     cursor: pointer;
 }
 
 .join-link {
-    margin-top: 16px;
+    margin-top: 20px;
     text-align: center;
+    font-size: 14px;
 }
 
-
-.login-links a {
-    font-size: 14px;
-    color: steelblue;
+.join-link a {
+    margin-left: 8px;
+    color: #222;
+    font-weight: 700;
     text-decoration: none;
 }
