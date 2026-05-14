@@ -7,23 +7,36 @@
     <title>Login</title>
 </head>
 <body>
-    <th:block layout:fragment="content">
-      <form th:action="@{/login}" method="post">
+    <main layout:fragment="content">
 
-        <input type="hidden"
-               th:name="${_csrf.parameterName}"
-               th:value="${_csrf.token}">
+        <section class="login-page">
+            <div class="login-intro">
+                <h2>당신과 나의 추억을<br>함께 기록해요</h2>
+                <p>데이트 일정, 비용, 추억을 한 곳에서<br>간편하게 관리하는 커플 서비스</p>
 
-        <div class="login-container">
-          <input type="text" name="loginId" placeholder="아이디" required>
-          <input type="password" name="password" placeholder="비밀번호" required>
-          <button type="submit">로그인</button>
+                <div class="login-image">
+                    <img th:src="@{/images/main-banner.png}" alt="로그인 이미지">
+                </div>
+            </div>
 
-          <div class="join-link">
-              아직 회원이 아니신가요?<a th:href="@{/members/join}">  회원가입</a>
-          </div>
-        </div>
-      </form>
-    </th:block>
+            <form class="login-form" th:action="@{/login}" method="post">
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <h2>로그인</h2>
+
+                <input type="text" name="loginId" placeholder="아이디" required>
+                <input type="password" name="password" placeholder="비밀번호" required>
+
+                <button type="submit">로그인</button>
+
+                <div class="join-link">
+                    아직 회원이 아니신가요?
+                    <a th:href="@{/members/join}">회원가입</a>
+                </div>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

@@ -6,14 +6,22 @@
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$CONTENT_TITLE"></title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
     <link rel="stylesheet" th:href="@{/css/member/login.css}">
+
     <th:block layout:fragment="script"></th:block>
 </head>
 
 <body>
-<main class="login-layout">
-    <th:block layout:fragment="content"/>
-</main>
+    <header class="login-header">
+        <h1>
+            <a th:href="@{/}">Two-Gether</a>
+        </h1>
+    </header>
+
+    <main class="login-layout">
+        <th:block layout:fragment="content"/>
+    </main>
 </body>
 </html>
