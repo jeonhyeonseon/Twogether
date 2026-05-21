@@ -53,7 +53,7 @@ public class SecurityConfig {
                    .loginProcessingUrl("/login")
                    .usernameParameter("loginId")
                    .passwordParameter("password")
-                   .defaultSuccessUrl("/statistics", true)
+                   .defaultSuccessUrl("/main", true)
                    .permitAll();
         });
 
