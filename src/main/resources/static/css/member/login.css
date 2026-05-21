@@ -9,7 +9,7 @@ body {
 }
 
 .login-header {
-    height: 80px;
+    height: 55px;
     border-bottom: 1px solid #ddd;
 
     display: flex;
