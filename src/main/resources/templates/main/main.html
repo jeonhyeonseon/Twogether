@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MainPage</title>
+    <link rel="stylesheet" th:href="@{/css/main/main.css}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/main}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/transaction}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}">
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+
+<!--                <span th:text="${member.name}"></span>-->
+            </a>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="left-side">
+            <div class="connect-illustration">
+                💌
+            </div>
+
+            <h1>아직 연결된 파트너가 없어요</h1>
+            <p>
+                소중한 사람과 연결하고<br>
+                우리만의 추억을 함께 기록해보세요.
+            </p>
+        </section>
+
+        <section class="right-side">
+            <div class="connect-title">
+                <span></span>
+                <strong>♥</strong>
+                <span></span>
+            </div>
+
+            <h2>상대와 연결하는 방법</h2>
+
+            <div class="connect-card">
+                <div class="card-icon pink">✉</div>
+
+                <div class="connect-text">
+                    <h3>초대 코드</h3>
+                    <p>초대 코드를 생성해 파트너에게<br>공유해보세요.</p>
+                </div>
+
+                <form th:action="@{/couple/invite-code}" method="post">
+                    <button type="submit" class="btn-pink">초대 코드 생성</button>
+                </form>
+            </div>
+
+            <div class="connect-card">
+                <div class="card-icon blue">✎</div>
+
+                <div class="card-text">
+                    <h3>초대 코드 입력</h3>
+                    <p>상대에게 받은 초대 코드를<br>입력해보세요.</p>
+                </div>
+
+                <a th:href="@{/couple/connect}" class="btn-blue">코드 입력</a>
+            </div>
+
+            <div class="info-box">
+                <span>?</span>
+                <div>
+                    <strong>초대 코드는 어디서 확인하나요?</strong>
+                    <p>파트너가 생성한 초대 코드를 전달받아 입력하면 연결이 완료됩니다.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
