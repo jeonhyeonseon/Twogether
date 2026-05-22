@@ -11,9 +11,11 @@ import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.method.support.CompositeUriComponentsContributor;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @Transactional
@@ -23,6 +25,7 @@ public class CoupleService {
     private final CoupleMemberRepository coupleMemberRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final CoupleRepository coupleRepository;
+    private final CompositeUriComponentsContributor compositeUriComponentsContributor;
 
     public boolean isConnected(Member member) {
 
@@ -122,5 +125,21 @@ public class CoupleService {
         coupleMemberRepository.save(partnerCoupleMember);
 
         inviteCode.use();
+    }
+
+    public Member findPartner(Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member);
+
+        Couple couple = coupleMember.getCouple();
+
+        List<CoupleMember> coupleMembers = coupleMemberRepository.findByCouple(couple);
+
+        return coupleMembers
+                .stream()
+                .map(CoupleMember::getMember)
+                .filter(member1 -> !member1.getId().equals(member.getId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("상대가 존재하지 않습니다."));
     }
 }
