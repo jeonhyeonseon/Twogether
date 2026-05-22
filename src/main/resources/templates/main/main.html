@@ -19,10 +19,11 @@
         </nav>
 
         <div class="profile">
-            <a th:href="@{/mypage}">
+            <a th:href="@{/mypage}" class="profile-link">
                 <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
-
-<!--                <span th:text="${member.name}"></span>-->
+                <span class="nickname">
+            <span th:text="${member.name}">현선</span> 님
+        </span>
             </a>
         </div>
     </header>
@@ -72,6 +73,39 @@
                 </div>
 
                 <a th:href="@{/couple/connect}" class="btn-blue">코드 입력</a>
+            </div>
+
+            <!-- 연결된 경우 -->
+            <div th:if="${connected}">
+                <section class="dashboard">
+
+                    <div class="couple-info">
+
+                        <div class="profile-box">
+                            <img th:src="@{/images/default-profile.png}">
+                            <span th:text="${member.name}"></span>
+                        </div>
+
+                        <span class="heart">❤️</span>
+
+                        <div class="profile-box">
+                            <img th:src="@{/images/default-profile.png}">
+                            <span th:text="${partner.name}"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="d-day-box">
+                        <p>함께한 지</p>
+
+                        <h1>D+325</h1>
+
+                        <span>
+                            2024.06.20부터
+                        </span>
+                    </div>
+
+                </section>
             </div>
 
             <div class="info-box">
