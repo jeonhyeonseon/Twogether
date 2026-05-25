@@ -25,7 +25,6 @@ public class CoupleService {
     private final CoupleMemberRepository coupleMemberRepository;
     private final InviteCodeRepository inviteCodeRepository;
     private final CoupleRepository coupleRepository;
-    private final CompositeUriComponentsContributor compositeUriComponentsContributor;
 
     public boolean isConnected(Member member) {
 
@@ -129,7 +128,7 @@ public class CoupleService {
 
     public Member findPartner(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member);
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 

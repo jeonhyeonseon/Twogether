@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CoupleMemberRepository extends JpaRepository<CoupleMember, Long> {
 
     boolean existsByMember(Member member);
 
-    CoupleMember findByMember(Member member);
+    Optional<CoupleMember> findByMember(Member member);
 
     List<CoupleMember> findByCouple(Couple couple);
 }
