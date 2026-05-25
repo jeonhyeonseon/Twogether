@@ -20,10 +20,13 @@
 
         <div class="profile">
             <a th:href="@{/mypage}" class="profile-link">
-                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+
                 <span class="nickname">
-            <span th:text="${member.name}">현선</span> 님
-        </span>
+                    <span th:text="${member.name}">현선</span> 님
+                </span>
+
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+
             </a>
         </div>
     </header>
