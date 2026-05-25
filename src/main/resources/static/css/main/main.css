@@ -204,14 +204,14 @@ main {
 
 .connect-text p,
 .card-text p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.6;
     color: #444;
 }
 
 .btn-pink,
 .btn-blue {
-    min-width: 140px;
+    min-width: 120px;
     height: 48px;
     padding: 0 22px;
 
@@ -227,9 +227,9 @@ main {
 }
 
 .btn-pink {
-    border: none;
-    background-color: #ff7f7f;
-    color: #fff;
+    border: 1px solid #ff7f7f;
+    background-color: #fff;
+    color: #ff7f7f;
 }
 
 .btn-blue {
