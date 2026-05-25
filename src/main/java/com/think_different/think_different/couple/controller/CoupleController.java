@@ -6,6 +6,7 @@ import com.think_different.think_different.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,17 +34,27 @@ public class CoupleController {
     }
 
     @GetMapping("/connect")
-    public String connectPage() {
+    public String connectPage(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                              Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        String inviteCode = coupleService.getUsableInviteCode(member);
+
+        model.addAttribute("inviteCode", inviteCode);
 
         return "couple/connect";
     }
 
     @PostMapping("/invite-code")
-    public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                   Model model) {
 
         Member member = customUserDetails.getMember();
 
-        coupleService.createInviteCode(member);
+        String inviteCode = coupleService.createInviteCode(member);
+
+        model.addAttribute("inviteCode", inviteCode);
 
         return "redirect:/couple/connect";
     }

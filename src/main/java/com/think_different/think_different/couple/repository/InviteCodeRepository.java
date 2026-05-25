@@ -15,4 +15,6 @@ public interface InviteCodeRepository extends JpaRepository<InviteCode, Long> {
     boolean existsByCode(String code);
 
     Optional<InviteCode> findByCode(String code);
+
+    Optional<InviteCode> findByMemberAndUsedIsFalse(Member member);
 }

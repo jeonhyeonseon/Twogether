@@ -11,7 +11,6 @@ import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.method.support.CompositeUriComponentsContributor;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -31,7 +30,7 @@ public class CoupleService {
         return coupleMemberRepository.existsByMember(member);
     }
 
-    public void createInviteCode(Member member) {
+    public String createInviteCode(Member member) {
 
         if (isConnected(member)) {
             throw new IllegalArgumentException("이미 연결된 커플 사용자입니다.");
@@ -40,7 +39,9 @@ public class CoupleService {
         boolean existsInviteCode = inviteCodeRepository.existsByMemberAndUsedIsFalse(member);
 
         if (existsInviteCode) {
-            return;
+            InviteCode existingCode = inviteCodeRepository.findByMemberAndUsedIsFalse(member).orElseThrow();
+
+            return existingCode.getCode();
         }
 
         String code = generateInviteCode();
@@ -52,6 +53,8 @@ public class CoupleService {
                 .build();
 
         inviteCodeRepository.save(inviteCode);
+
+        return inviteCode.getCode();
     }
 
     private String generateInviteCode() {
@@ -140,5 +143,12 @@ public class CoupleService {
                 .filter(member1 -> !member1.getId().equals(member.getId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("상대가 존재하지 않습니다."));
+    }
+
+    public String getUsableInviteCode(Member member) {
+        return inviteCodeRepository.findByMemberAndUsedIsFalse(member)
+                .map(InviteCode::getCode)
+                .orElse("");
+
     }
 }
