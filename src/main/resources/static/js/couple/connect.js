@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (!Kakao.isInitialized()) {
-            Kakao.init("여기에_카카오_자바스크립트_키");
+            Kakao.init("ca901ce3f7c3c6ad339fe0d213e84174");
         }
 
         Kakao.Share.sendDefault({
