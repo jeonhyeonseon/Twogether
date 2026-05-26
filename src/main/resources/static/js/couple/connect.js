@@ -50,12 +50,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (qrBtn && qrModal) {
         qrBtn.addEventListener("click", function () {
             qrModal.style.display = "flex";
+            console.log("QR 열기");
         });
     }
 
     if (qrCloseBtn && qrModal) {
-        qrBtn.addEventListener("click", function () {
+        qrCloseBtn.addEventListener("click", function () {
             qrModal.style.display = "none";
+            console.log("닫기 버튼 클릭");
         });
     }
 });
