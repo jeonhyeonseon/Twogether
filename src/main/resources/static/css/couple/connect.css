@@ -158,3 +158,48 @@ body {
 
     display: block;
 }
+
+.qr-modal {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.45);
+    z-index: 999;
+}
+
+.qr-modal-content {
+    position: relative;
+
+    width: 340px;
+    height: 340px;
+
+    padding: 40px;
+
+    border-radius: 20px;
+    background-color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.qr-modal-content img {
+    width: 220px;
+    height: 220px;
+}
+
+.qr-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    cursor: pointer;
+}

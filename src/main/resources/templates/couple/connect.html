@@ -6,6 +6,7 @@
     <title>Couple Connect Page</title>
 
     <link rel="stylesheet" th:href="@{/css/couple/connect.css}">
+    <script defer th:src="@{/js/couple/connect.js}"></script>
 </head>
 <body>
 
@@ -24,11 +25,11 @@
         <section class="invite-code-box">
             <h2>초대 코드</h2>
 
-            <div class="invite-code" th:text="${inviteCode}">
+            <div class="invite-code" th:text="${inviteCode}" id="invite-code">
                 ABCD1234
             </div>
 
-            <button type="submit" class="copy-btn">
+            <button type="button" class="copy-btn" id="copy-btn">
                 코드 복사
             </button>
 
@@ -38,19 +39,30 @@
 
             <div class="share-icon">
                 
-                <button type="submit" class="share-btn">
+                <button type="button" class="share-btn" id="kakao-share-btn">
                     <img th:src="@{/images/kakao.png}" alt="카카오톡">
                 </button>
                 
-                <button type="submit" class="share-btn">
-                    <img th:src="@{/images/qr-code.png}" alt="QR코드">
+                <button type="button" class="share-btn" id="qr-share-btn">
+                    <img th:src="@{/couple/qr(code=${inviteCode})}" alt="QR코드">
                 </button>
                 
-                <button type="submit" class="share-btn">
+                <button type="button" class="share-btn" id="email-share-btn">
                     <img th:src="@{/images/email.png}" alt="이메일">
                 </button>
             </div>
         </section>
     </main>
+
+    <!-- QR 모달 -->
+    <div class="qr-modal" id="qr-modal">
+        <div class="qr-modal-content">
+            <button type="button" class="qr-close-btn" id="qr-close-btn">
+                ×
+            </button>
+
+            <img th:src="@{/couple/qr(code=${inviteCode})}" alt="QR 코드">
+        </div>
+    </div>
 </body>
 </html>
