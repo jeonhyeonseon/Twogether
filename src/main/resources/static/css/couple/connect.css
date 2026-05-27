@@ -17,7 +17,6 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .header div {
@@ -49,7 +48,7 @@ body {
 
 .invite-code-box {
     width: 100%;
-    max-width: 520px;
+    max-width: 540px;
     margin: 0 auto;
     padding: 48px 40px;
 
@@ -63,43 +62,46 @@ body {
 }
 
 .invite-code-box h2 {
-    font-size: 28px;
+    font-size: 32px;
     font-weight: 800;
-    margin-bottom: 36px;
+    margin-bottom: 40px;
 }
 
-.invite-code {
+.connect-code-input {
     width: 100%;
     height: 88px;
     margin-bottom: 24px;
 
     border-radius: 14px;
-    background-color: #fff5f5;
-    border: 1px solid #ffdede;
+    border: 1px solid #d7e5ff;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background-color: #f8fbff;
 
-    font-size: 40px;
-    font-weight: 800;
-    letter-spacing: 4px;
-    color: #ff6b6b;
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 700;
+    color: #5b96f5;
+
+    outline: none;
 }
 
-/* Copy Button */
+.connect-code-input::placeholder {
+    color: #b0c7f5;
+    font-weight: 700;
+}
+
 .copy-btn {
     width: 100%;
-    height: 52px;
-    margin-bottom: 40px;
+    height: 56px;
 
     border: none;
-    border-radius: 10px;
+    border-radius: 12px;
 
-    background-color: #ff7b7b;
+    background-color: #6ea8fe;
     color: #fff;
 
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 700;
 
     cursor: pointer;
@@ -107,99 +109,5 @@ body {
 }
 
 .copy-btn:hover {
-    background-color: #ff6868;
-}
-
-.line {
-    width: 100%;
-    height: 1px;
-    margin-bottom: 32px;
-    background-color: #ececec;
-}
-
-.invite-code-box h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 28px;
-}
-
-.share-icon {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-.share-btn {
-    width: 72px;
-    height: 72px;
-
-    border: none;
-    border-radius: 50%;
-
-    background-color: #f3f4f6;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.share-btn:hover {
-    transform: translateY(-3px);
-    background-color: #ececec;
-}
-
-.share-btn img {
-    width: 34px;
-    height: 34px;
-    object-fit: contain;
-
-    display: block;
-}
-
-.qr-modal {
-    position: fixed;
-    inset: 0;
-
-    display: none;
-    align-items: center;
-    justify-content: center;
-
-    background-color: rgba(0, 0, 0, 0.45);
-    z-index: 999;
-}
-
-.qr-modal-content {
-    position: relative;
-
-    width: 340px;
-    height: 340px;
-
-    padding: 40px;
-
-    border-radius: 20px;
-    background-color: #fff;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.qr-modal-content img {
-    width: 220px;
-    height: 220px;
-}
-
-.qr-close-btn {
-    position: absolute;
-    top: 14px;
-    right: 18px;
-
-    border: none;
-    background: none;
-
-    font-size: 28px;
-    cursor: pointer;
+    background-color: #5b96f5;
 }

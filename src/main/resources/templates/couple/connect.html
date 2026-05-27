@@ -3,16 +3,11 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Couple Connect Page</title>
+    <title>Code Connect page</title>
 
-    <link rel="stylesheet" th:href="@{/css/couple/connect.css}">
-
-    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.8.1/kakao.min.js"
-            crossorigin="anonymous"></script>
-    <script defer th:src="@{/js/couple/connect.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/couple/connect.css}">
 </head>
 <body>
-
     <header class="header">
         <div>Two-Gether</div>
     </header>
@@ -20,52 +15,27 @@
     <main class="invite-code-container">
 
         <div class="invite-text">
-            <h2>파트너를 초대해보세요.</h2>
+          <h2>파트너를 초대해보세요.</h2>
 
-            <p>초대 코드를 공유하여 연결할 수 있어요</p>
+          <p>초대 코드를 공유하여 연결할 수 있어요</p>
         </div>
 
         <section class="invite-code-box">
             <h2>초대 코드</h2>
 
-            <div class="invite-code" th:text="${inviteCode}" id="invite-code">
-                ABCD1234
-            </div>
+            <form th:action="@{/couple/connect}" method="post">
 
-            <button type="button" class="copy-btn" id="copy-btn">
-                코드 복사
-            </button>
+                <input type="text"
+                       name="code"
+                       class="connect-code-input"
+                       placeholder="초대 코드 입력"
+                       required>
 
-            <div class="line"></div>
-
-            <h3>코드를 공유해보세요!</h3>
-
-            <div class="share-icon">
-                
-                <button type="button" class="share-btn" id="kakao-share-btn">
-                    <img th:src="@{/images/kakao.png}" alt="카카오톡">
+                <button type="submit" class="copy-btn">
+                    연결하기
                 </button>
-                
-                <button type="button" class="share-btn" id="qr-share-btn">
-                    <img th:src="@{/couple/qr(code=${inviteCode})}" alt="QR코드">
-                </button>
-                
-                <button type="button" class="share-btn" id="email-share-btn">
-                    <img th:src="@{/images/email.png}" alt="이메일">
-                </button>
-            </div>
+            </form>
         </section>
     </main>
-
-    <!-- QR 모달 -->
-    <div class="qr-modal" id="qr-modal">
-        <div class="qr-modal-content">
-            <button type="button" class="qr-close-btn" id="qr-close-btn">
-                ×
-            </button>
-
-            <img th:src="@{/couple/qr(code=${inviteCode})}" alt="QR 코드">
-        </div>
-    </div>
 </body>
 </html>
