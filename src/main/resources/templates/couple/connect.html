@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Code Connect page</title>
+
+  <link rel="stylesheet" th:href="@{/css/couple/connect.css}">
 </head>
 <body>
+    <header class="header">
+        <div>Two-Gether</div>
+    </header>
 
+    <main class="invite-code-container">
+
+        <div class="invite-text">
+          <h2>파트너를 초대해보세요.</h2>
+
+          <p>초대 코드를 공유하여 연결할 수 있어요</p>
+        </div>
+
+        <section class="invite-code-box">
+            <h2>초대 코드</h2>
+
+            <form th:action="@{/couple/connect}" method="post">
+
+                <input type="text"
+                       name="code"
+                       class="connect-code-input"
+                       placeholder="초대 코드 입력"
+                       required>
+
+                <button type="submit" class="copy-btn">
+                    연결하기
+                </button>
+            </form>
+        </section>
+    </main>
 </body>
 </html>

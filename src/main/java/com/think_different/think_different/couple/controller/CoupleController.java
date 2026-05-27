@@ -46,6 +46,12 @@ public class CoupleController {
         return "couple/invite";
     }
 
+    @GetMapping("/connect")
+    public String connectPage() {
+
+        return "couple/connect";
+    }
+
     @PostMapping("/invite-code")
     public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                    Model model) {

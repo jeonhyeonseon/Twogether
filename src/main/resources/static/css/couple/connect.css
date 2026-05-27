@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    color: #222;
+}
+
+.header {
+    width: 100%;
+    height: 55px;
+    padding: 0 64px;
+    border-bottom: 1px solid #ddd;
+
+    display: flex;
+    align-items: center;
+}
+
+.header div {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.invite-code-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px;
+}
+
+.invite-text {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.invite-text h2 {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.invite-text p {
+    font-size: 18px;
+    color: #666;
+}
+
+.invite-code-box {
+    width: 100%;
+    max-width: 540px;
+    margin: 0 auto;
+    padding: 48px 40px;
+
+    border: 1px solid #ececec;
+    border-radius: 20px;
+    background-color: #fff;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+    text-align: center;
+}
+
+.invite-code-box h2 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 40px;
+}
+
+.connect-code-input {
+    width: 100%;
+    height: 88px;
+    margin-bottom: 24px;
+
+    border-radius: 14px;
+    border: 1px solid #d7e5ff;
+
+    background-color: #f8fbff;
+
+    text-align: center;
+
+    font-size: 36px;
+    font-weight: 700;
+    color: #5b96f5;
+
+    outline: none;
+}
+
+.connect-code-input::placeholder {
+    color: #b0c7f5;
+    font-weight: 700;
+}
+
+.copy-btn {
+    width: 100%;
+    height: 56px;
+
+    border: none;
+    border-radius: 12px;
+
+    background-color: #6ea8fe;
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.copy-btn:hover {
+    background-color: #5b96f5;
+}
