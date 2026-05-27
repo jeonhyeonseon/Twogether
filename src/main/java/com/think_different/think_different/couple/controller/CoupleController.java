@@ -33,8 +33,8 @@ public class CoupleController {
         return "couple/invite";
     }
 
-    @GetMapping("/connect")
-    public String connectPage(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+    @GetMapping("/invite")
+    public String invitePage(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                               Model model) {
 
         Member member = customUserDetails.getMember();
@@ -56,7 +56,7 @@ public class CoupleController {
 
         model.addAttribute("inviteCode", inviteCode);
 
-        return "redirect:/couple/connect";
+        return "redirect:/couple/invite";
     }
 
     @PostMapping("/connect")
