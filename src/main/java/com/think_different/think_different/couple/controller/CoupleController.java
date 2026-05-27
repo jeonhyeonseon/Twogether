@@ -30,7 +30,7 @@ public class CoupleController {
             return "couple/dashboard";
         }
 
-        return "couple/connect";
+        return "couple/invite";
     }
 
     @GetMapping("/connect")
@@ -43,7 +43,7 @@ public class CoupleController {
 
         model.addAttribute("inviteCode", inviteCode);
 
-        return "couple/connect";
+        return "couple/invite";
     }
 
     @PostMapping("/invite-code")
