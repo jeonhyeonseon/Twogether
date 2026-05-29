@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/couple/dashboard.css}">
+</head>
+<body>
+
+<header class="header">
+    <div class="logo">Two-Gether</div>
+
+    <nav class="nav">
+        <a th:href="@{/couple}">홈</a>
+        <a th:href="@{/calendar}">캘린더</a>
+        <a th:href="@{/record}">기록</a>
+        <a th:href="@{/transaction}">비용</a>
+        <a th:href="@{/statistics}">통계</a>
+    </nav>
+
+    <div class="profile">
+        <a th:href="@{/mypage}" class="profile-link">
+            <span class="nickname">
+                <span th:text="${member.name}">현선</span> 님
+            </span>
+
+            <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+        </a>
+    </div>
+</header>
+
+<main class="dashboard-container">
+
+    <section class="top-section">
+
+        <div class="card couple-card">
+            <div class="couple-profile">
+                <div class="profile-item">
+                    <div class="couple-circle"></div>
+                    <span th:text="${member.name}">나</span>
+                </div>
+
+                <span class="heart">♥</span>
+
+                <div class="profile-item">
+                    <div class="couple-circle"></div>
+                    <span th:text="${partner.name}">상대</span>
+                </div>
+            </div>
+
+            <div class="couple-info">
+                <p class="day-text">함께한 지</p>
+                <h2>D+325</h2>
+                <p class="start-date">2024.06.20부터</p>
+            </div>
+        </div>
+
+        <div class="card schedule-card">
+            <h3>다가오는 일정</h3>
+
+            <div class="schedule-item">
+                <span>5.18 (토)</span>
+                <span>양평 데이트</span>
+            </div>
+
+            <div class="schedule-item">
+                <span>5.25 (토)</span>
+                <span>🎂 기념일</span>
+            </div>
+
+            <button class="detail-btn">전체 일정 보기</button>
+        </div>
+
+    </section>
+
+    <section class="bottom-section">
+
+        <div class="card expense-card">
+            <h3>이번 달 데이트 비용</h3>
+
+            <h2>182,000원</h2>
+            <p>데이트 4회</p>
+
+            <div class="chart-placeholder">
+                <div class="bar bar-first"></div>
+                <div class="bar bar-second"></div>
+            </div>
+
+            <button class="detail-btn">상세 보기</button>
+        </div>
+
+        <div class="card record-card">
+            <h3>최근 데이트 기록</h3>
+
+            <div class="record-item">
+                <div class="record-image"></div>
+                <div>
+                    <strong>한강 피크닉</strong>
+                    <p>2024.05.10</p>
+                </div>
+            </div>
+
+            <div class="record-item">
+                <div class="record-image"></div>
+                <div>
+                    <strong>성수동 데이트</strong>
+                    <p>2024.05.04</p>
+                </div>
+            </div>
+
+            <button class="detail-btn">전체 기록 보기</button>
+        </div>
+
+        <div class="card stats-card">
+            <h3>이번 달 한눈에 보기</h3>
+
+            <div class="stats-item">
+                <span>총 지출</span>
+                <strong>182,000원</strong>
+            </div>
+
+            <div class="stats-item">
+                <span>평균 지출</span>
+                <strong>45,500원</strong>
+            </div>
+
+            <div class="stats-item">
+                <span>데이트 횟수</span>
+                <strong>4회</strong>
+            </div>
+
+            <button class="detail-btn">통계 보기</button>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

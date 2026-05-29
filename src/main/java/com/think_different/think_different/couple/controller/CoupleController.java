@@ -20,17 +20,23 @@ public class CoupleController {
     private final CoupleService coupleService;
 
     @GetMapping
-    public String status(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String status(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                         Model model) {
 
         Member member = customUserDetails.getMember();
 
         boolean connected = coupleService.isConnected(member);
 
         if (connected) {
+            Member partner = coupleService.findPartner(member);
+
+            model.addAttribute("member", member);
+            model.addAttribute("partner", partner);
+
             return "couple/dashboard";
         }
 
-        return "couple/invite";
+        return "redirect:/main";
     }
 
     @GetMapping("/invite")
@@ -53,14 +59,11 @@ public class CoupleController {
     }
 
     @PostMapping("/invite-code")
-    public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                   Model model) {
+    public String createInviteCode(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Member member = customUserDetails.getMember();
 
-        String inviteCode = coupleService.createInviteCode(member);
-
-        model.addAttribute("inviteCode", inviteCode);
+        coupleService.createInviteCode(member);
 
         return "redirect:/couple/invite";
     }

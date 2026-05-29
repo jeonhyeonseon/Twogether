@@ -25,13 +25,13 @@ public class MainController {
 
         boolean connected = coupleService.isConnected(member);
 
-        model.addAttribute("connected", connected);
+        if (connected) {
+            return "redirect:/couple";
+        }
+
+        model.addAttribute("connected", false);
         model.addAttribute("member", member);
 
-        if (connected) {
-            Member partner = coupleService.findPartner(member);
-            model.addAttribute("partner", partner);
-        }
         return "main/main";
     }
 
