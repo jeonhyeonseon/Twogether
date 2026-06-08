@@ -2,6 +2,8 @@ package com.think_different.think_different.couple.controller;
 
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.couple.servicce.CoupleService;
+import com.think_different.think_different.dashboard.dto.DashboardResponseDto;
+import com.think_different.think_different.dashboard.service.DashboardService;
 import com.think_different.think_different.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CoupleController {
 
     private final CoupleService coupleService;
+    private final DashboardService dashboardService;
 
     @GetMapping
     public String status(@AuthenticationPrincipal CustomUserDetails customUserDetails,
@@ -25,13 +28,11 @@ public class CoupleController {
 
         Member member = customUserDetails.getMember();
 
-        boolean connected = coupleService.isConnected(member);
-
-        if (connected) {
-            Member partner = coupleService.findPartner(member);
+        if (coupleService.isConnected(member)) {
+            DashboardResponseDto dashboardResponseDto = dashboardService.getDashboard(member);
 
             model.addAttribute("member", member);
-            model.addAttribute("partner", partner);
+            model.addAttribute("dashboard", dashboardResponseDto);
 
             return "couple/dashboard";
         }
