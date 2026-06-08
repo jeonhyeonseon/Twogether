@@ -39,14 +39,14 @@
             <div class="couple-profile">
                 <div class="profile-item">
                     <div class="couple-circle"></div>
-                    <span th:text="${member.name}">나</span>
+                    <span th:text="${dashboard.memberName}">나</span>
                 </div>
 
                 <span class="heart">♥</span>
 
                 <div class="profile-item">
                     <div class="couple-circle"></div>
-                    <span th:text="${partner.name}">상대</span>
+                    <span th:text="${dashboard.partnerName}">상대</span>
                 </div>
             </div>
 
@@ -54,8 +54,25 @@
                 <a th:href="@{/couple/edit}" class="edit-btn">✎</a>
 
                 <p class="day-text">함께한 지</p>
-                <h2>D+325</h2>
-                <p class="start-date">2024.06.20부터</p>
+                <h2 th:if="${dashboard.hasStartDate}"
+                    th:text="'D+' + ${dashboard.dDay}">
+                    D+325
+                </h2>
+
+                <h2 th:unless="${dashboard.hasStartDate}">
+                    D-Day
+                </h2>
+
+                <p class="start-date"
+                    th:if="${dashboard.hasStartDate}"
+                    th:text="${#temporals.format(dashboard.startDate, 'yyyy.MM.dd')} + '부터'">
+                    2024.08.31부터
+                </p>
+
+                <p class="start-date"
+                    th:unless="${dashboard.hasStartDate}">
+                    시작일을 설정해주세요.
+                </p>
             </div>
         </div>
 
