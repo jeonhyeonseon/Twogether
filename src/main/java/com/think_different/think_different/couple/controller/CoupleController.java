@@ -1,6 +1,7 @@
 package com.think_different.think_different.couple.controller;
 
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
+import com.think_different.think_different.couple.dto.CoupleInfoUpdateRequestDto;
 import com.think_different.think_different.couple.servicce.CoupleService;
 import com.think_different.think_different.dashboard.dto.DashboardResponseDto;
 import com.think_different.think_different.dashboard.service.DashboardService;
@@ -38,6 +39,30 @@ public class CoupleController {
         }
 
         return "redirect:/main";
+    }
+
+    @GetMapping("/edit")
+    public String editPage(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                           Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        DashboardResponseDto dashboardResponseDto = dashboardService.getDashboard(member);
+
+        model.addAttribute("dashboard", dashboardResponseDto);
+
+        return "couple/edit";
+    }
+
+    @PostMapping("/edit")
+    public String updateCoupleInfo(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                   CoupleInfoUpdateRequestDto coupleInfoUpdateRequestDto) {
+
+        Member member = customUserDetails.getMember();
+
+        dashboardService.updateCoupleInfo(member, coupleInfoUpdateRequestDto);
+
+        return "redirect:/couple";
     }
 
     @GetMapping("/invite")

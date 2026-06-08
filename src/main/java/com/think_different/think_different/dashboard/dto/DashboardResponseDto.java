@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public class DashboardResponseDto {
     private String memberName;
     private String partnerName;
 
-    private LocalDateTime startDate;
+    private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;
 }
