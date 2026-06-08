@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -21,10 +22,14 @@ public class Couple {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime stareDate;
+    private LocalDate startDate;
 
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
     private CoupleStatus coupleStatus;
+
+    public void updateStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 }
