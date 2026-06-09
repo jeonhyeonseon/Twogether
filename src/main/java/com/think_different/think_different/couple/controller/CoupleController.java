@@ -49,6 +49,7 @@ public class CoupleController {
 
         DashboardResponseDto dashboardResponseDto = dashboardService.getDashboard(member);
 
+        model.addAttribute("member", member);
         model.addAttribute("dashboard", dashboardResponseDto);
 
         return "couple/edit";

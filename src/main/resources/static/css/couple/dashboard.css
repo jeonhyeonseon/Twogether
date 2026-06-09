@@ -84,6 +84,7 @@ body {
 }
 
 .couple-card {
+    position: relative;
     min-height: 230px;
 
     display: grid;
@@ -115,7 +116,7 @@ body {
 
 .heart {
     font-size: 32px;
-    color: #ff7b7b;
+    color: #ff0000;
 }
 
 .couple-info {
@@ -123,15 +124,30 @@ body {
     text-align: center;
 }
 
+.couple-profile .profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.couple-profile-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
 .edit-btn {
     position: absolute;
-    top: -20px;
-    right: 20px;
+    right: 32px;
+    bottom: 24px;
 
-    color: #ff7b7b;
+    color: #d0d1d3;
     text-decoration: none;
-    font-size: 22px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 600;
 }
 
 .day-text {

@@ -29,5 +29,17 @@ public class CoupleMember {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private String nickname;
+
+    private String profileImageUrl;
+
     private LocalDateTime joinedAt; // 연결 날짜
+
+    public void updateDisplayInfo(String nickname, String profileImageUrl) {
+        this.nickname = nickname;
+
+        if (profileImageUrl != null) {
+            this.profileImageUrl = profileImageUrl;
+        }
+    }
 }

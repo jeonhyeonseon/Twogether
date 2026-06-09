@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Couple Edit Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/couple/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/couple/edit.css}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/transaction}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+            <span class="nickname">
+                <span th:text="${member.name}">현선</span> 님
+            </span>
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
+    <main class="edit-container">
+
+        <section class="edit-card">
+
+            <form th:action="@{/couple/edit}" method="post" enctype="multipart/form-data">
+
+                <div class="card couple-card edit-couple-card">
+
+                    <div class="couple-profile">
+                        <div class="profile-item">
+
+                            <label class="profile-upload">
+                                <img class="couple-profile-img"
+                                     th:src="${dashboard.displayMyProfileImageUrl}"
+                                     alt="내 커플 프로필">
+
+                                <input type="file"
+                                       name="myProfileImage"
+                                       accept="image/*"
+                                       hidden>
+                            </label>
+
+                            <input type="text"
+                                   name="myNickname"
+                                   class="nickname-input"
+                                   th:value="${dashboard.myNickname}">
+                        </div>
+
+                        <span class="heart">♥</span>
+
+                        <div class="profile-item">
+
+                            <label class="profile-upload">
+                                <img class="couple-profile-img"
+                                     th:src="${dashboard.displayPartnerProfileImageUrl}"
+                                     alt="상대 커플 프로필">
+
+                                <input type="file"
+                                       name="partnerProfileImage"
+                                       accept="image/*"
+                                       hidden>
+                            </label>
+
+                            <input type="text"
+                                   name="partnerNickname"
+                                   class="nickname-input"
+                                   th:value="${dashboard.partnerNickname}">
+                        </div>
+                    </div>
+
+                    <div class="couple-info">
+                        <p class="day-text">함께한 지</p>
+
+                        <h2 th:if="${dashboard.hasStartDate}"
+                            th:text="'D+' + ${dashboard.dDay}">
+                            D+325
+                        </h2>
+
+                        <h2 th:unless="${dashboard.hasStartDate}">
+                            D-Day
+                        </h2>
+
+                        <input type="date"
+                               name="startDate"
+                               class="start-date-input"
+                               th:value="${dashboard.startDate}">
+
+                        <div class="edit-actions">
+                            <a th:href="@{/couple}" class="cancel-btn">취소</a>
+                            <button type="submit" class="save-btn">저장</button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script th:src="@{/js/couple/edit.js}"></script
+</body>
+</html>

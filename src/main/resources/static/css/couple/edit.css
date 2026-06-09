@@ -1,0 +1,132 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    color: #222;
+}
+
+.header {
+    height: 72px;
+    padding: 0 64px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #fff;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.edit-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px;
+}
+
+.edit-couple-card {
+    max-width: 900px;
+    height: 350px;
+    margin: 0 auto;
+}
+
+.nickname-input {
+    width: 120px;
+    height: 36px;
+
+    border: 1px solid #ffd6dc;
+    border-radius: 8px;
+    background-color: #fff8f9;
+
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.start-date-input {
+    width: 180px;
+    height: 42px;
+    margin-top: 12px;
+
+    border: 1px solid #ffd6dc;
+    border-radius: 8px;
+    background-color: #fff8f9;
+
+    text-align: center;
+    font-size: 15px;
+    color: #333;
+}
+
+.edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.cancel-btn,
+.save-btn {
+    width: 88px;
+    height: 38px;
+
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+}
+
+.profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-upload {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+.couple-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-upload:hover {
+    opacity: 0.8;
+}
+
+.save-btn {
+    border: none;
+    background-color: #ff7b7b;
+    color: #fff;
+}
+
+.save-btn:hover {
+    background-color: #ff6b6b;
+}
