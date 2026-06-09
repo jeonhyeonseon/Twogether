@@ -28,7 +28,7 @@ public class DashboardResponseDto {
     }
 
     public String getDisplayPartnerName() {
-        return partnerName != null && !partnerName.isBlank()
+        return partnerNickname != null && !partnerNickname.isBlank()
                 ? partnerNickname
                 : partnerName;
     }

@@ -29,9 +29,8 @@ public class DashboardService {
 
         List<CoupleMember> coupleMemberList = coupleMemberRepository.findByCouple(couple);
 
-        Member partner = coupleMemberList.stream()
-                .map(CoupleMember::getMember)
-                .filter(m -> !m.getId().equals(member.getId()))
+        CoupleMember partnerCoupleMember = coupleMemberList.stream()
+                .filter(coupleMember1 -> !coupleMember1.getMember().getId().equals(member.getId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("상대의 정보를 찾을 수 없습니다."));
 
@@ -43,9 +42,9 @@ public class DashboardService {
 
         return DashboardResponseDto.builder()
                 .memberName(member.getName())
-                .partnerName(partner.getName())
+                .partnerName(partnerCoupleMember.getMember().getName())
                 .myNickname(coupleMember.getNickname())
-                .partnerNickname(coupleMember.getNickname())
+                .partnerNickname(partnerCoupleMember.getNickname())
                 .startDate(startDate)
                 .dDay(dDate)
                 .hasStartDate(startDate != null)
