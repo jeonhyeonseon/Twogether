@@ -124,6 +124,21 @@ body {
     text-align: center;
 }
 
+.couple-profile .profile-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.couple-profile-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
 .edit-btn {
     position: absolute;
     right: 32px;
