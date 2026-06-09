@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #fafafa;
+    color: #222;
+}
+
+.header {
+    height: 72px;
+    padding: 0 64px;
+    border-bottom: 1px solid #e5e7eb;
+    background-color: #fff;
+
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.edit-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px;
+}
+
+.edit-card {
+    padding: 48px 40px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 18px;
+    background-color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.edit-card h2 {
+    margin: 0 0 12px;
+    font-size: 32px;
+    font-weight: 800;
+}
+
+.edit-card p {
+    margin: 0 0 36px;
+    color: #666;
+}
+
+.edit-card form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-card label {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.edit-card input {
+    height: 54px;
+    padding: 0 16px;
+    margin-bottom: 28px;
+
+    border: 1px solid #ffd6dc;
+    border-radius: 10px;
+    background-color: #fff8f9;
+
+    font-size: 16px;
+}
+
+.edit-card button {
+    height: 54px;
+
+    border: none;
+    border-radius: 10px;
+    background-color: #ff7b7b;
+    color: white;
+
+    font-size: 17px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.edit-card button:hover {
+    background-color: #ff6b6b;
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Couple Edit Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/couple/edit.css}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+    </header>
+
+    <main class="edit-container">
+
+        <section class="edit-card">
+
+            <h2>정보 수정</h2>
+            <p>사귄 날짜를 지정해주세요.</p>
+
+            <form th:action="@{/couple/edit}" method="post">
+
+                <label for="startDate">커플 시작일</label>
+
+                <input type="date"
+                        id="startDate"
+                        name="startDate"
+                        th:value="${dashboard.startDate}">
+
+                <button type="submit">
+                    저장하기
+                </button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

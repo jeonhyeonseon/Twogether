@@ -36,6 +36,9 @@
     <section class="top-section">
 
         <div class="card couple-card">
+
+            <a th:href="@{/couple/edit}" class="edit-btn">[정보 수정]</a>
+
             <div class="couple-profile">
                 <div class="profile-item">
                     <div class="couple-circle"></div>
@@ -51,7 +54,6 @@
             </div>
 
             <div class="couple-info">
-                <a th:href="@{/couple/edit}" class="edit-btn">✎</a>
 
                 <p class="day-text">함께한 지</p>
                 <h2 th:if="${dashboard.hasStartDate}"
