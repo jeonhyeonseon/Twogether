@@ -41,7 +41,10 @@
 
             <div class="couple-profile">
                 <div class="profile-item">
-                    <div class="couple-circle"></div>
+                    <img class="couple-profile-img"
+                         th:src="${dashboard.displayMyProfileImageUrl}"
+                         alt="내 커플 프로필">
+
                     <span th:text="${dashboard.displayMyName}">
                         나
                     </span>
@@ -50,7 +53,10 @@
                 <span class="heart">♥</span>
 
                 <div class="profile-item">
-                    <div class="couple-circle"></div>
+                    <img class="couple-profile-img"
+                         th:src="${dashboard.displayPartnerProfileImageUrl}"
+                         alt="상대 커플 프로필">
+
                     <span th:text="${dashboard.displayPartnerName}">
                         상대
                     </span>

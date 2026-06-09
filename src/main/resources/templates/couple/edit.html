@@ -35,30 +35,48 @@
 
         <section class="edit-card">
 
-            <form th:action="@{/couple/edit}" method="post">
+            <form th:action="@{/couple/edit}" method="post" enctype="multipart/form-data">
 
                 <div class="card couple-card edit-couple-card">
 
                     <div class="couple-profile">
                         <div class="profile-item">
-                            <div class="couple-circle"></div>
+
+                            <label class="profile-upload">
+                                <img class="couple-profile-img"
+                                     th:src="${dashboard.displayMyProfileImageUrl}"
+                                     alt="내 커플 프로필">
+
+                                <input type="file"
+                                       name="myProfileImage"
+                                       accept="image/*"
+                                       hidden>
+                            </label>
 
                             <input type="text"
                                    name="myNickname"
                                    class="nickname-input"
-                                   placeholder="내 애칭"
                                    th:value="${dashboard.myNickname}">
                         </div>
 
                         <span class="heart">♥</span>
 
                         <div class="profile-item">
-                            <div class="couple-circle"></div>
+
+                            <label class="profile-upload">
+                                <img class="couple-profile-img"
+                                     th:src="${dashboard.displayPartnerProfileImageUrl}"
+                                     alt="상대 커플 프로필">
+
+                                <input type="file"
+                                       name="partnerProfileImage"
+                                       accept="image/*"
+                                       hidden>
+                            </label>
 
                             <input type="text"
                                    name="partnerNickname"
                                    class="nickname-input"
-                                   placeholder="상대 애칭"
                                    th:value="${dashboard.partnerNickname}">
                         </div>
                     </div>
@@ -90,5 +108,7 @@
             </form>
         </section>
     </main>
+
+    <script th:src="@{/js/couple/edit.js}"></script>
 </body>
 </html>
