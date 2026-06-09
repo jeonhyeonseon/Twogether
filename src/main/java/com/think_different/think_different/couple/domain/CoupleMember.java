@@ -31,9 +31,15 @@ public class CoupleMember {
 
     private String nickname;
 
+    private String profileImageUrl;
+
     private LocalDateTime joinedAt; // 연결 날짜
 
-    public void updateDisplayInfo(String nickname) {
+    public void updateDisplayInfo(String nickname, String profileImageUrl) {
         this.nickname = nickname;
+
+        if (profileImageUrl != null) {
+            this.profileImageUrl = profileImageUrl;
+        }
     }
 }
