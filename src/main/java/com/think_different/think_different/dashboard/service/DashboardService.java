@@ -1,5 +1,6 @@
 package com.think_different.think_different.dashboard.service;
 
+import com.think_different.think_different.common.file.FileUploadService;
 import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.dto.CoupleInfoUpdateRequestDto;
@@ -20,6 +21,7 @@ import java.util.List;
 public class DashboardService {
 
     private final CoupleMemberRepository coupleMemberRepository;
+    private final FileUploadService fileUploadService;
 
     public DashboardResponseDto getDashboard(Member member) {
 
@@ -45,6 +47,8 @@ public class DashboardService {
                 .partnerName(partnerCoupleMember.getMember().getName())
                 .myNickname(coupleMember.getNickname())
                 .partnerNickname(partnerCoupleMember.getNickname())
+                .myProfileImageUrl(coupleMember.getProfileImageUrl())
+                .partnerProfileImageUrl(partnerCoupleMember.getProfileImageUrl())
                 .startDate(startDate)
                 .dDay(dDate)
                 .hasStartDate(startDate != null)
@@ -67,12 +71,24 @@ public class DashboardService {
 
         couple.updateStartDate(coupleInfoUpdateRequestDto.getStartDate());
 
+        String myProfileImageUrl = fileUploadService.upload(
+                coupleInfoUpdateRequestDto.getMyProfileImage(),
+                "couple-profile"
+        );
+
+        String partnerProfileImageUrl = fileUploadService.upload(
+                coupleInfoUpdateRequestDto.getPartnerProfileImage(),
+                "couple-profile"
+        );
+
         coupleMember.updateDisplayInfo(
-                coupleInfoUpdateRequestDto.getMyNickname()
+                coupleInfoUpdateRequestDto.getMyNickname(),
+                myProfileImageUrl
         );
 
         partnerCoupleMember.updateDisplayInfo(
-                coupleInfoUpdateRequestDto.getPartnerNickname()
+                coupleInfoUpdateRequestDto.getPartnerNickname(),
+                partnerProfileImageUrl
         );
     }
 }

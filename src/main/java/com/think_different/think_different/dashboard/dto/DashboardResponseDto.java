@@ -17,6 +17,9 @@ public class DashboardResponseDto {
     private String myNickname;
     private String partnerNickname;
 
+    private String myProfileImageUrl;
+    private String partnerProfileImageUrl;
+
     private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;
@@ -31,5 +34,17 @@ public class DashboardResponseDto {
         return partnerNickname != null && !partnerNickname.isBlank()
                 ? partnerNickname
                 : partnerName;
+    }
+
+    public String getDisplayMyProfileImageUrl() {
+        return myProfileImageUrl != null && !myProfileImageUrl.isBlank()
+                ? myProfileImageUrl
+                : "/images/default-profile.png";
+    }
+
+    public String getDisplayPartnerProfileImageUrl() {
+        return partnerProfileImageUrl != null && !partnerProfileImageUrl.isBlank()
+                ? partnerProfileImageUrl
+                : "/images/default-profile.png";
     }
 }
