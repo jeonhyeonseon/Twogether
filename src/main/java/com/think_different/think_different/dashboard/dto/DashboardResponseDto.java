@@ -14,7 +14,22 @@ public class DashboardResponseDto {
     private String memberName;
     private String partnerName;
 
+    private String myNickname;
+    private String partnerNickname;
+
     private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;
+
+    public String getDisplayMyName() {
+        return myNickname != null && !myNickname.isBlank()
+                ? myNickname
+                : memberName;
+    }
+
+    public String getDisplayPartnerName() {
+        return partnerName != null && !partnerName.isBlank()
+                ? partnerNickname
+                : partnerName;
+    }
 }

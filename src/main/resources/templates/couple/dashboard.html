@@ -42,14 +42,18 @@
             <div class="couple-profile">
                 <div class="profile-item">
                     <div class="couple-circle"></div>
-                    <span th:text="${dashboard.memberName}">나</span>
+                    <span th:text="${dashboard.displayMyName}">
+                        나
+                    </span>
                 </div>
 
                 <span class="heart">♥</span>
 
                 <div class="profile-item">
                     <div class="couple-circle"></div>
-                    <span th:text="${dashboard.partnerName}">상대</span>
+                    <span th:text="${dashboard.displayPartnerName}">
+                        상대
+                    </span>
                 </div>
             </div>
 

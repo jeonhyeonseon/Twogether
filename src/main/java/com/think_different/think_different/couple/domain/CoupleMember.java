@@ -29,5 +29,11 @@ public class CoupleMember {
     @JoinColumn(name = "member_id")
     private Member member;
 
+    private String nickname;
+
     private LocalDateTime joinedAt; // 연결 날짜
+
+    public void updateDisplayInfo(String nickname) {
+        this.nickname = nickname;
+    }
 }

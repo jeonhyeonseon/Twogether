@@ -9,5 +9,9 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class CoupleInfoUpdateRequestDto {
 
+    private String myNickname;
+
+    private String partnerNickname;
+
     private LocalDate startDate;
 }

@@ -44,6 +44,8 @@ public class DashboardService {
         return DashboardResponseDto.builder()
                 .memberName(member.getName())
                 .partnerName(partner.getName())
+                .myNickname(coupleMember.getNickname())
+                .partnerNickname(coupleMember.getNickname())
                 .startDate(startDate)
                 .dDay(dDate)
                 .hasStartDate(startDate != null)
@@ -57,6 +59,21 @@ public class DashboardService {
 
         Couple couple = coupleMember.getCouple();
 
+        List<CoupleMember> coupleMembers = coupleMemberRepository.findByCouple(couple);
+
+        CoupleMember partnerCoupleMember = coupleMembers.stream()
+                .filter(coupleMember1 -> !coupleMember1.getMember().getId().equals(member.getId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("상대의 정보를 찾을 수 없습니다."));
+
         couple.updateStartDate(coupleInfoUpdateRequestDto.getStartDate());
+
+        coupleMember.updateDisplayInfo(
+                coupleInfoUpdateRequestDto.getMyNickname()
+        );
+
+        partnerCoupleMember.updateDisplayInfo(
+                coupleInfoUpdateRequestDto.getPartnerNickname()
+        );
     }
 }

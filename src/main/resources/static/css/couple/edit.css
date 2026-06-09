@@ -30,63 +30,74 @@ body {
     padding: 80px 24px;
 }
 
-.edit-card {
-    padding: 48px 40px;
-
-    border: 1px solid #e5e7eb;
-    border-radius: 18px;
-    background-color: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+.edit-couple-card {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.edit-card h2 {
-    margin: 0 0 12px;
-    font-size: 32px;
-    font-weight: 800;
-}
+.nickname-input {
+    width: 120px;
+    height: 36px;
 
-.edit-card p {
-    margin: 0 0 36px;
-    color: #666;
-}
+    border: 1px solid #ffd6dc;
+    border-radius: 8px;
+    background-color: #fff8f9;
 
-.edit-card form {
-    display: flex;
-    flex-direction: column;
-}
-
-.edit-card label {
-    margin-bottom: 10px;
-    font-size: 16px;
+    text-align: center;
+    font-size: 15px;
     font-weight: 700;
 }
 
-.edit-card input {
-    height: 54px;
-    padding: 0 16px;
-    margin-bottom: 28px;
+.start-date-input {
+    width: 180px;
+    height: 42px;
+    margin-top: 12px;
 
     border: 1px solid #ffd6dc;
-    border-radius: 10px;
+    border-radius: 8px;
     background-color: #fff8f9;
 
-    font-size: 16px;
+    text-align: center;
+    font-size: 15px;
+    color: #333;
 }
 
-.edit-card button {
-    height: 54px;
+.edit-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 
-    border: none;
-    border-radius: 10px;
-    background-color: #ff7b7b;
-    color: white;
+    margin-top: 24px;
+}
 
-    font-size: 17px;
-    font-weight: 800;
+.cancel-btn,
+.save-btn {
+    width: 88px;
+    height: 38px;
 
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
     cursor: pointer;
 }
 
-.edit-card button:hover {
+.cancel-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+}
+
+.save-btn {
+    border: none;
+    background-color: #ff7b7b;
+    color: #fff;
+}
+
+.save-btn:hover {
     background-color: #ff6b6b;
 }
