@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/couple/dashboard.css}">
+    <link rel="stylesheet" th:href="@{/css/couple/calendar.css}">
+
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/templates/couple}">홈</a>
+            <a th:href="@{/templates/calendar}" class="active">캘린더</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/templates/transaction}">비용</a>
+            <a th:href="@{/templates/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+            <span class="nickname">
+                <span th:text="${member.name}">현선</span> 님
+            </span>
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
+    <main class="calendar-container">
+        <section class="calendar-layout">
+
+            <div class="calendar-card">
+                <div id="calendar"></div>
+            </div>
+
+            <aside class="schedule-panel">
+                <h3>선택한 날짜 일정</h3>
+
+                <div class="selected-date" id="selectedDate">
+                    날짜를 선택해주세요.
+                </div>
+
+                <div class="schedule-list" id="scheduleList">
+                    <p class="empty-text">등록된 일정이 없습니다.</p>
+                </div>
+
+                <button type="button" class="add-schedule-btn">
+                    + 일정 추가
+                </button>
+            </aside>
+
+        </section>
+    </main>
+    <script th:src="@{/js/couple/calendar.js}"></script>
+</body>
+</html>
