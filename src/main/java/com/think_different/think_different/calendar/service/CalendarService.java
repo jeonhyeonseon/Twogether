@@ -38,6 +38,21 @@ public class CalendarService {
         ).stream().map(CalendarResponseDto::fromCalendar).toList();
     }
 
+    public List<CalendarResponseDto> showDailySchedule(Member member, LocalDate scheduleDate) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        return calendarRepository
+                .findByCoupleAndScheduleDateOrderByStartTimeAsc(
+                        coupleMember.getCouple(),
+                        scheduleDate
+                )
+                .stream()
+                .map(CalendarResponseDto::fromCalendar)
+                .toList();
+    }
+
     public Long registerSchedule(Member member, CalendarRequestDto calendarRequestDto) {
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));

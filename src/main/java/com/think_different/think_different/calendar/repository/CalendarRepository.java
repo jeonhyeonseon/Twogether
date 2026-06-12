@@ -10,4 +10,6 @@ import java.util.List;
 public interface CalendarRepository extends JpaRepository<Calendar, Long> {
 
     List<Calendar> findByCoupleAndScheduleDateBetweenOrderByScheduleDateAsc(Couple couple, LocalDate startDate, LocalDate endDate);
+
+    List<Calendar> findByCoupleAndScheduleDateOrderByStartTimeAsc(Couple couple, LocalDate scheduleDate);
 }

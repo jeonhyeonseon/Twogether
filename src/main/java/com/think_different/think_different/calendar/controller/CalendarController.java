@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
@@ -35,6 +36,15 @@ public class CalendarController {
         model.addAttribute("calendarResponseDto", calendarResponseDto);
 
         return "couple/calendar";
+    }
+
+    @GetMapping("/daily")
+    public List<CalendarResponseDto> showDailySchedule(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                                       @RequestParam LocalDate scheduleDate) {
+
+        Member member = customUserDetails.getMember();
+
+        return calendarService.showDailySchedule(member, scheduleDate);
     }
 
     @PostMapping
