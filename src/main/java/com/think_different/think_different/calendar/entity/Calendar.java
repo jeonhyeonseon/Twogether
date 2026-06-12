@@ -46,4 +46,11 @@ public class Calendar {
 
     private LocalDateTime createdAt;
 
+    public void updateCalendar(String title, String memo, LocalDate scheduleDate, LocalTime startTime, LocalTime endTime) {
+        this.title = title;
+        this.memo = memo;
+        this.scheduleDate = scheduleDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
 }

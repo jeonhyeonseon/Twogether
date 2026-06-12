@@ -4,6 +4,7 @@ import com.think_different.think_different.calendar.dto.CalendarRequestDto;
 import com.think_different.think_different.calendar.dto.CalendarResponseDto;
 import com.think_different.think_different.calendar.entity.Calendar;
 import com.think_different.think_different.calendar.repository.CalendarRepository;
+import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.member.entity.Member;
@@ -47,5 +48,26 @@ public class CalendarService {
         );
 
         return calendarRepository.save(calendar).getId();
+    }
+
+    public void updateSchedule(Member member, Long calendarId, CalendarRequestDto calendarRequestDto) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        Calendar calendar = calendarRepository.findById(calendarId).orElseThrow(() -> new IllegalArgumentException("일정을 찾을 수 없습니다."));
+
+        if (!calendar.getCouple().getId().equals(couple.getId())) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
+
+        calendar.updateCalendar(
+                calendarRequestDto.getTitle(),
+                calendarRequestDto.getMemo(),
+                calendarRequestDto.getScheduleDate(),
+                calendarRequestDto.getStartTime(),
+                calendarRequestDto.getEndTime()
+        );
     }
 }

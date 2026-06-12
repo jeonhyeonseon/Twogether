@@ -9,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.YearMonth;
 import java.util.List;
@@ -47,6 +44,18 @@ public class CalendarController {
         Member member = customUserDetails.getMember();
 
         calendarService.registerSchedule(member, calendarRequestDto);
+
+        return "redirect:/calendar";
+    }
+
+    @PostMapping("/{calendarId}/edit")
+    public String updateSchedule(@PathVariable Long calendarId,
+                                 @ModelAttribute CalendarRequestDto calendarRequestDto,
+                                 @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        Member member = customUserDetails.getMember();
+
+        calendarService.updateSchedule(member, calendarId, calendarRequestDto);
 
         return "redirect:/calendar";
     }
