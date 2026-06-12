@@ -59,4 +59,15 @@ public class CalendarController {
 
         return "redirect:/calendar";
     }
+
+    @PostMapping("/{calendarId}/delete")
+    public String deleteShcedule(@PathVariable Long calendarId,
+                                 @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        Member member = customUserDetails.getMember();
+
+        calendarService.deleteSchedule(member, calendarId);
+
+        return "redirect:/calendar";
+    }
 }

@@ -70,4 +70,21 @@ public class CalendarService {
                 calendarRequestDto.getEndTime()
         );
     }
+
+    public void deleteSchedule(Member member, Long calendarId) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        Calendar calendar = calendarRepository.findById(calendarId)
+                .orElseThrow(() -> new IllegalArgumentException("일정을 찾을 수 없습니다."));
+
+        if (!calendar.getCouple().getId().equals(couple.getId())) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+
+        calendarRepository.delete(calendar);
+    }
 }
