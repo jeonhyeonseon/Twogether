@@ -1,6 +1,8 @@
 package com.think_different.think_different.calendar.service;
 
+import com.think_different.think_different.calendar.dto.CalendarRequestDto;
 import com.think_different.think_different.calendar.dto.CalendarResponseDto;
+import com.think_different.think_different.calendar.entity.Calendar;
 import com.think_different.think_different.calendar.repository.CalendarRepository;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
@@ -33,5 +35,17 @@ public class CalendarService {
                 startDate,
                 endDate
         ).stream().map(CalendarResponseDto::fromCalendar).toList();
+    }
+
+    public Long registerSchedule(Member member, CalendarRequestDto calendarRequestDto) {
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Calendar calendar = calendarRequestDto.toCalendar(
+                coupleMember.getCouple(),
+                member
+        );
+
+        return calendarRepository.save(calendar).getId();
     }
 }
