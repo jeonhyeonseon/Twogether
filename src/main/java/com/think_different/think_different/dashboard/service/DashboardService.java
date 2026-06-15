@@ -1,5 +1,7 @@
 package com.think_different.think_different.dashboard.service;
 
+import com.think_different.think_different.calendar.dto.CalendarResponseDto;
+import com.think_different.think_different.calendar.repository.CalendarRepository;
 import com.think_different.think_different.common.file.FileUploadService;
 import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
@@ -22,6 +24,7 @@ public class DashboardService {
 
     private final CoupleMemberRepository coupleMemberRepository;
     private final FileUploadService fileUploadService;
+    private final CalendarRepository calendarRepository;
 
     public DashboardResponseDto getDashboard(Member member) {
 
@@ -42,6 +45,19 @@ public class DashboardService {
                 ? (ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1)
                 : null;
 
+        LocalDate today = LocalDate.now();
+
+        List<CalendarResponseDto> upcomingSchedules =
+                calendarRepository
+                        .findByCoupleAndScheduleDateGreaterThanEqualOrderByScheduleDateAsc(
+                                couple,
+                                today
+                        )
+                        .stream()
+                        .limit(3)
+                        .map(CalendarResponseDto::fromCalendar)
+                        .toList();
+
         return DashboardResponseDto.builder()
                 .memberName(member.getName())
                 .partnerName(partnerCoupleMember.getMember().getName())
@@ -52,6 +68,7 @@ public class DashboardService {
                 .startDate(startDate)
                 .dDay(dDate)
                 .hasStartDate(startDate != null)
+                .upcomingSchedules(upcomingSchedules)
                 .build();
     }
 
