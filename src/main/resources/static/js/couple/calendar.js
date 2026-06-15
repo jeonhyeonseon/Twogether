@@ -18,17 +18,28 @@ document.addEventListener('DOMContentLoaded', function () {
     const memoInput = document.getElementById('memo');
     const startTimeInput = document.getElementById('startTime');
     const endTimeInput = document.getElementById('endTime');
+    const useTimeCheckbox = document.getElementById('useTimeCheckbox');
+    const timeFields = document.getElementById('timeFields');
 
     let selectedDate = getToday();
 
-    const events = schedules.map(schedule => ({
-        id: schedule.id,
-        title: schedule.title,
-        start: schedule.scheduleDate,
-        memo: schedule.memo,
-        startTime: schedule.startTime,
-        endTime: schedule.endTime
-    }));
+    const events = schedules.map(schedule => {
+        const startTime = formatTimeValue(schedule.startTime);
+        const endTime = formatTimeValue(schedule.endTime);
+
+        return {
+            id: schedule.id,
+            title: schedule.title,
+            start: schedule.scheduleDate,
+            allDay: true,
+
+            scheduleTitle: schedule.title,
+            scheduleDate: schedule.scheduleDate,
+            memo: schedule.memo,
+            scheduleStartTime: startTime,
+            scheduleEndTime: endTime,
+        };
+    });
 
     const calendar = new FullCalendar.Calendar(calendarElement, {
        initialView: 'dayGridMonth',
@@ -58,10 +69,25 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            selectedDate = event.start;
+            selectedDate = event.scheduleDate;
             selectedDateElement.textContent = formatDateTitle(selectedDate);
             renderDailySchedules(selectedDate);
             openEditModal(event);
+        },
+
+        eventContent: function (arg) {
+            const startTime = arg.event.extendedProps.startTime;
+            const title = arg.event.extendedProps.scheduleTitle || arg.event.title;
+
+            if (startTime) {
+                return {
+                    html: `<span>${startTime} ${title}</span>`
+                };
+            }
+
+            return {
+                html: `<span>${title}</span>`
+            };
         },
 
         events: events
@@ -85,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderDailySchedules(date) {
-        const dailySchedules = events.filter(event => event.start === date);
+        const dailySchedules = events.filter(event => event.scheduleDate === date);
 
         if (dailySchedules.length === 0) {
             scheduleListElement.innerHTML =
@@ -94,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         scheduleListElement.innerHTML = dailySchedules.map(schedule => {
-            const timeText = schedule.startTime
-                ? `<p class="schedule-time">${schedule.startTime}${schedule.endTime ? ' - ' + schedule.endTime : ''}</p>`
+            const timeText = schedule.scheduleStartTime
+                ? `<p class="schedule-time">${schedule.scheduleStartTime}${schedule.scheduleEndTime ? ' - ' + schedule.scheduleEndTime : ''}</p>`
                 : '';
 
             const memoText = schedule.memo
@@ -108,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         data-id="${schedule.id}">
                     <div class="schedule-title-row">
                         <span class="schedule-check"></span>
-                        <strong>${schedule.title}</strong>
+                        <strong>${schedule.scheduleTitle}</strong>
                     </div>
                     ${timeText}
                     ${memoText}
@@ -140,22 +166,39 @@ document.addEventListener('DOMContentLoaded', function () {
         memoInput.value = '';
         startTimeInput.value = '';
         endTimeInput.value = '';
+        useTimeCheckbox.checked = false;
+        timeFields.classList.add('hidden');
 
         scheduleModal.classList.remove('hidden');
     }
 
+    scheduleForm.addEventListener('submit', function () {
+        if (!useTimeCheckbox.checked) {
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+        }
+    });
+
     function openEditModal(schedule) {
-        modalTitle.textContent = schedule.title;
+        modalTitle.textContent = schedule.scheduleTitle;
 
         scheduleForm.action = `/calendar/${schedule.id}/edit`;
         deleteForm.action = `/calendar/${schedule.id}/delete`;
         deleteBtn.style.display = 'block';
 
-        scheduleDateInput.value = schedule.start;
-        titleInput.value = schedule.title;
+        scheduleDateInput.value = schedule.scheduleDate;
+        titleInput.value = schedule.scheduleTitle;
         memoInput.value = schedule.memo || '';
-        startTimeInput.value = schedule.startTime || '';
-        endTimeInput.value = schedule.endTime || '';
+        startTimeInput.value = schedule.scheduleStartTime || '';
+        endTimeInput.value = schedule.scheduleEndTime || '';
+
+        if (schedule.scheduleStartTime || schedule.scheduleEndTime) {
+            useTimeCheckbox.checked = true;
+            timeFields.classList.remove('hidden');
+        } else {
+            useTimeCheckbox.checked = false;
+            timeFields.classList.add('hidden');
+        }
 
         scheduleModal.classList.remove('hidden');
     }
@@ -179,5 +222,27 @@ document.addEventListener('DOMContentLoaded', function () {
         const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
 
         return `${month}.${day} (${dayNames[dateObject.getDay()]}) 일정`;
+    }
+
+    useTimeCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            timeFields.classList.remove('hidden');
+        } else {
+            timeFields.classList.add('hidden');
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+        }
+    });
+
+    function formatTimeValue(time) {
+        if (!time) {
+            return '';
+        }
+
+        if (typeof time === 'string') {
+            return time.substring(0, 5);
+        }
+
+        return '';
     }
 });
