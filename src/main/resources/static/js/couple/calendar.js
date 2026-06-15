@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const memoInput = document.getElementById('memo');
     const startTimeInput = document.getElementById('startTime');
     const endTimeInput = document.getElementById('endTime');
+    const useTimeCheckbox = document.getElementById('useTimeCheckbox');
+    const timeFields = document.getElementById('timeFields');
 
     let selectedDate = getToday();
 
@@ -140,6 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
         memoInput.value = '';
         startTimeInput.value = '';
         endTimeInput.value = '';
+        useTimeCheckbox.checked = false;
+        timeFields.classList.add('hidden');
 
         scheduleModal.classList.remove('hidden');
     }
@@ -156,6 +160,13 @@ document.addEventListener('DOMContentLoaded', function () {
         memoInput.value = schedule.memo || '';
         startTimeInput.value = schedule.startTime || '';
         endTimeInput.value = schedule.endTime || '';
+        if (schedule.startTime || schedule.endTime) {
+            useTimeCheckbox.checked = true;
+            timeFields.classList.remove('hidden');
+        } else {
+            useTimeCheckbox.checked = false;
+            timeFields.classList.add('hidden');
+        }
 
         scheduleModal.classList.remove('hidden');
     }
@@ -180,4 +191,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return `${month}.${day} (${dayNames[dateObject.getDay()]}) 일정`;
     }
+
+    useTimeCheckbox.addEventListener('change', function () {
+        if (this.checked) {
+            timeFields.classList.remove('hidden');
+        } else {
+            timeFields.classList.add('hidden');
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+        }
+    });
 });
