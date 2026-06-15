@@ -42,9 +42,7 @@
             <aside class="schedule-panel">
                 <h3>선택한 날짜 일정</h3>
 
-                <div class="selected-date" id="selectedDate">
-                    날짜를 선택해주세요.
-                </div>
+                <div class="selected-date" id="selectedDate"></div>
 
                 <div class="schedule-list" id="scheduleList">
                     <p class="empty-text">등록된 일정이 없습니다.</p>
@@ -62,13 +60,13 @@
     <div id="scheduleModal" class="modal hidden">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>일정 추가</h3>
+                <h3 id="modalTitle">일정 추가</h3>
                 <button type="button" id="closeModalBtn" class="modal-close-btn">×</button>
             </div>
 
-            <form th:action="@{/calendar}" method="post">
+            <form id="scheduleForm" th:action="@{/calendar}" method="post">
                 <div class="form-group">
-                    <label for="scheduleDateInput">일정 날짜</label>
+                    <label for="scheduleDateInput">날짜</label>
                     <input type="date"
                            id="scheduleDateInput"
                            name="scheduleDate"
@@ -76,11 +74,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="title">일정 제목</label>
+                    <label for="title">일정</label>
                     <input type="text"
                            id="title"
                            name="title"
-                           placeholder="예: 영화 보기"
+                           placeholder="예: 비빔밥 먹기"
                            required>
                 </div>
 
@@ -111,6 +109,12 @@
                     <button type="button" id="cancelModalBtn" class="cancel-btn">취소</button>
                     <button type="submit" class="submit-btn">저장</button>
                 </div>
+            </form>
+
+            <form id="deleteForm" method="post" class="delete-form">
+                <button type="submit" id="deleteBtn" class="delete-btn">
+                    일정 삭제
+                </button>
             </form>
         </div>
     </div>
