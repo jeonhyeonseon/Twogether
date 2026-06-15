@@ -33,7 +33,7 @@ public class CalendarController {
         List<CalendarResponseDto> calendarResponseDto = calendarService.getMonthlySchedules(member, currentMonth);
 
         model.addAttribute("member", member);
-        model.addAttribute("calendarResponseDto", calendarResponseDto);
+        model.addAttribute("schedules", calendarResponseDto);
 
         return "couple/calendar";
     }

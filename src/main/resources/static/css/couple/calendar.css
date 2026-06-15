@@ -183,3 +183,122 @@ body {
     background-color: #4ECDC4;
     color: white;
 }
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    width: 420px;
+    padding: 28px;
+
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 24px;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.modal-close-btn {
+    border: none;
+    background: none;
+
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+.form-group input {
+    height: 42px;
+    padding: 0 12px;
+}
+
+.form-group textarea {
+    height: 90px;
+    padding: 12px;
+    resize: none;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.time-help-text {
+    margin: -6px 0 20px;
+    font-size: 13px;
+    color: #777;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.cancel-btn,
+.submit-btn {
+    width: 88px;
+    height: 40px;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    color: #333;
+}
+
+.submit-btn {
+    border: none;
+    background-color: #4ECDC4;
+    color: #fff;
+}
