@@ -19,8 +19,9 @@ public class CalendarResponseDto {
     private String title;
     private String memo;
     private LocalDate scheduleDate;
-    private LocalTime startDate;
-    private LocalTime endDate;
+
+    private LocalTime startTime;
+    private LocalTime endTime;
 
     public static CalendarResponseDto fromCalendar(Calendar calendar) {
         return CalendarResponseDto.builder()
@@ -28,8 +29,8 @@ public class CalendarResponseDto {
                 .title(calendar.getTitle())
                 .memo(calendar.getMemo())
                 .scheduleDate(calendar.getScheduleDate())
-                .startDate(calendar.getStartTime())
-                .endDate(calendar.getEndTime())
+                .startTime(calendar.getStartTime())
+                .endTime(calendar.getEndTime())
                 .build();
     }
 }
