@@ -15,11 +15,11 @@
         <div class="logo">Two-Gether</div>
 
         <nav class="nav">
-            <a th:href="@{/templates/couple}">홈</a>
-            <a th:href="@{/templates/calendar}" class="active">캘린더</a>
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
             <a th:href="@{/record}">기록</a>
-            <a th:href="@{/templates/transaction}">비용</a>
-            <a th:href="@{/templates/statistics}">통계</a>
+            <a th:href="@{/transaction}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
         </nav>
 
         <div class="profile">
@@ -42,21 +42,87 @@
             <aside class="schedule-panel">
                 <h3>선택한 날짜 일정</h3>
 
-                <div class="selected-date" id="selectedDate">
-                    날짜를 선택해주세요.
-                </div>
+                <div class="selected-date" id="selectedDate"></div>
 
                 <div class="schedule-list" id="scheduleList">
                     <p class="empty-text">등록된 일정이 없습니다.</p>
                 </div>
 
-                <button type="button" class="add-schedule-btn">
+                <button type="button"
+                        id="openModalBtn"
+                        class="add-schedule-btn">
                     + 일정 추가
                 </button>
             </aside>
-
         </section>
     </main>
+
+    <div id="scheduleModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">일정 추가</h3>
+                <button type="button" id="closeModalBtn" class="modal-close-btn">×</button>
+            </div>
+
+            <form id="scheduleForm" th:action="@{/calendar}" method="post">
+                <div class="form-group">
+                    <label for="scheduleDateInput">날짜</label>
+                    <input type="date"
+                           id="scheduleDateInput"
+                           name="scheduleDate"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="title">일정</label>
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           placeholder="예: 비빔밥 먹기"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label for="memo">메모</label>
+                    <textarea id="memo"
+                              name="memo"
+                              placeholder="메모를 입력하세요"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="startTime">시작 시간</label>
+                        <input type="time" id="startTime" name="startTime">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endTime">종료 시간</label>
+                        <input type="time" id="endTime" name="endTime">
+                    </div>
+                </div>
+
+                <p class="time-help-text">
+                    시간은 필요한 경우에만 입력하세요.
+                </p>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelModalBtn" class="cancel-btn">취소</button>
+                    <button type="submit" class="submit-btn">저장</button>
+                </div>
+            </form>
+
+            <form id="deleteForm" method="post" class="delete-form">
+                <button type="submit" id="deleteBtn" class="delete-btn">
+                    일정 삭제
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const schedules = /*[[${schedules}]]*/ [];
+    </script>
+
     <script th:src="@{/js/couple/calendar.js}"></script>
 </body>
 </html>
