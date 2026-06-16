@@ -30,9 +30,10 @@ public class ExpenseController {
 
         Member member = customUserDetails.getMember();
 
-        List<ExpenseResponseDto> expenseResponseDto = expenseService.getMonthlyExpense(member, year, month, category);
+        List<ExpenseResponseDto> expenses = expenseService.getMonthlyExpense(member, year, month, category);
 
-        model.addAttribute("expenseResponseDto", expenseResponseDto);
+        model.addAttribute("member", member);
+        model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
 
         return "expense/expense";
