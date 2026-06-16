@@ -305,3 +305,9 @@ body {
     background-color: #fff5f5;
     border-color: #ffb6b6;
 }
+
+.detail-btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
