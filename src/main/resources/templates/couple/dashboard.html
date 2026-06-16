@@ -16,7 +16,7 @@
         <a th:href="@{/couple}">홈</a>
         <a th:href="@{/calendar}">캘린더</a>
         <a th:href="@{/record}">기록</a>
-        <a th:href="@{/transaction}">비용</a>
+        <a th:href="@{/expense}">비용</a>
         <a th:href="@{/statistics}">통계</a>
     </nav>
 
@@ -121,7 +121,7 @@
                 <div class="bar bar-second"></div>
             </div>
 
-            <button class="detail-btn">상세 보기</button>
+            <a th:href="@{/expense}" class="detail-btn">상세 보기</a>
         </div>
 
         <div class="card record-card">
