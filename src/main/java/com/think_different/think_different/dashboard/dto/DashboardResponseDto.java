@@ -1,10 +1,12 @@
 package com.think_different.think_different.dashboard.dto;
 
+import com.think_different.think_different.calendar.dto.CalendarResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -23,6 +25,8 @@ public class DashboardResponseDto {
     private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;
+
+    private List<CalendarResponseDto> upcomingSchedules;
 
     public String getDisplayMyName() {
         return myNickname != null && !myNickname.isBlank()
