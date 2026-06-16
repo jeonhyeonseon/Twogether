@@ -8,6 +8,27 @@
 </head>
 <body>
 
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/record}">기록</a>
+            <a th:href="@{/expense}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+                <span class="nickname">
+                    <span th:text="${member.name}">현선</span> 님
+                </span>
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
     <div class="expense-container">
         <div class="expense-header">
             <h1>비용 관리</h1>
