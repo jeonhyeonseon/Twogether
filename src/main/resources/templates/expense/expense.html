@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Page</title>
+  <link rel="stylesheet" th:href="@{/css/expense/expense.css}">
+</head>
+<body>
+
+    <div class="expense-container">
+        <div class="expense-header">
+            <h1>비용 관리</h1>
+
+            <a href="/expense/create" class="add-btn">
+                비용 추가
+            </a>
+        </div>
+
+        <div class="summary-section">
+
+            <div class="summary-card">
+                <span>총 지출</span>
+                <strong>182,000원</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>데이트 횟수</span>
+                <strong>4회</strong>
+            </div>
+
+            <div class="summary-card">
+                <span>평균 지출</span>
+                <strong>45,500원</strong>
+            </div>
+
+        </div>
+
+        <div class="filter-section">
+
+            <button class="category active">전체</button>
+            <button class="category">데이트</button>
+            <button class="category">식비</button>
+            <button class="category">카페</button>
+            <button class="category">선물</button>
+            <button class="category">여행</button>
+            <button class="category">기타</button>
+
+        </div>
+
+        <div class="expense-list">
+
+            <div class="expense-item">
+
+                <div class="expense-info">
+                    <h3>영화 관람</h3>
+                    <p>데이트 · 2026.06.18</p>
+                </div>
+
+                <div class="expense-payment">
+                    <span>나</span>
+                    <strong>30,000원</strong>
+                </div>
+
+            </div>
+
+            <div class="expense-item">
+
+                <div class="expense-info">
+                    <h3>저녁 식사</h3>
+                    <p>식비 · 2026.06.18</p>
+                </div>
+
+                <div class="expense-payment">
+                    <span>파트너</span>
+                    <strong>42,000원</strong>
+                </div>
+
+            </div>
+
+            <div class="expense-item">
+
+                <div class="expense-info">
+                    <h3>생일 케이크</h3>
+                    <p>선물 · 2026.06.10</p>
+                </div>
+
+                <div class="expense-payment">
+                    <span>나</span>
+                    <strong>22,000원</strong>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
