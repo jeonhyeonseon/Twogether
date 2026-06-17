@@ -4,6 +4,7 @@ import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Expense {
 
     @Id
