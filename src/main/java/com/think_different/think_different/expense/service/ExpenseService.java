@@ -98,4 +98,19 @@ public class ExpenseService {
 
         expense.updateExpense(expenseUpdateRequestDto);
     }
+
+    public void deleteExpense(Member member, Long expenseId) {
+        
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+
+        if (!expense.getCouple().getId().equals(coupleMember.getCouple().getId())) {
+            throw new IllegalArgumentException("삭제 권한이 없습니다.");
+        }
+
+        expenseRepository.delete(expense);
+    }
 }

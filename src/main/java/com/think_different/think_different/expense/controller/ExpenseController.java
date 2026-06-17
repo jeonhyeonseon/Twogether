@@ -61,4 +61,15 @@ public class ExpenseController {
 
         return "redirect:/expense";
     }
+
+    @PostMapping("/{expenseId}/delete")
+    public String deleteExpense(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @PathVariable Long expenseId) {
+
+        Member member = customUserDetails.getMember();
+
+        expenseService.deleteExpense(member, expenseId);
+
+        return "redirect:/expense";
+    }
 }
