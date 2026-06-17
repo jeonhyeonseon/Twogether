@@ -33,32 +33,38 @@
         <div class="expense-header">
             <h1>비용 관리</h1>
 
-            <a href="/expense/create" class="add-btn">
+            <button type="button"
+                    class="add-btn"
+                    onclick="openCreateModal()">
                 비용 추가
-            </a>
+            </button>
         </div>
 
         <div class="summary-section">
 
             <div class="summary-card">
                 <span>총 지출</span>
-                <strong>182,000원</strong>
+                <strong th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')} + '원'">
+                    182,000원
+                </strong>
             </div>
 
             <div class="summary-card">
                 <span>데이트 횟수</span>
-                <strong>4회</strong>
+                <strong th:text="${dateCount} + '회'">
+                    4회
+                </strong>
             </div>
 
             <div class="summary-card">
                 <span>평균 지출</span>
-                <strong>45,500원</strong>
+                <strong th:text="${#numbers.formatInteger(averageAmount, 3, 'COMMA')} + '원'">
+                    45,500원
+                </strong>
             </div>
-
         </div>
 
         <div class="filter-section">
-
             <button class="category active">전체</button>
             <button class="category">데이트</button>
             <button class="category">식비</button>
@@ -66,54 +72,105 @@
             <button class="category">선물</button>
             <button class="category">여행</button>
             <button class="category">기타</button>
+        </div>
 
+        <div class="empty-message"
+             th:if="${#lists.isEmpty(expenseResponseDto)}">
+            등록된 비용이 없습니다.
         </div>
 
         <div class="expense-list">
-
-            <div class="expense-item">
+            <div class="expense-item"
+                 th:each="expense : ${expenseResponseDto}"
+                 th:data-id="${expense.id}"
+                 th:data-date="${expense.expenseDate}"
+                 th:data-content="${expense.content}"
+                 th:data-category="${expense.categoryName}"
+                 th:data-category-display="${expense.categoryDisplayName}"
+                 th:data-amount="${expense.amount}"
+                 th:data-paid-by="${expense.paidByName}"
+                 th:data-memo="${expense.memo}"
+                 onclick="openDetailModal(this)">
 
                 <div class="expense-info">
-                    <h3>영화 관람</h3>
-                    <p>데이트 · 2026.06.18</p>
+                    <h3 th:text="${expense.content}">영화 관람</h3>
+
+                    <p>
+                        <span th:text="${expense.categoryDisplayName}">데이트</span>
+                        ·
+                        <span th:text="${#temporals.format(expense.expenseDate, 'yyyy.MM.dd')}">
+                    2026.06.18
+                </span>
+                    </p>
                 </div>
 
                 <div class="expense-payment">
-                    <span>나</span>
-                    <strong>30,000원</strong>
-                </div>
+                    <span th:text="${expense.paidByName}">현선</span>
 
+                    <strong th:text="${#numbers.formatInteger(expense.amount, 3, 'COMMA')} + '원'">
+                        30,000원
+                    </strong>
+                </div>
             </div>
-
-            <div class="expense-item">
-
-                <div class="expense-info">
-                    <h3>저녁 식사</h3>
-                    <p>식비 · 2026.06.18</p>
-                </div>
-
-                <div class="expense-payment">
-                    <span>파트너</span>
-                    <strong>42,000원</strong>
-                </div>
-
-            </div>
-
-            <div class="expense-item">
-
-                <div class="expense-info">
-                    <h3>생일 케이크</h3>
-                    <p>선물 · 2026.06.10</p>
-                </div>
-
-                <div class="expense-payment">
-                    <span>나</span>
-                    <strong>22,000원</strong>
-                </div>
-
-            </div>
-
         </div>
     </div>
+
+    <div id="expenseDetailModal" class="modal">
+        <div class="modal-content detail-modal-content">
+
+            <div class="modal-header">
+                <h2 id="detailContent">비용 상세</h2>
+
+                <button type="button"
+                        class="modal-close"
+                        onclick="closeDetailModal()">
+                    ×
+                </button>
+            </div>
+
+            <div class="detail-row">
+                <span>날짜</span>
+                <strong id="detailDate"></strong>
+            </div>
+
+            <div class="detail-row">
+                <span>카테고리</span>
+                <strong id="detailCategory"></strong>
+            </div>
+
+            <div class="detail-row">
+                <span>결제자</span>
+                <strong id="detailPaidBy"></strong>
+            </div>
+
+            <div class="detail-row">
+                <span>금액</span>
+                <strong id="detailAmount"></strong>
+            </div>
+
+            <div class="detail-memo">
+                <span>메모</span>
+                <p id="detailMemo">등록된 메모가 없습니다.</p>
+            </div>
+
+            <div class="detail-actions">
+                <button type="button"
+                        class="edit-btn"
+                        onclick="openEditModalFromDetail()">
+                    수정
+                </button>
+
+                <form id="deleteForm"
+                      method="post"
+                      onsubmit="return confirmDelete()">
+                    <button type="submit" class="delete-btn">
+                        삭제
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/expense/expense.js}"></script>
 </body>
 </html>
