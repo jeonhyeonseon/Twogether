@@ -7,6 +7,7 @@ import com.think_different.think_different.expense.domain.Expense;
 import com.think_different.think_different.expense.domain.ExpenseCategory;
 import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
 import com.think_different.think_different.expense.dto.ExpenseResponseDto;
+import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
@@ -83,5 +84,18 @@ public class ExpenseService {
                 .build();
 
         expenseRepository.save(expense);
+    }
+
+    public void updateExpense(Member member, Long expenseId, ExpenseUpdateRequestDto expenseUpdateRequestDto) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+
+        if (!expense.getCouple().getId().equals(coupleMember.getCouple().getId())) {
+            throw new IllegalArgumentException("수정 권한이 없습니다.");
+        }
+
+        expense.updateExpense(expenseUpdateRequestDto);
     }
 }

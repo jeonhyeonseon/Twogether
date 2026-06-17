@@ -1,6 +1,7 @@
 package com.think_different.think_different.expense.domain;
 
 import com.think_different.think_different.couple.domain.Couple;
+import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -49,5 +50,12 @@ public class Expense {
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
-    
+
+    public void updateExpense(ExpenseUpdateRequestDto expenseUpdateRequestDto) {
+        this.expenseDate = expenseUpdateRequestDto.getExpenseDate();
+        this.content = expenseUpdateRequestDto.getContent();
+        this.category = expenseUpdateRequestDto.getCategory();
+        this.amount = expenseUpdateRequestDto.getAmount();
+        this.memo = expenseUpdateRequestDto.getMemo();
+    }
 }
