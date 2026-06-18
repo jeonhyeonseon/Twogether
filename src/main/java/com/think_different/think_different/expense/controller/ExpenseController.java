@@ -42,7 +42,7 @@ public class ExpenseController {
 
         int averageAmount = expenses.isEmpty()
                 ? 0
-                : totalAmount / expenses.size()
+                : totalAmount / expenses.size();
 
         model.addAttribute("member", member);
         model.addAttribute("expenseResponseDto", expenses);
