@@ -32,9 +32,25 @@ public class ExpenseController {
 
         List<ExpenseResponseDto> expenses = expenseService.getMonthlyExpense(member, year, month, category);
 
+        int totalAmount = expenses.stream()
+                .mapToInt(ExpenseResponseDto::getAmount)
+                .sum();
+
+        long dateCount = expenses.stream()
+                .filter(expense -> expense.getCategoryName().equals("DATE"))
+                .count();
+
+        int averageAmount = expenses.isEmpty()
+                ? 0
+                : totalAmount / expenses.size()
+
         model.addAttribute("member", member);
         model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
+
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("dateCount", dateCount);
+        model.addAttribute("averageAmount", averageAmount);
 
         return "expense/expense";
     }
