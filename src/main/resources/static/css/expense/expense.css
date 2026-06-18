@@ -338,3 +338,22 @@ body {
     background: #FFE8E8;
     color: #D64545;
 }
+
+.hidden {
+    display: none;
+}
+
+.cancel-btn {
+    flex: 1;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #F1F3F5;
+    color: #555;
+}
+
+.detail-edit-form .submit-btn {
+    flex: 1;
+}

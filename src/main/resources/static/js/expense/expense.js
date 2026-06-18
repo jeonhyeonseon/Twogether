@@ -54,7 +54,7 @@ function openDetailModal(item) {
         memo: item.dataset.memo || ''
     };
 
-    document.getElementById('detailContent').textContent = selectedExpense.content;
+    document.getElementById('detailTitle').textContent = selectedExpense.content;
     document.getElementById('detailDate').textContent = selectedExpense.date;
     document.getElementById('detailCategory').textContent = selectedExpense.categoryDisplay;
     document.getElementById('detailPaidBy').textContent = selectedExpense.paidBy;
@@ -69,32 +69,43 @@ function openDetailModal(item) {
     document.getElementById('deleteForm').action =
         `/expense/${selectedExpense.id}/delete`;
 
+    document.getElementById('detailEditForm').action =
+        `/expense/${selectedExpense.id}/edit`;
+
+    switchToViewMode();
+
     document.getElementById('expenseDetailModal').classList.add('show');
 }
 
-function closeDetailModal() {
-    document.getElementById('expenseDetailModal').classList.remove('show');
-}
-
-function openEditModalFromDetail() {
+function switchToEditMode() {
     if (!selectedExpense) {
         return;
     }
 
-    closeDetailModal();
+    document.getElementById('detailViewArea').classList.add('hidden');
+    document.getElementById('detailEditForm').classList.remove('hidden');
 
-    const fakeButton = {
-        dataset: {
-            id: selectedExpense.id,
-            date: selectedExpense.date,
-            content: selectedExpense.content,
-            category: selectedExpense.category,
-            amount: selectedExpense.amount,
-            memo: selectedExpense.memo
-        }
-    };
+    document.getElementById('detailTitle').textContent = '비용 수정';
 
-    openEditModal(fakeButton);
+    document.getElementById('editExpenseDate').value = selectedExpense.date;
+    document.getElementById('editContent').value = selectedExpense.content;
+    document.getElementById('editCategory').value = selectedExpense.category;
+    document.getElementById('editAmount').value = selectedExpense.amount;
+    document.getElementById('editMemo').value = selectedExpense.memo;
+}
+
+function switchToViewMode() {
+    document.getElementById('detailViewArea').classList.remove('hidden');
+    document.getElementById('detailEditForm').classList.add('hidden');
+
+    if (selectedExpense) {
+        document.getElementById('detailTitle').textContent = selectedExpense.content;
+    }
+}
+
+function closeDetailModal() {
+    document.getElementById('expenseDetailModal').classList.remove('show');
+    switchToViewMode();
 }
 
 function confirmDelete() {
