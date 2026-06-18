@@ -30,26 +30,28 @@ public class ExpenseController {
 
         Member member = customUserDetails.getMember();
 
-        List<ExpenseResponseDto> expenses = expenseService.getMonthlyExpense(member, year, month, category);
+        // 목록용: 선택한 카테고리 기준
+        List<ExpenseResponseDto> expenses =
+                expenseService.getMonthlyExpense(member, year, month, category);
 
-        int totalAmount = expenses.stream()
+        // 통계용: 이번 달 전체 기준
+        List<ExpenseResponseDto> allExpenses =
+                expenseService.getMonthlyExpense(member, year, month, "ALL");
+
+        int totalAmount = allExpenses.stream()
                 .mapToInt(ExpenseResponseDto::getAmount)
                 .sum();
 
-        long dateCount = expenses.stream()
-                .filter(expense -> expense.getCategoryName().equals("DATE"))
-                .count();
-
-        int averageAmount = expenses.isEmpty()
+        int averageAmount = allExpenses.isEmpty()
                 ? 0
-                : totalAmount / expenses.size();
+                : totalAmount / allExpenses.size();
 
         model.addAttribute("member", member);
         model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
 
         model.addAttribute("totalAmount", totalAmount);
-        model.addAttribute("dateCount", dateCount);
+        model.addAttribute("dateCount", 0);
         model.addAttribute("averageAmount", averageAmount);
 
         return "expense/expense";

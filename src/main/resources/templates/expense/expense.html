@@ -65,13 +65,70 @@
         </div>
 
         <div class="filter-section">
-            <button class="category active">전체</button>
-            <button class="category">데이트</button>
-            <button class="category">식비</button>
-            <button class="category">카페</button>
-            <button class="category">선물</button>
-            <button class="category">여행</button>
-            <button class="category">기타</button>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="ALL">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'ALL'} ? ' active'">
+                    전체
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="DATE">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'DATE'} ? ' active'">
+                    데이트
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="FOOD">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'FOOD'} ? ' active'">
+                    식비
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="CAFE">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'CAFE'} ? ' active'">
+                    카페
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="GIFT">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'GIFT'} ? ' active'">
+                    선물
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="TRAVEL">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'TRAVEL'} ? ' active'">
+                    여행
+                </button>
+            </form>
+
+            <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="category" value="ETC">
+                <button type="submit"
+                        class="category"
+                        th:classappend="${selectedCategory == 'ETC'} ? ' active'">
+                    기타
+                </button>
+            </form>
+
         </div>
 
         <div class="empty-message"
