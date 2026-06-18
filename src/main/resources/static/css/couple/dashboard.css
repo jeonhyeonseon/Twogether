@@ -299,15 +299,14 @@ body {
     color: #222;
 
     cursor: pointer;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .detail-btn:hover {
     background-color: #fff5f5;
     border-color: #ffb6b6;
-}
-
-.detail-btn {
-    display: inline-block;
-    text-decoration: none;
-    text-align: center;
 }
