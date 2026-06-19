@@ -172,6 +172,82 @@
         </div>
     </div>
 
+    <div id="expenseModal" class="modal">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="modalTitle">비용 등록</h2>
+
+                <button type="button"
+                        class="modal-close"
+                        onclick="closeExpenseModal()">
+                    ×
+                </button>
+            </div>
+
+            <form id="expenseForm"
+                  th:action="@{/expense}"
+                  method="post">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <div class="form-group">
+                    <label>날짜</label>
+                    <input type="date"
+                           id="expenseDate"
+                           name="expenseDate"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>내용</label>
+                    <input type="text"
+                           id="content"
+                           name="content"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>카테고리</label>
+                    <select id="category"
+                            name="category"
+                            required>
+                        <option value="">선택</option>
+                        <option value="DATE">데이트</option>
+                        <option value="FOOD">식비</option>
+                        <option value="CAFE">카페</option>
+                        <option value="GIFT">선물</option>
+                        <option value="TRAVEL">여행</option>
+                        <option value="ETC">기타</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>금액</label>
+                    <input type="number"
+                           id="amount"
+                           name="amount"
+                           min="0"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>메모</label>
+                    <textarea id="memo"
+                              name="memo"></textarea>
+                </div>
+
+                <button type="submit"
+                        id="submitBtn"
+                        class="submit-btn">
+                    등록하기
+                </button>
+            </form>
+        </div>
+    </div>
+
     <div id="expenseDetailModal" class="modal">
         <div class="modal-content detail-modal-content">
 
