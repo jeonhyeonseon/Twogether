@@ -119,12 +119,28 @@
         <div class="card expense-card">
             <h3>이번 달 데이트 비용</h3>
 
-            <h2>182,000원</h2>
-            <p>데이트 4회</p>
+            <h2 th:text="${#numbers.formatInteger(dashboard.monthlyTotalAmount, 1, 'COMMA')} + '원'">
+                182,000원
+            </h2>
+
+            <p th:text="'데이트 ' + ${dashboard.monthlyDateCount} + '회'">
+                데이트 4회
+            </p>
 
             <div class="chart-placeholder">
-                <div class="bar bar-first"></div>
-                <div class="bar bar-second"></div>
+
+                <div class="chart-bar-item"
+                     th:each="chart : ${dashboard.monthlyExpenseCharts}">
+
+                    <div class="bar"
+                         th:style="'height:' + ${chart.heightPercent} + '%'"
+                         th:title="${chart.monthLabel} + ' 지출: ' + ${#numbers.formatInteger(chart.amount, 1, 'COMMA')} + '원'">
+                    </div>
+
+                    <span th:text="${chart.monthLabel}">6월</span>
+
+                </div>
+
             </div>
 
             <a th:href="@{/expense}" class="detail-btn">상세 보기</a>

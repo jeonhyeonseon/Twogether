@@ -22,11 +22,16 @@ public class DashboardResponseDto {
     private String myProfileImageUrl;
     private String partnerProfileImageUrl;
 
+    private int monthlyTotalAmount;
+    private int monthlyAverageAmount;
+    private int monthlyDateCount;
+
     private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;
 
     private List<CalendarResponseDto> upcomingSchedules;
+    private List<MonthlyExpenseChartDto> monthlyExpenseCharts;
 
     public String getDisplayMyName() {
         return myNickname != null && !myNickname.isBlank()

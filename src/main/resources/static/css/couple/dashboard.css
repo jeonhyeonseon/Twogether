@@ -224,29 +224,43 @@ body {
 }
 
 .chart-placeholder {
-    height: 110px;
+    height: 120px;
     margin: 26px 0;
-
     border-bottom: 2px solid #e5e7eb;
 
     display: flex;
     align-items: flex-end;
-    gap: 36px;
-    padding: 0 24px;
+    justify-content: center;
+    gap: 34px;
+}
+
+.chart-bar-item {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
 }
 
 .bar {
     width: 38px;
+    min-height: 6px;
     background-color: #ffd6dc;
     border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.bar-first {
-    height: 70px;
+.bar:hover {
+    background-color: #ffb8c6;
+    transform: translateY(-4px);
 }
 
-.bar-second {
-    height: 52px;
+.chart-bar-item span {
+    font-size: 12px;
+    color: #777;
+    font-weight: 700;
 }
 
 .record-item {
