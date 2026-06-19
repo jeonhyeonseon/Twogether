@@ -127,16 +127,20 @@
                 데이트 4회
             </p>
 
-            <div class="chart-placeholder"
-                 th:title="'평균 지출: ' + ${#numbers.formatInteger(dashboard.monthlyAverageAmount, 1, 'COMMA')} + '원'">
+            <div class="chart-placeholder">
 
-                <div class="bar bar-first"
-                     th:title="'총 지출: ' + ${#numbers.formatInteger(dashboard.monthlyTotalAmount, 1, 'COMMA')} + '원'">
+                <div class="chart-bar-item"
+                     th:each="chart : ${dashboard.monthlyExpenseCharts}">
+
+                    <div class="bar"
+                         th:style="'height:' + ${chart.heightPercent} + '%'"
+                         th:title="${chart.monthLabel} + ' 지출: ' + ${#numbers.formatInteger(chart.amount, 1, 'COMMA')} + '원'">
+                    </div>
+
+                    <span th:text="${chart.monthLabel}">6월</span>
+
                 </div>
 
-                <div class="bar bar-second"
-                     th:title="'평균 지출: ' + ${#numbers.formatInteger(dashboard.monthlyAverageAmount, 1, 'COMMA')} + '원'">
-                </div>
             </div>
 
             <a th:href="@{/expense}" class="detail-btn">상세 보기</a>

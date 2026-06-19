@@ -8,6 +8,7 @@ import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.dto.CoupleInfoUpdateRequestDto;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.dashboard.dto.DashboardResponseDto;
+import com.think_different.think_different.dashboard.dto.MonthlyExpenseChartDto;
 import com.think_different.think_different.expense.domain.Expense;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
@@ -84,6 +85,45 @@ public class DashboardService {
 
         int monthlyDateCount = 0;
 
+        List<MonthlyExpenseChartDto> monthlyExpenseCharts =
+                java.util.stream.IntStream.rangeClosed(0, 2)
+                        .mapToObj(i -> currentMonth.minusMonths(2 - i))
+                        .map(yearMonth -> {
+                            LocalDate chartStartDate = yearMonth.atDay(1);
+                            LocalDate chartEndDate = yearMonth.atEndOfMonth();
+
+                            List<Expense> expenses =
+                                    expenseRepository.findByCoupleAndExpenseDateBetweenOrderByExpenseDateDesc(
+                                            couple,
+                                            chartStartDate,
+                                            chartEndDate
+                                    );
+
+                            int amount = expenses.stream()
+                                    .mapToInt(Expense::getAmount)
+                                    .sum();
+
+                            return MonthlyExpenseChartDto.builder()
+                                    .monthLabel(yearMonth.getMonthValue() + "월")
+                                    .amount(amount)
+                                    .heightPercent(0)
+                                    .build();
+                        })
+                        .toList();
+
+        int maxAmount = monthlyExpenseCharts.stream()
+                .mapToInt(MonthlyExpenseChartDto::getAmount)
+                .max()
+                .orElse(0);
+
+        monthlyExpenseCharts = monthlyExpenseCharts.stream()
+                .map(chart -> MonthlyExpenseChartDto.builder()
+                        .monthLabel(chart.getMonthLabel())
+                        .amount(chart.getAmount())
+                        .heightPercent(maxAmount == 0 ? 0 : Math.max((chart.getAmount() * 100) / maxAmount, 10))
+                        .build())
+                .toList();
+
         return DashboardResponseDto.builder()
                 .memberName(member.getName())
                 .partnerName(partnerCoupleMember.getMember().getName())
@@ -98,6 +138,7 @@ public class DashboardService {
                 .monthlyTotalAmount(monthlyTotalAmount)
                 .monthlyAverageAmount(monthlyAverageAmount)
                 .monthlyDateCount(monthlyDateCount)
+                .monthlyExpenseCharts(monthlyExpenseCharts)
                 .build();
     }
 

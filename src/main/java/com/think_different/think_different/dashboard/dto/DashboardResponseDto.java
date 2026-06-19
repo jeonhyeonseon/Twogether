@@ -31,6 +31,7 @@ public class DashboardResponseDto {
     private boolean hasStartDate;
 
     private List<CalendarResponseDto> upcomingSchedules;
+    private List<MonthlyExpenseChartDto> monthlyExpenseCharts;
 
     public String getDisplayMyName() {
         return myNickname != null && !myNickname.isBlank()
