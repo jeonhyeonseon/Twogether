@@ -22,6 +22,10 @@ public class DashboardResponseDto {
     private String myProfileImageUrl;
     private String partnerProfileImageUrl;
 
+    private int monthlyTotalAmount;
+    private int monthlyAverageAmount;
+    private int monthlyDateCount;
+
     private LocalDate startDate;
     private Long dDay;
     private boolean hasStartDate;

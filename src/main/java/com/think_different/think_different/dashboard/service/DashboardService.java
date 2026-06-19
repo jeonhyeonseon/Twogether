@@ -8,12 +8,15 @@ import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.dto.CoupleInfoUpdateRequestDto;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.dashboard.dto.DashboardResponseDto;
+import com.think_different.think_different.expense.domain.Expense;
+import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -25,6 +28,7 @@ public class DashboardService {
     private final CoupleMemberRepository coupleMemberRepository;
     private final FileUploadService fileUploadService;
     private final CalendarRepository calendarRepository;
+    private final ExpenseRepository expenseRepository;
 
     public DashboardResponseDto getDashboard(Member member) {
 
@@ -39,10 +43,10 @@ public class DashboardService {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("상대의 정보를 찾을 수 없습니다."));
 
-        LocalDate startDate = couple.getStartDate();
+        LocalDate coupleStartDate = couple.getStartDate();
 
-        Long dDate = (startDate != null)
-                ? (ChronoUnit.DAYS.between(startDate, LocalDate.now()) + 1)
+        Long dDate = (coupleStartDate != null)
+                ? (ChronoUnit.DAYS.between(coupleStartDate, LocalDate.now()) + 1)
                 : null;
 
         LocalDate today = LocalDate.now();
@@ -58,6 +62,28 @@ public class DashboardService {
                         .map(CalendarResponseDto::fromCalendar)
                         .toList();
 
+        YearMonth currentMonth = YearMonth.now();
+
+        LocalDate monthStartDate = currentMonth.atDay(1);
+        LocalDate monthEndDate = currentMonth.atEndOfMonth();
+
+        List<Expense> monthlyExpenses =
+                expenseRepository.findByCoupleAndExpenseDateBetweenOrderByExpenseDateDesc(
+                        couple,
+                        monthStartDate,
+                        monthEndDate
+                );
+
+        int monthlyTotalAmount = monthlyExpenses.stream()
+                .mapToInt(Expense::getAmount)
+                .sum();
+
+        int monthlyAverageAmount = monthlyExpenses.isEmpty()
+                ? 0
+                : monthlyTotalAmount / monthlyExpenses.size();
+
+        int monthlyDateCount = 0;
+
         return DashboardResponseDto.builder()
                 .memberName(member.getName())
                 .partnerName(partnerCoupleMember.getMember().getName())
@@ -65,10 +91,13 @@ public class DashboardService {
                 .partnerNickname(partnerCoupleMember.getNickname())
                 .myProfileImageUrl(coupleMember.getProfileImageUrl())
                 .partnerProfileImageUrl(partnerCoupleMember.getProfileImageUrl())
-                .startDate(startDate)
+                .startDate(coupleStartDate)
                 .dDay(dDate)
-                .hasStartDate(startDate != null)
+                .hasStartDate(coupleStartDate != null)
                 .upcomingSchedules(upcomingSchedules)
+                .monthlyTotalAmount(monthlyTotalAmount)
+                .monthlyAverageAmount(monthlyAverageAmount)
+                .monthlyDateCount(monthlyDateCount)
                 .build();
     }
 
