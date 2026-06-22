@@ -205,25 +205,46 @@ body {
     gap: 12px;
 }
 
-.cancel-btn {
+.button-area {
+    margin-top: 40px;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+}
+
+.cancel-btn,
+.submit-btn {
     width: 120px;
     height: 46px;
 
-    border: 1px solid #D1D5DB;
     border-radius: 8px;
 
     display: flex;
     justify-content: center;
+    align-items: center;
 
-    background-color: #4ECDC4;
-    color: white;
-
+    text-decoration: none;
     font-size: 15px;
     font-weight: 600;
 
     cursor: pointer;
 }
 
+.cancel-btn {
+    border: 1px solid #D1D5DB;
+    background-color: #F3F4F6;
+    color: #142E4E;
+}
+
+.submit-btn {
+    border: none;
+    background-color: #4ECDC4;
+    color: #fff;
+}
+
+.cancel-btn:hover,
 .submit-btn:hover {
     opacity: 0.9;
 }
