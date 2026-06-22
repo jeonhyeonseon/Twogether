@@ -11,6 +11,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/record")
@@ -92,5 +95,17 @@ public class DateRecordController {
         dateRecordService.deleteDateRecord(recordId, member);
 
         return "redirect:/record";
+    }
+
+    @PostMapping("/{recordId}/images")
+    public String addImages(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                            @PathVariable Long recordId,
+                            @RequestParam("images") List<MultipartFile> images) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.addImages(recordId, images, member);
+
+        return "redirect:/record/" + recordId;
     }
 }

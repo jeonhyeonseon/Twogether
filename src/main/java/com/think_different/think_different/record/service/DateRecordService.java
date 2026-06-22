@@ -151,4 +151,29 @@ public class DateRecordService {
 
         dateRecordRepository.delete(dateRecord);
     }
+
+    public void addImages(Long recordId, List<MultipartFile> images, Member member) {
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
+                .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
+
+        for (MultipartFile image : images) {
+            if (image.isEmpty()) {
+                continue;
+            }
+
+            String imageUrl = fileUploadService.upload(image, "record");
+
+            DateRecordImage dateRecordImage = DateRecordImage.builder()
+                    .dateRecord(dateRecord)
+                    .imageUrl(imageUrl)
+                    .build();
+
+            dateRecordImageRepository.save(dateRecordImage);
+        }
+    }
 }
