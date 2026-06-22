@@ -3,12 +3,14 @@ package com.think_different.think_different.record.controller;
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.dto.DateRecordCreateRequestDto;
+import com.think_different.think_different.record.dto.DateRecordDetailResponseDto;
 import com.think_different.think_different.record.service.DateRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -40,5 +42,20 @@ public class DateRecordController {
         Long recordId = dateRecordService.createDateRecord(dateRecordCreateRequestDto, member);
 
         return "redirect:/record/" + recordId;
+    }
+
+    @GetMapping("/{recordId}")
+    public String detailDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                   @PathVariable Long recordId,
+                                   Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        DateRecordDetailResponseDto detailResponseDto = dateRecordService.detailDateRecord(recordId, member);
+
+        model.addAttribute("member", member);
+        model.addAttribute("record", detailResponseDto);
+
+        return "record/detail";
     }
 }

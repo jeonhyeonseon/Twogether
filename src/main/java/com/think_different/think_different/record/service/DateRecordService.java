@@ -5,6 +5,7 @@ import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.dto.DateRecordCreateRequestDto;
+import com.think_different.think_different.record.dto.DateRecordDetailResponseDto;
 import com.think_different.think_different.record.entity.DateRecord;
 import com.think_different.think_different.record.repository.DateRecordRepository;
 import jakarta.transaction.Transactional;
@@ -37,5 +38,24 @@ public class DateRecordService {
                 dateRecordRepository.save(dateRecord);
 
         return savedDateRecord.getId();
+    }
+
+    public DateRecordDetailResponseDto detailDateRecord(Long recordId, Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId()).orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
+
+        DateRecordDetailResponseDto detailResponseDto =
+                new DateRecordDetailResponseDto();
+
+        detailResponseDto.setId(dateRecord.getId());
+        detailResponseDto.setTitle(dateRecord.getTitle());
+        detailResponseDto.setDateRecordDate(dateRecord.getDateRecordDate());
+        detailResponseDto.setMemo(dateRecord.getMemo());
+
+        return detailResponseDto;
     }
 }
