@@ -9,5 +9,5 @@ public interface DateRecordImageRepository extends JpaRepository<DateRecordImage
 
     List<DateRecordImage> findByDateRecordId(Long dateRecordId);
 
-    void deleteAllByDateRecordId(Long dateRecordId);
+    void deleteByIdAndDateRecordId(Long imageId, Long id);
 }
