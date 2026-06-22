@@ -42,13 +42,19 @@
 
             <section class="photo-section">
                 <label for="images" class="main-upload-box">
-                    <span class="upload-plus">+</span>
-                    <span class="upload-text">대표 사진 추가</span>
+                    <img id="mainPreview" class="main-preview" alt="대표 사진 미리보기">
+                    <span class="upload-plus" id="uploadPlus">+</span>
+                    <span class="upload-text" id="uploadText">대표 사진 추가</span>
                 </label>
 
-                <input type="file" id="images" name="images" accept="image/*" multiple hidden>
+                <input type="file"
+                       id="images"
+                       name="images"
+                       accept="image/*"
+                       multiple
+                       hidden>
 
-                <div class="thumbnail-list">
+                <div class="thumbnail-list" id="thumbnailList">
                     <div class="thumbnail empty">+</div>
                     <div class="thumbnail empty">+</div>
                     <div class="thumbnail empty">+</div>
@@ -85,5 +91,7 @@
         </form>
 
     </main>
+
+    <script th:src="@{/js/record/create.js}"></script>
 </body>
 </html>

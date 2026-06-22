@@ -200,3 +200,14 @@ body {
     background: #142E4E;
     color: #fff;
 }
+
+.main-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+}
+
+.main-upload-box {
+    overflow: hidden;
+}
