@@ -61,8 +61,6 @@ body {
     object-fit: cover;
 }
 
-/* Page */
-
 .record-create-page {
     max-width: 1200px;
     margin: 0 auto;
@@ -79,15 +77,11 @@ body {
     font-weight: 600;
 }
 
-/* Layout */
-
 .record-create-form {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
     gap: 64px;
 }
-
-/* Photo */
 
 .photo-section {
     width: 100%;
@@ -155,8 +149,6 @@ body {
     object-fit: cover;
 }
 
-/* Form */
-
 .info-section {
     width: 100%;
 }
@@ -205,8 +197,6 @@ body {
     border-color: #4ECDC4;
 }
 
-/* Button */
-
 .button-area {
     margin-top: 40px;
 
@@ -222,24 +212,8 @@ body {
     border: 1px solid #D1D5DB;
     border-radius: 8px;
 
-    background-color: #F3F4F6;
-    color: #142E4E;
-
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: 600;
-
     display: flex;
     justify-content: center;
-    align-items: center;
-}
-
-.submit-btn {
-    width: 120px;
-    height: 46px;
-
-    border: none;
-    border-radius: 8px;
 
     background-color: #4ECDC4;
     color: white;
