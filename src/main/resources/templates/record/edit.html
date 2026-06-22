@@ -45,9 +45,22 @@
               class="record-create-form">
 
             <section class="photo-section">
+
                 <label for="images" class="main-upload-box">
-                    <span class="upload-plus">+</span>
-                    <span class="upload-text">사진 변경</span>
+
+                    <img id="mainPreview"
+                         class="main-preview"
+                         th:src="${!#lists.isEmpty(record.images) ? record.images.get(0).imageUrl : ''}"
+                         alt="대표 사진 미리보기">
+
+                    <span th:if="${#lists.isEmpty(record.images)}"
+                          class="upload-plus"
+                          id="uploadPlus">+</span>
+
+                    <span th:if="${#lists.isEmpty(record.images)}"
+                          class="upload-text"
+                          id="uploadText">사진 변경</span>
+
                 </label>
 
                 <input type="file"
@@ -58,10 +71,28 @@
                        hidden>
 
                 <div class="thumbnail-list">
-                    <div class="thumbnail empty">+</div>
-                    <div class="thumbnail empty">+</div>
-                    <div class="thumbnail empty">+</div>
+
+                    <div th:each="image : ${record.images}"
+                         class="thumbnail-item">
+
+                        <img th:src="${image.imageUrl}" alt="기존 사진">
+
+                        <label class="delete-check">
+                            <input type="checkbox"
+                                   name="deleteImageIds"
+                                   th:value="${image.id}">
+                            삭제
+                        </label>
+
+                    </div>
+
                 </div>
+
+                <div class="new-image-preview-area">
+                    <p class="preview-title">새로 추가할 사진</p>
+                    <div class="thumbnail-list" id="thumbnailList"></div>
+                </div>
+
             </section>
 
             <section class="info-section">
@@ -106,5 +137,6 @@
 
     </main>
 
+    <script th:src="@{/js/record/edit.js}"></script>
 </body>
 </html>
