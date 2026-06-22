@@ -27,6 +27,35 @@ public class DateRecordService {
     private final DateRecordImageRepository dateRecordImageRepository;
     private final FileUploadService fileUploadService;
 
+    public List<DateRecordRecentResponseDto> getRecentRecords(Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        return dateRecordRepository.findTop2ByCoupleIdOrderByDateRecordDateDesc(couple.getId())
+                .stream()
+                .map(record -> {
+                    DateRecordRecentResponseDto dto = new DateRecordRecentResponseDto();
+
+                    dto.setId(record.getId());
+                    dto.setTitle(record.getTitle());
+                    dto.setDateRecordDate(record.getDateRecordDate());
+
+                    List<DateRecordImage> images = dateRecordImageRepository.findByDateRecordId(record.getId());
+
+                    if (!images.isEmpty()) {
+                        dto.setThumbnailImageUrl(images.get(0).getImageUrl());
+                    } else {
+                        dto.setThumbnailImageUrl("/images/default-record.png");
+                    }
+
+                    return dto;
+                })
+                .toList();
+    }
+
     public Long createDateRecord(DateRecordCreateRequestDto dateRecordCreateRequestDto, Member member) {
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));

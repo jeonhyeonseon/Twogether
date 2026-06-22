@@ -12,6 +12,8 @@ import com.think_different.think_different.dashboard.dto.MonthlyExpenseChartDto;
 import com.think_different.think_different.expense.domain.Expense;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.record.dto.DateRecordRecentResponseDto;
+import com.think_different.think_different.record.service.DateRecordService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ public class DashboardService {
     private final FileUploadService fileUploadService;
     private final CalendarRepository calendarRepository;
     private final ExpenseRepository expenseRepository;
+    private final DateRecordService dateRecordService;
 
     public DashboardResponseDto getDashboard(Member member) {
 
@@ -111,6 +114,8 @@ public class DashboardService {
                         })
                         .toList();
 
+        List<DateRecordRecentResponseDto> recentRecords = dateRecordService.getRecentRecords(member);
+
         int maxAmount = monthlyExpenseCharts.stream()
                 .mapToInt(MonthlyExpenseChartDto::getAmount)
                 .max()
@@ -139,6 +144,7 @@ public class DashboardService {
                 .monthlyAverageAmount(monthlyAverageAmount)
                 .monthlyDateCount(monthlyDateCount)
                 .monthlyExpenseCharts(monthlyExpenseCharts)
+                .recentRecords(recentRecords)
                 .build();
     }
 
