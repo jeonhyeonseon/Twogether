@@ -10,7 +10,7 @@ body {
 }
 
 .header {
-    height: 72px;
+    height: 55px;
     padding: 0 64px;
     border-bottom: 1px solid #e5e5e5;
     display: flex;
