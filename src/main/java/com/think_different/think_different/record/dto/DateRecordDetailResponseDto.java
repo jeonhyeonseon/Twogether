@@ -3,6 +3,7 @@ package com.think_different.think_different.record.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class DateRecordDetailResponseDto {
@@ -11,5 +12,6 @@ public class DateRecordDetailResponseDto {
     private String title;
     private LocalDate dateRecordDate;
     private String memo;
+    private List<DateRecordImageResponseDto> images;
 
 }
