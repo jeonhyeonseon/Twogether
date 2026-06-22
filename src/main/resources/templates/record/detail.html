@@ -59,15 +59,6 @@
 
             <div class="info-section">
 
-                <div class="button-area">
-                    <a th:href="@{/record/{recordId}/edit(recordId=${record.id})}" class="edit-btn">수정</a>
-
-                    <form th:action="@{/record/{recordId}/delete(recordId=${record.id})}"
-                          method="post">
-                        <button type="submit" class="delete-btn">삭제</button>
-                    </form>
-                </div>
-
                 <h1 class="record-title" th:text="${record.title}">
                     한강 피크닉
                 </h1>
@@ -76,11 +67,6 @@
                    th:text="${#temporals.format(record.dateRecordDate, 'yyyy.MM.dd')}">
                     2024.05.10
                 </p>
-
-                <div class="record-meta">
-                    <span>👤 나</span>
-                    <span>👥 파트너</span>
-                </div>
 
                 <p class="record-memo"
                    th:text="${record.memo}">
@@ -112,6 +98,20 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+
+                <div class="button-area">
+                    <a th:href="@{/record/{recordId}/edit(recordId=${record.id})}"
+                       class="edit-btn">
+                        수정
+                    </a>
+
+                    <form th:action="@{/record/{recordId}/delete(recordId=${record.id})}"
+                          method="post">
+                        <button type="submit" class="delete-btn">
+                            삭제
+                        </button>
+                    </form>
                 </div>
 
             </div>
