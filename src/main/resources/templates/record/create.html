@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Date Record Page</title>
+
+    <link rel="stylesheet" th:href="@{/css/record/create.css}">
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a href="/couple">홈</a>
+            <a href="/calendar">캘린더</a>
+            <a href="/record" class="active">기록</a>
+            <a href="/expense">비용</a>
+            <a href="/statistics">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+            <span class="nickname">
+                <span th:text="${member.name}">현선</span> 님
+            </span>
+
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
+    <main class="record-create-page">
+
+        <div class="back-area">
+            <a href="/record" class="back-link">← 목록으로</a>
+        </div>
+
+        <form th:action="@{/record/create}" method="post" enctype="multipart/form-data"
+              class="record-create-form">
+
+            <section class="photo-section">
+                <label for="images" class="main-upload-box">
+                    <span class="upload-plus">+</span>
+                    <span class="upload-text">대표 사진 추가</span>
+                </label>
+
+                <input type="file" id="images" name="images" accept="image/*" multiple hidden>
+
+                <div class="thumbnail-list">
+                    <div class="thumbnail empty">+</div>
+                    <div class="thumbnail empty">+</div>
+                    <div class="thumbnail empty">+</div>
+                </div>
+            </section>
+
+            <section class="info-section">
+
+                <h1 class="page-title">데이트 기록 등록</h1>
+
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" name="title" placeholder="예: 한강 피크닉">
+                </div>
+
+                <div class="form-group">
+                    <label for="dateRecordDate">날짜</label>
+                    <input type="date" id="dateRecordDate" name="dateRecordDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="memo">메모</label>
+                    <textarea id="memo" name="memo"
+                              placeholder="오늘의 데이트를 기록해보세요."></textarea>
+                </div>
+
+                <div class="button-area">
+                    <a href="/record" class="cancel-btn">취소</a>
+                    <button type="submit" class="submit-btn">등록하기</button>
+                </div>
+
+            </section>
+
+        </form>
+
+    </main>
+</body>
+</html>
