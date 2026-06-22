@@ -52,4 +52,10 @@ public class DateRecord {
 
         return dateRecord;
     }
+
+    public void update(String title, LocalDate dateRecordDate, String memo) {
+        this.title = title;
+        this.dateRecordDate = dateRecordDate;
+        this.memo = memo;
+    }
 }

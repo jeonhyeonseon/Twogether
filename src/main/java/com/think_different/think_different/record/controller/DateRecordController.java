@@ -4,6 +4,7 @@ import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.dto.DateRecordCreateRequestDto;
 import com.think_different.think_different.record.dto.DateRecordDetailResponseDto;
+import com.think_different.think_different.record.dto.DateRecordUpdateRequestDto;
 import com.think_different.think_different.record.service.DateRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 @RequestMapping("/record")
@@ -57,5 +57,32 @@ public class DateRecordController {
         model.addAttribute("record", detailResponseDto);
 
         return "record/detail";
+    }
+
+    @GetMapping("/{recordId}/edit")
+    public String showEditDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                     @PathVariable Long recordId,
+                                     Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        DateRecordDetailResponseDto detailResponseDto = dateRecordService.detailDateRecord(recordId, member);
+
+        model.addAttribute("member", member);
+        model.addAttribute("record", detailResponseDto);
+
+        return "record/edit";
+    }
+
+    @PostMapping("/{recordId}/edit")
+    public String editDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 @PathVariable Long recordId,
+                                 DateRecordUpdateRequestDto updateRequestDto) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.updateDateRecord(recordId, updateRequestDto, member);
+
+        return "redirect:/record/" + recordId;
     }
 }
