@@ -7,9 +7,11 @@ import com.think_different.think_different.record.service.DateRecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Controller
 @RequestMapping("/record")
@@ -19,7 +21,13 @@ public class DateRecordController {
     private final DateRecordService dateRecordService;
 
     @GetMapping("/create")
-    public String showDateRecordFrom() {
+    public String showDateRecordFrom(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                     Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        model.addAttribute("member", member);
+
         return "record/create";
     }
 
