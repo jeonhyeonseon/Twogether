@@ -115,7 +115,10 @@ public class DateRecordService {
                 updateRequestDto.getMemo()
         );
 
-        if (updateRequestDto.getImages() != null) {
+        if (updateRequestDto.getImages() != null &&
+                updateRequestDto.getImages().stream().anyMatch(image -> !image.isEmpty())) {
+
+            dateRecordImageRepository.deleteAllByDateRecordId(dateRecord.getId());
 
             for (MultipartFile image : updateRequestDto.getImages()) {
 
