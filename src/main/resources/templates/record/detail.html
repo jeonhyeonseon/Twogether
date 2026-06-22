@@ -39,21 +39,40 @@
         <section class="record-detail-container">
 
             <div class="photo-section">
+
                 <div class="main-photo">
-                    <img th:src="@{/images/sample-date.jpg}" alt="데이트 사진">
+                    <img id="mainImage"
+                         th:if="${!#lists.isEmpty(record.images)}"
+                         th:src="${record.images[0].imageUrl}"
+                         alt="데이트 사진">
+
+                    <div th:if="${#lists.isEmpty(record.images)}" class="empty-photo">
+                        사진이 없습니다.
+                    </div>
                 </div>
 
                 <div class="thumbnail-list">
-                    <div class="thumbnail">
-                        <img th:src="@{/images/sample-date.jpg}" alt="사진1">
+                    <div class="thumbnail" th:each="image : ${record.images}">
+                        <img th:src="${image.imageUrl}"
+                             class="thumbnail-image"
+                             alt="데이트 사진">
                     </div>
-                    <div class="thumbnail">
-                        <img th:src="@{/images/sample-date.jpg}" alt="사진2">
-                    </div>
-                    <div class="thumbnail">
-                        <img th:src="@{/images/sample-date.jpg}" alt="사진3">
-                    </div>
-                    <button type="button" class="add-photo-btn">+</button>
+
+                    <form th:action="@{/record/{recordId}/images(recordId=${record.id})}"
+                          method="post"
+                          enctype="multipart/form-data"
+                          class="add-image-form">
+
+                        <label for="detailImages" class="add-photo-btn">+</label>
+
+                        <input type="file"
+                               id="detailImages"
+                               name="images"
+                               accept="image/*"
+                               multiple
+                               hidden
+                               onchange="this.form.submit()">
+                    </form>
                 </div>
             </div>
 
@@ -76,28 +95,25 @@
                 <div class="divider"></div>
 
                 <div class="expense-summary">
-
-                    <div class="expense-summary">
-                        <div class="expense-header">
-                            <strong>관련 비용</strong>
-                            <strong>총 42,000원</strong>
-                        </div>
-
-                        <ul class="expense-list">
-                            <li>
-                                <span>피크닉 도시락</span>
-                                <span>22,000원</span>
-                            </li>
-                            <li>
-                                <span>음료수</span>
-                                <span>10,000원</span>
-                            </li>
-                            <li>
-                                <span>돗자리</span>
-                                <span>10,000원</span>
-                            </li>
-                        </ul>
+                    <div class="expense-header">
+                        <strong>관련 비용</strong>
+                        <strong>총 42,000원</strong>
                     </div>
+
+                    <ul class="expense-list">
+                        <li>
+                            <span>피크닉 도시락</span>
+                            <span>22,000원</span>
+                        </li>
+                        <li>
+                            <span>음료수</span>
+                            <span>10,000원</span>
+                        </li>
+                        <li>
+                            <span>돗자리</span>
+                            <span>10,000원</span>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="button-area">
@@ -107,17 +123,19 @@
                     </a>
 
                     <form th:action="@{/record/{recordId}/delete(recordId=${record.id})}"
-                          method="post">
+                          method="post"
+                          onsubmit="return confirm('데이트 기록을 삭제하시겠습니까?');">
+
                         <button type="submit" class="delete-btn">
                             삭제
                         </button>
+
                     </form>
                 </div>
-
             </div>
-
         </section>
-
     </main>
+
+    <script th:src="@{/js/record/detail.js}"></script>
 </body>
 </html>

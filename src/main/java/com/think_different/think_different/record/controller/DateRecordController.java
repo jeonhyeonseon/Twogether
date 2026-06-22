@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/record")
@@ -35,7 +35,7 @@ public class DateRecordController {
 
     @PostMapping("/create")
     public String createDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                   DateRecordCreateRequestDto dateRecordCreateRequestDto) {
+                                   @ModelAttribute DateRecordCreateRequestDto dateRecordCreateRequestDto) {
 
         Member member = customUserDetails.getMember();
 
@@ -77,11 +77,34 @@ public class DateRecordController {
     @PostMapping("/{recordId}/edit")
     public String editDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                  @PathVariable Long recordId,
-                                 DateRecordUpdateRequestDto updateRequestDto) {
+                                 @ModelAttribute DateRecordUpdateRequestDto updateRequestDto) {
 
         Member member = customUserDetails.getMember();
 
         dateRecordService.updateDateRecord(recordId, updateRequestDto, member);
+
+        return "redirect:/record/" + recordId;
+    }
+
+    @PostMapping("/{recordId}/delete")
+    public String deleteDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                   @PathVariable Long recordId) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.deleteDateRecord(recordId, member);
+
+        return "redirect:/record";
+    }
+
+    @PostMapping("/{recordId}/images")
+    public String addImages(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                            @PathVariable Long recordId,
+                            @RequestParam("images") List<MultipartFile> images) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.addImages(recordId, images, member);
 
         return "redirect:/record/" + recordId;
     }
