@@ -73,4 +73,16 @@ public class DateRecordService {
                 updateRequestDto.getMemo()
         );
     }
+
+    public void deleteDateRecord(Long recordId, Member member) {
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
+                .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
+
+        dateRecordRepository.delete(dateRecord);
+    }
 }

@@ -85,4 +85,15 @@ public class DateRecordController {
 
         return "redirect:/record/" + recordId;
     }
+
+    @PostMapping("/{recordId}/delete")
+    public String deleteDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                   @PathVariable Long recordId) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.deleteDateRecord(recordId, member);
+
+        return "redirect:/record";
+    }
 }
