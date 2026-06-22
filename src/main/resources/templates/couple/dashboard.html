@@ -149,23 +149,33 @@
         <div class="card record-card">
             <h3>최근 데이트 기록</h3>
 
-            <div class="record-item">
-                <div class="record-image"></div>
-                <div>
-                    <strong>한강 피크닉</strong>
-                    <p>2024.05.10</p>
-                </div>
+            <div th:if="${#lists.isEmpty(dashboard.recentRecords)}">
+                <p class="empty-text">등록된 데이트 기록이 없습니다.</p>
             </div>
 
-            <div class="record-item">
-                <div class="record-image"></div>
-                <div>
-                    <strong>성수동 데이트</strong>
-                    <p>2024.05.04</p>
-                </div>
-            </div>
+            <a th:each="record : ${dashboard.recentRecords}"
+               th:href="@{/record/{recordId}(recordId=${record.id})}"
+               class="record-item">
 
-            <button class="detail-btn">전체 기록 보기</button>
+                <div class="record-image">
+                    <img th:src="${record.thumbnailImageUrl}"
+                         alt="데이트 사진">
+                </div>
+
+                <div>
+                    <strong th:text="${record.title}">
+                        한강 피크닉
+                    </strong>
+
+                    <p th:text="${#temporals.format(record.dateRecordDate, 'yyyy.MM.dd')}">
+                        2026.06.22
+                    </p>
+                </div>
+            </a>
+
+            <a th:href="@{/record}" class="detail-btn">
+                전체 기록 보기
+            </a>
         </div>
 
         <div class="card stats-card">
