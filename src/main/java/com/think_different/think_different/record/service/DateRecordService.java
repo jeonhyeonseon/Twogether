@@ -5,10 +5,7 @@ import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.member.entity.Member;
-import com.think_different.think_different.record.dto.DateRecordCreateRequestDto;
-import com.think_different.think_different.record.dto.DateRecordDetailResponseDto;
-import com.think_different.think_different.record.dto.DateRecordImageResponseDto;
-import com.think_different.think_different.record.dto.DateRecordUpdateRequestDto;
+import com.think_different.think_different.record.dto.*;
 import com.think_different.think_different.record.entity.DateRecord;
 import com.think_different.think_different.record.entity.DateRecordImage;
 import com.think_different.think_different.record.repository.DateRecordImageRepository;
@@ -29,6 +26,35 @@ public class DateRecordService {
     private final DateRecordRepository dateRecordRepository;
     private final DateRecordImageRepository dateRecordImageRepository;
     private final FileUploadService fileUploadService;
+
+    public List<DateRecordRecentResponseDto> getRecentRecords(Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        return dateRecordRepository.findTop2ByCoupleIdOrderByDateRecordDateDesc(couple.getId())
+                .stream()
+                .map(record -> {
+                    DateRecordRecentResponseDto dto = new DateRecordRecentResponseDto();
+
+                    dto.setId(record.getId());
+                    dto.setTitle(record.getTitle());
+                    dto.setDateRecordDate(record.getDateRecordDate());
+
+                    List<DateRecordImage> images = dateRecordImageRepository.findByDateRecordId(record.getId());
+
+                    if (!images.isEmpty()) {
+                        dto.setThumbnailImageUrl(images.get(0).getImageUrl());
+                    } else {
+                        dto.setThumbnailImageUrl("/images/default-record.png");
+                    }
+
+                    return dto;
+                })
+                .toList();
+    }
 
     public Long createDateRecord(DateRecordCreateRequestDto dateRecordCreateRequestDto, Member member) {
 
@@ -115,13 +141,16 @@ public class DateRecordService {
                 updateRequestDto.getMemo()
         );
 
-        if (updateRequestDto.getImages() != null &&
-                updateRequestDto.getImages().stream().anyMatch(image -> !image.isEmpty())) {
+        // 삭제 체크한 사진만 삭제
+        if (updateRequestDto.getDeleteImageIds() != null) {
+            for (Long imageId : updateRequestDto.getDeleteImageIds()) {
+                dateRecordImageRepository.deleteByIdAndDateRecordId(imageId, dateRecord.getId());
+            }
+        }
 
-            dateRecordImageRepository.deleteAllByDateRecordId(dateRecord.getId());
-
+        // 새로 선택한 사진 추가
+        if (updateRequestDto.getImages() != null) {
             for (MultipartFile image : updateRequestDto.getImages()) {
-
                 if (image.isEmpty()) {
                     continue;
                 }
@@ -146,8 +175,6 @@ public class DateRecordService {
 
         DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
                 .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
-
-        dateRecordImageRepository.deleteAllByDateRecordId(dateRecord.getId());
 
         dateRecordRepository.delete(dateRecord);
     }

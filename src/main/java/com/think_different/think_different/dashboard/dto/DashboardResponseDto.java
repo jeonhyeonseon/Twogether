@@ -1,6 +1,7 @@
 package com.think_different.think_different.dashboard.dto;
 
 import com.think_different.think_different.calendar.dto.CalendarResponseDto;
+import com.think_different.think_different.record.dto.DateRecordRecentResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +33,8 @@ public class DashboardResponseDto {
 
     private List<CalendarResponseDto> upcomingSchedules;
     private List<MonthlyExpenseChartDto> monthlyExpenseCharts;
+
+    private List<DateRecordRecentResponseDto> recentRecords;
 
     public String getDisplayMyName() {
         return myNickname != null && !myNickname.isBlank()

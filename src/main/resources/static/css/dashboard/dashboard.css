@@ -10,7 +10,7 @@ body {
 }
 
 .header {
-    height: 72px;
+    height: 55px;
     padding: 0 64px;
     border-bottom: 1px solid #e5e7eb;
     background-color: #fff;
@@ -23,6 +23,7 @@ body {
 .logo {
     font-size: 28px;
     font-weight: 800;
+    color: #142E4E;
 }
 
 .nav {
@@ -151,10 +152,14 @@ body {
     right: 32px;
     bottom: 24px;
 
-    color: #d0d1d3;
+    color: #142E4E;
     text-decoration: none;
-    font-size: 10px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.edit-btn:hover {
+    color: #4ECDC4;
 }
 
 .day-text {
@@ -179,7 +184,7 @@ body {
 .expense-card,
 .record-card,
 .stats-card {
-    border-top: 5px solid #ff7b7b;
+    border-top: 5px solid #4ECDC4;
 }
 
 .schedule-card h3,
@@ -246,14 +251,14 @@ body {
 .bar {
     width: 38px;
     min-height: 6px;
-    background-color: #ffd6dc;
+    background-color: #4ECDC4;
     border-radius: 6px 6px 0 0;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .bar:hover {
-    background-color: #ffb8c6;
+    background-color: #142E4E;
     transform: translateY(-4px);
 }
 
@@ -269,6 +274,13 @@ body {
     gap: 16px;
 
     margin-bottom: 18px;
+
+    color: #222;
+    text-decoration: none;
+}
+
+.record-item:hover strong {
+    color: #142E4E;
 }
 
 .record-image {
@@ -278,6 +290,15 @@ body {
     border-radius: 12px;
     border: 1px solid #ddd;
     background-color: #f3f4f6;
+
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.record-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .record-item p {
