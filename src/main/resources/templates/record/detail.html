@@ -108,7 +108,7 @@
                          class="empty-expense-box">
                         <p>등록된 관련 비용이 없습니다.</p>
 
-                        <a th:href="@{/record/{recordId}/expenses(recordId=${record.id})}"
+                        <a th:href="@{/expense(recordId=${record.id})}"
                            class="connect-expense-btn">
                             비용 연결하기
                         </a>
