@@ -33,7 +33,7 @@ public class DateRecordService {
 
         Couple couple = coupleMember.getCouple();
 
-        return dateRecordRepository.findByCoupleIdOrderByDateRecordDateDesc(couple.getId())
+        return dateRecordRepository.findByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(couple.getId())
                 .stream()
                 .map(record -> {
                     DateRecordListResponseDto dto = new DateRecordListResponseDto();
@@ -64,7 +64,7 @@ public class DateRecordService {
 
         Couple couple = coupleMember.getCouple();
 
-        return dateRecordRepository.findTop2ByCoupleIdOrderByDateRecordDateDesc(couple.getId())
+        return dateRecordRepository.findTop2ByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(couple.getId())
                 .stream()
                 .map(record -> {
                     DateRecordRecentResponseDto dto = new DateRecordRecentResponseDto();
