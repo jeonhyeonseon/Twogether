@@ -4,10 +4,14 @@ import com.think_different.think_different.common.file.FileUploadService;
 import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
+import com.think_different.think_different.expense.domain.Expense;
+import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.dto.*;
 import com.think_different.think_different.record.entity.DateRecord;
+import com.think_different.think_different.record.entity.DateRecordExpense;
 import com.think_different.think_different.record.entity.DateRecordImage;
+import com.think_different.think_different.record.repository.DateRecordExpenseRepository;
 import com.think_different.think_different.record.repository.DateRecordImageRepository;
 import com.think_different.think_different.record.repository.DateRecordRepository;
 import jakarta.transaction.Transactional;
@@ -26,6 +30,8 @@ public class DateRecordService {
     private final DateRecordRepository dateRecordRepository;
     private final DateRecordImageRepository dateRecordImageRepository;
     private final FileUploadService fileUploadService;
+    private final DateRecordExpenseRepository dateRecordExpenseRepository;
+    private final ExpenseRepository expenseRepository;
 
     public List<DateRecordListResponseDto> getDateRecordList(Member member) {
 
@@ -155,6 +161,28 @@ public class DateRecordService {
 
         detailResponseDto.setImages(images);
 
+        List<DateRecordExpenseResponseDto> expenses = dateRecordExpenseRepository.findByDateRecordId(dateRecord.getId())
+                        .stream()
+                        .map(dateRecordExpense -> {
+                            Expense expense = dateRecordExpense.getExpense();
+
+                            DateRecordExpenseResponseDto dto = new DateRecordExpenseResponseDto();
+                            dto.setId(expense.getId());
+                            dto.setContent(expense.getContent());
+                            dto.setAmount(expense.getAmount());
+                            dto.setCategoryName(expense.getCategory().getDisplayName());
+
+                            return dto;
+                        })
+                        .toList();
+
+        int totalExpenseAmount = expenses.stream()
+                .mapToInt(DateRecordExpenseResponseDto::getAmount)
+                .sum();
+
+        detailResponseDto.setExpenses(expenses);
+        detailResponseDto.setTotalExpenseAmount(totalExpenseAmount);
+
         return detailResponseDto;
     }
 
@@ -231,6 +259,29 @@ public class DateRecordService {
                     .build();
 
             dateRecordImageRepository.save(dateRecordImage);
+        }
+    }
+
+    public void connectExpenses(Long recordId, List<Long> expenseIds, Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
+                .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
+
+        for (Long expenseId : expenseIds) {
+            if (dateRecordExpenseRepository.existsByDateRecordIdAndExpenseId(recordId, expenseId)) {
+                continue;
+            }
+
+            Expense expense = expenseRepository.findByIdAndCoupleId(expenseId, couple.getId()).orElseThrow(() -> new IllegalArgumentException("비용 정보를 찾을 수 없습니다."));
+
+            DateRecordExpense dateRecordExpense = DateRecordExpense.create(dateRecord, expense);
+
+            dateRecordExpenseRepository.save(dateRecordExpense);
         }
     }
 }

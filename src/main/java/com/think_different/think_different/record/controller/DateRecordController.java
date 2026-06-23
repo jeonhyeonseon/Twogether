@@ -123,4 +123,31 @@ public class DateRecordController {
 
         return "redirect:/record/" + recordId;
     }
+
+    @GetMapping("/{recordId}/expenses")
+    public String showExpenseConnect(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                     @PathVariable Long recordId,
+                                     Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        DateRecordDetailResponseDto record = dateRecordService.detailDateRecord(recordId, member);
+
+        model.addAttribute("member", member);
+        model.addAttribute("record", record);
+
+        return "record/expense-connect";
+    }
+
+    @PostMapping("/{recordId}/expenses")
+    public String connectExpense(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 @PathVariable Long recordId,
+                                 @RequestParam("expenseId") List<Long> expenseId) {
+
+        Member member = customUserDetails.getMember();
+
+        dateRecordService.connectExpenses(recordId, expenseId, member);
+
+        return "redirect:/record/" + recordId;
+    }
 }

@@ -14,4 +14,7 @@ public class DateRecordDetailResponseDto {
     private String memo;
     private List<DateRecordImageResponseDto> images;
 
+    private List<DateRecordExpenseResponseDto> expenses;
+    private int totalExpenseAmount;
+
 }
