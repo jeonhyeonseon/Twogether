@@ -26,6 +26,7 @@ public class ExpenseController {
                               @RequestParam(required = false) Integer year,
                               @RequestParam(required = false) Integer month,
                               @RequestParam(required = false, defaultValue = "ALL") String category,
+                              @RequestParam(required = false) Long recordId,
                               Model model) {
 
         Member member = customUserDetails.getMember();
@@ -47,6 +48,7 @@ public class ExpenseController {
                 : totalAmount / allExpenses.size();
 
         model.addAttribute("member", member);
+        model.addAttribute("recordId", recordId);
         model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
 
@@ -59,11 +61,16 @@ public class ExpenseController {
 
     @PostMapping
     public String createExpense(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @RequestParam(required = false) Long recordId,
                                 ExpenseCreateRequestDto createRequestDto) {
 
         Member member = customUserDetails.getMember();
 
-        expenseService.createExpense(member, createRequestDto);
+        expenseService.createExpense(member, recordId, createRequestDto);
+
+        if (recordId != null) {
+            return "redirect:/record/" + recordId;
+        }
 
         return "redirect:/expense";
     }

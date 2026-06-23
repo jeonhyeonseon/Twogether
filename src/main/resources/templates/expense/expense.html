@@ -193,6 +193,10 @@
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}">
 
+                <input type="hidden"
+                       name="recordId"
+                       th:value="${recordId}">
+
                 <div class="form-group">
                     <label>날짜</label>
                     <input type="date"
