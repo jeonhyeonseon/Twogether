@@ -97,22 +97,36 @@
                 <div class="expense-summary">
                     <div class="expense-header">
                         <strong>관련 비용</strong>
-                        <strong>총 42,000원</strong>
+
+                        <strong th:if="${!#lists.isEmpty(record.expenses)}"
+                                th:text="'총 ' + ${#numbers.formatInteger(record.totalExpenseAmount, 1, 'COMMA')} + '원'">
+                            총 42,000원
+                        </strong>
                     </div>
 
-                    <ul class="expense-list">
-                        <li>
-                            <span>피크닉 도시락</span>
-                            <span>22,000원</span>
+                    <div th:if="${#lists.isEmpty(record.expenses)}"
+                         class="empty-expense-box">
+                        <p>등록된 관련 비용이 없습니다.</p>
+
+                        <a th:href="@{/record/{recordId}/expenses(recordId=${record.id})}"
+                           class="connect-expense-btn">
+                            비용 연결하기
+                        </a>
+                    </div>
+
+                    <ul th:if="${!#lists.isEmpty(record.expenses)}"
+                        class="expense-list">
+
+                        <li th:each="expense : ${record.expenses}">
+                            <span th:text="${expense.content}">
+                                피크닉 도시락
+                            </span>
+
+                            <span th:text="${#numbers.formatInteger(expense.amount, 1, 'COMMA')} + '원'">
+                                22,000원
+                            </span>
                         </li>
-                        <li>
-                            <span>음료수</span>
-                            <span>10,000원</span>
-                        </li>
-                        <li>
-                            <span>돗자리</span>
-                            <span>10,000원</span>
-                        </li>
+
                     </ul>
                 </div>
 

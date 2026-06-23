@@ -124,7 +124,7 @@ public class DateRecordController {
         return "redirect:/record/" + recordId;
     }
 
-    @GetMapping("/{recordId}/expenses")
+    @GetMapping("/{recordId}/expense")
     public String showExpenseConnect(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                      @PathVariable Long recordId,
                                      Model model) {
@@ -136,10 +136,10 @@ public class DateRecordController {
         model.addAttribute("member", member);
         model.addAttribute("record", record);
 
-        return "record/expense-connect";
+        return "expense/expense";
     }
 
-    @PostMapping("/{recordId}/expenses")
+    @PostMapping("/{recordId}/expense")
     public String connectExpense(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                  @PathVariable Long recordId,
                                  @RequestParam("expenseId") List<Long> expenseId) {
