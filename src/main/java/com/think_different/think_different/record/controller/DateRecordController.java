@@ -4,6 +4,7 @@ import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.dto.DateRecordCreateRequestDto;
 import com.think_different.think_different.record.dto.DateRecordDetailResponseDto;
+import com.think_different.think_different.record.dto.DateRecordListResponseDto;
 import com.think_different.think_different.record.dto.DateRecordUpdateRequestDto;
 import com.think_different.think_different.record.service.DateRecordService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,20 @@ import java.util.List;
 public class DateRecordController {
 
     private final DateRecordService dateRecordService;
+
+    @GetMapping
+    public String listDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        List<DateRecordListResponseDto> records = dateRecordService.getDateRecordList(member);
+
+        model.addAttribute("member", member);
+        model.addAttribute("records", records);
+
+        return "record/list";
+    }
 
     @GetMapping("/create")
     public String showDateRecordFrom(@AuthenticationPrincipal CustomUserDetails customUserDetails,
