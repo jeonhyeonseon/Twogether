@@ -35,7 +35,7 @@ public class CoupleController {
             model.addAttribute("member", member);
             model.addAttribute("dashboard", dashboardResponseDto);
 
-            return "couple/dashboard";
+            return "dashboard/dashboard";
         }
 
         return "redirect:/main";
