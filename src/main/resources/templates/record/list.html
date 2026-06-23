@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>데이트 기록 목록</title>
+
+    <link rel="stylesheet" th:href="@{/css/record/list.css}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Two-Gether</div>
+
+        <nav class="nav">
+            <a th:href="@{/couple}">홈</a>
+            <a th:href="@{/calendar}">캘린더</a>
+            <a th:href="@{/record}" class="active">기록</a>
+            <a th:href="@{/expense}">비용</a>
+            <a th:href="@{/statistics}">통계</a>
+        </nav>
+
+        <div class="profile">
+            <a th:href="@{/mypage}" class="profile-link">
+                <span class="nickname">
+                    <span th:text="${member.name}">현선</span> 님
+                </span>
+                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+            </a>
+        </div>
+    </header>
+
+    <main class="record-list-page">
+
+        <div class="page-header">
+            <div>
+                <h1>데이트 기록</h1>
+                <p>함께한 순간들을 사진과 메모로 남겨보세요.</p>
+            </div>
+
+            <a th:href="@{/record/create}" class="create-btn">
+                기록 등록
+            </a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(records)}" class="empty-box">
+            아직 등록된 데이트 기록이 없습니다.
+        </div>
+
+        <section class="record-grid" th:if="${!#lists.isEmpty(records)}">
+
+            <a th:each="record : ${records}"
+               th:href="@{/record/{recordId}(recordId=${record.id})}"
+               class="record-card">
+
+                <div class="record-thumbnail">
+                    <img th:src="${record.thumbnailImageUrl}"
+                         alt="데이트 기록 이미지">
+                </div>
+
+                <div class="record-info">
+                    <h3 th:text="${record.title}">
+                        한강 피크닉
+                    </h3>
+
+                    <p class="record-date"
+                       th:text="${#temporals.format(record.dateRecordDate, 'yyyy.MM.dd')}">
+                        2026.06.22
+                    </p>
+
+                    <p class="record-memo"
+                       th:text="${record.memo}">
+                        즐거운 하루였다.
+                    </p>
+                </div>
+
+            </a>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
