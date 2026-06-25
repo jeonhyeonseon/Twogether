@@ -4,42 +4,22 @@ function openCreateModal() {
     const modal = document.getElementById('expenseModal');
     const form = document.getElementById('expenseForm');
 
+    const connectRecordIdInput = document.getElementById('connectRecordId');
+    const recordIdValue = connectRecordIdInput ? connectRecordIdInput.value : '';
+
     document.getElementById('modalTitle').textContent = '비용 등록';
     document.getElementById('submitBtn').textContent = '등록하기';
 
     form.action = '/expense';
     form.reset();
 
-    modal.classList.add('show');
-}
+    const recordIdInput = form.querySelector('input[name="recordId"]');
 
-function openEditModal(button) {
-    const modal = document.getElementById('expenseModal');
-    const form = document.getElementById('expenseForm');
-
-    const id = button.dataset.id;
-    const date = button.dataset.date;
-    const content = button.dataset.content;
-    const category = button.dataset.category;
-    const amount = button.dataset.amount;
-    const memo = button.dataset.memo;
-
-    document.getElementById('modalTitle').textContent = '비용 수정';
-    document.getElementById('submitBtn').textContent = '수정하기';
-
-    form.action = `/expense/${id}/edit`;
-
-    document.getElementById('expenseDate').value = date;
-    document.getElementById('content').value = content;
-    document.getElementById('category').value = category;
-    document.getElementById('amount').value = amount;
-    document.getElementById('memo').value = memo || '';
+    if (recordIdInput) {
+        recordIdInput.value = recordIdValue;
+    }
 
     modal.classList.add('show');
-}
-
-function closeExpenseModal() {
-    document.getElementById('expenseModal').classList.remove('show');
 }
 
 function openDetailModal(item) {
@@ -122,5 +102,28 @@ window.addEventListener('click', function (event) {
 
     if (event.target === detailModal) {
         closeDetailModal();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const connectRecordIdInput = document.getElementById('connectRecordId');
+
+    if (!connectRecordIdInput) {
+        return;
+    }
+
+    const connectRecordId = connectRecordIdInput.value;
+
+    const connectModeInput = document.getElementById('connectMode');
+    const connectMode = connectModeInput ? connectModeInput.value : '';
+
+    if (connectRecordId && connectRecordId !== 'null' && connectMode === 'create') {
+        openCreateModal();
+
+        const dateRecordSelect = document.getElementById('dateRecordId');
+
+        if (dateRecordSelect) {
+            dateRecordSelect.value = connectRecordId;
+        }
     }
 });

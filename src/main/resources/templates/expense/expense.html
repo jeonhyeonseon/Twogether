@@ -35,7 +35,8 @@
 
             <button type="button"
                     class="add-btn"
-                    onclick="openCreateModal()">
+                    onclick="openCreateModal()"
+                    th:text="${recordId != null and mode == 'connect'} ? '새 비용 등록해서 연결' : '비용 추가'">
                 비용 추가
             </button>
         </div>
@@ -167,10 +168,36 @@
                     <strong th:text="${#numbers.formatInteger(expense.amount, 3, 'COMMA')} + '원'">
                         30,000원
                     </strong>
+
+                    <form th:if="${recordId != null and mode == 'connect'}"
+                          th:action="@{/expense/{expenseId}/connect-record(expenseId=${expense.id})}"
+                          method="post"
+                          onclick="event.stopPropagation()">
+
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+
+                        <input type="hidden"
+                               name="recordId"
+                               th:value="${recordId}">
+
+                        <button type="submit" class="connect-btn">
+                            이 비용 연결하기
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <input type="hidden"
+           id="connectRecordId"
+           th:value="${recordId}">
+
+    <input type="hidden"
+           id="connectMode"
+           th:value="${mode}">
 
     <div id="expenseModal" class="modal">
         <div class="modal-content">
