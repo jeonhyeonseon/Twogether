@@ -10,6 +10,10 @@ import com.think_different.think_different.expense.dto.ExpenseResponseDto;
 import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
+import com.think_different.think_different.record.entity.DateRecord;
+import com.think_different.think_different.record.entity.DateRecordExpense;
+import com.think_different.think_different.record.repository.DateRecordExpenseRepository;
+import com.think_different.think_different.record.repository.DateRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,8 @@ public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final CoupleMemberRepository coupleMemberRepository;
+    private final DateRecordRepository dateRecordRepository;
+    private final DateRecordExpenseRepository dateRecordExpenseRepository;
 
     public List<ExpenseResponseDto> getMonthlyExpense(Member member, Integer year, Integer month, String category) {
 
@@ -66,7 +72,7 @@ public class ExpenseService {
         return expenses.stream().map(ExpenseResponseDto::fromExpense).toList();
     }
 
-    public void createExpense(Member member, ExpenseCreateRequestDto createRequestDto) {
+    public void createExpense(Member member, Long recordId, ExpenseCreateRequestDto createRequestDto) {
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
@@ -83,7 +89,16 @@ public class ExpenseService {
                 .createdAt(LocalDateTime.now())
                 .build();
 
-        expenseRepository.save(expense);
+        Expense savedExpense = expenseRepository.save(expense);
+
+        if (recordId != null) {
+            DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
+                    .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
+
+            DateRecordExpense dateRecordExpense = DateRecordExpense.create(dateRecord, savedExpense);
+
+            dateRecordExpenseRepository.save(dateRecordExpense);
+        }
     }
 
     public void updateExpense(Member member, Long expenseId, ExpenseUpdateRequestDto expenseUpdateRequestDto) {
@@ -112,5 +127,33 @@ public class ExpenseService {
         }
 
         expenseRepository.delete(expense);
+    }
+
+    public void connectRecord(Member member, Long expenseId, Long recordId) {
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
+
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+
+        DateRecord dateRecord = dateRecordRepository.findById(recordId)
+                .orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
+
+        if (!expense.getCouple().equals(coupleMember.getCouple())) {
+            throw new IllegalArgumentException("연결할 수 없는 비용입니다.");
+        }
+
+        if (!dateRecord.getCouple().equals(coupleMember.getCouple())) {
+            throw new IllegalArgumentException("연결할 수 없는 데이트 기록입니다.");
+        }
+
+        if (dateRecordExpenseRepository.existsByDateRecordIdAndExpenseId(recordId, expenseId)) {
+            return;
+        }
+
+        DateRecordExpense dateRecordExpense =
+                DateRecordExpense.create(dateRecord, expense);
+
+        dateRecordExpenseRepository.save(dateRecordExpense);
     }
 }
