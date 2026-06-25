@@ -23,7 +23,7 @@ body {
 .logo {
     font-size: 28px;
     font-weight: 800;
-    color: #142E4E;
+    color: #ff7b7b;
 }
 
 .nav {
@@ -37,6 +37,14 @@ body {
     text-decoration: none;
     font-size: 16px;
     font-weight: 700;
+}
+
+.nav a:hover {
+    color: #ff7b7b;
+}
+
+.nav a.active {
+    color: #ff7b7b;
 }
 
 .profile-link {
@@ -152,14 +160,14 @@ body {
     right: 32px;
     bottom: 24px;
 
-    color: #142E4E;
+    color: #ff7b7b;
     text-decoration: none;
     font-size: 12px;
     font-weight: 700;
 }
 
 .edit-btn:hover {
-    color: #4ECDC4;
+    color: #ffb6b6;
 }
 
 .day-text {
@@ -184,7 +192,7 @@ body {
 .expense-card,
 .record-card,
 .stats-card {
-    border-top: 5px solid #4ECDC4;
+    border-top: 5px solid #ff7b7b;
 }
 
 .schedule-card h3,
@@ -251,14 +259,14 @@ body {
 .bar {
     width: 38px;
     min-height: 6px;
-    background-color: #4ECDC4;
+    background-color: #ffb6b6;
     border-radius: 6px 6px 0 0;
     cursor: pointer;
     transition: 0.2s;
 }
 
 .bar:hover {
-    background-color: #142E4E;
+    background-color: #ff7b7b;
     transform: translateY(-4px);
 }
 
@@ -280,7 +288,7 @@ body {
 }
 
 .record-item:hover strong {
-    color: #142E4E;
+    color: #ff7b7b;
 }
 
 .record-image {
