@@ -72,21 +72,22 @@ body {
 .expense-header h1 {
     font-size: 32px;
     font-weight: 700;
-    color: #142E4E;
+    color: #222;
 }
 
 .add-btn {
+    border: none;
     text-decoration: none;
     padding: 12px 20px;
-    background: #142E4E;
+    background: #FF7B7B;
     color: white;
     border-radius: 10px;
-    font-weight: 600;
-    transition: 0.2s;
+    font-weight: 700;
+    cursor: pointer;
 }
 
 .add-btn:hover {
-    background: #1D4472;
+    background: #FFB6B6;
 }
 
 .summary-section {
@@ -100,8 +101,7 @@ body {
     background: white;
     border-radius: 16px;
     padding: 25px;
-    border-top: 4px solid #4ECDC4;
-    box-shadow: 0 3px 12px rgba(20, 46, 78, 0.08);
+    border-top: 4px solid #FF7B7B;
 }
 
 .summary-card span {
@@ -113,7 +113,7 @@ body {
 
 .summary-card strong {
     font-size: 28px;
-    color: #142E4E;
+    color: #222;
 }
 
 .filter-section {
@@ -129,16 +129,15 @@ body {
     padding: 10px 18px;
     border-radius: 999px;
     cursor: pointer;
-    font-weight: 600;
-    transition: 0.2s;
+    font-weight: 700;
 }
 
 .category:hover {
-    background: #E8F8F7;
+    background: #FFB6B6;
 }
 
 .category.active {
-    background: #4ECDC4;
+    background: #FF7B7B;
     color: white;
 }
 
@@ -149,26 +148,32 @@ body {
 }
 
 .expense-item {
+    width: 100%;
     background: white;
-    border-left: 5px solid #4ECDC4;
+    border-left: 5px solid #FF7B7B;
     border-radius: 16px;
     padding: 18px 24px;
     min-height: 96px;
-    display: flex;
-    justify-content: space-between;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    box-shadow: 0 3px 12px rgba(20, 46, 78, 0.05);
+    gap: 20px;
+
     cursor: pointer;
 }
 
 .expense-item:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 16px rgba(20, 46, 78, 0.08);
+    border-left-color: #FFB6B6;
+}
+
+.expense-info {
+    text-align: left;
 }
 
 .expense-info h3 {
     font-size: 17px;
-    color: #142E4E;
+    color: #222;
     margin: 0 0 6px;
 }
 
@@ -191,8 +196,48 @@ body {
 
 .expense-payment strong {
     font-size: 22px;
-    color: #142E4E;
+    color: #FF7B7B;
+    font-weight: 800;
+}
+
+.connect-expense-form {
+    margin-top: 20px;
+}
+
+.connect-item {
+    cursor: pointer;
+}
+
+.expense-checkbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #FF7B7B;
+    cursor: pointer;
+}
+
+.connect-item:has(.expense-checkbox:checked) {
+    background: #FFB6B6;
+    border-left-color: #FF7B7B;
+}
+
+.connect-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #FF7B7B;
+    color: white;
+
+    font-size: 16px;
     font-weight: 700;
+    cursor: pointer;
+}
+
+.connect-btn:hover {
+    background: #FFB6B6;
 }
 
 .detail-row {
@@ -209,7 +254,7 @@ body {
 }
 
 .detail-row strong {
-    color: #142E4E;
+    color: #222;
 }
 
 .detail-memo {
@@ -221,7 +266,7 @@ body {
 .detail-memo p {
     margin-top: 10px;
     padding: 14px;
-    background: #f8f9fb;
+    background: #fafafa;
     border-radius: 10px;
     color: #333;
     line-height: 1.5;
@@ -243,7 +288,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 1000;
-    background: rgba(0, 0, 0, 0.45);
+    background: black;
     align-items: center;
     justify-content: center;
 }
@@ -258,7 +303,6 @@ body {
     background: #fff;
     border-radius: 18px;
     padding: 28px;
-    box-shadow: 0 12px 32px rgba(20, 46, 78, 0.2);
 }
 
 .modal-header {
@@ -271,7 +315,7 @@ body {
 .modal-header h2 {
     margin: 0;
     font-size: 24px;
-    color: #142E4E;
+    color: #222;
 }
 
 .modal-close {
@@ -290,7 +334,7 @@ body {
     display: block;
     margin-bottom: 8px;
     font-weight: 700;
-    color: #142E4E;
+    color: #222;
 }
 
 .form-group input,
@@ -313,11 +357,15 @@ body {
     padding: 14px;
     border: none;
     border-radius: 10px;
-    background: #142E4E;
+    background: #FF7B7B;
     color: white;
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
+}
+
+.submit-btn:hover {
+    background: #FFB6B6;
 }
 
 .edit-btn,
@@ -330,17 +378,13 @@ body {
 }
 
 .edit-btn {
-    background: #E8F8F7;
-    color: #142E4E;
+    background: #FFB6B6;
+    color: white;
 }
 
 .delete-btn {
-    background: #FFE8E8;
-    color: #D64545;
-}
-
-.hidden {
-    display: none;
+    background: #FF7B7B;
+    color: white;
 }
 
 .cancel-btn {
@@ -350,10 +394,14 @@ body {
     border-radius: 10px;
     font-weight: 700;
     cursor: pointer;
-    background: #F1F3F5;
-    color: #555;
+    background: #FFB6B6;
+    color: white;
 }
 
 .detail-edit-form .submit-btn {
     flex: 1;
+}
+
+.hidden {
+    display: none;
 }
