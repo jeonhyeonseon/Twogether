@@ -142,11 +142,11 @@ public class DateRecordController {
     @PostMapping("/{recordId}/expense")
     public String connectExpense(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                  @PathVariable Long recordId,
-                                 @RequestParam("expenseId") List<Long> expenseId) {
+                                 @RequestParam("expenseIds") List<Long> expenseIds) {
 
         Member member = customUserDetails.getMember();
 
-        dateRecordService.connectExpenses(recordId, expenseId, member);
+        dateRecordService.connectExpenses(recordId, expenseIds, member);
 
         return "redirect:/record/" + recordId;
     }
