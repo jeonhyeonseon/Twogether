@@ -107,26 +107,31 @@
                     <div th:if="${#lists.isEmpty(record.expenses)}"
                          class="empty-expense-box">
                         <p>등록된 관련 비용이 없습니다.</p>
-
-                        <a th:href="@{/expense(recordId=${record.id}, mode='connect')}">
-                            비용 연결하기
-                        </a>
                     </div>
 
                     <ul th:if="${!#lists.isEmpty(record.expenses)}"
                         class="expense-list">
 
                         <li th:each="expense : ${record.expenses}">
-                            <span th:text="${expense.content}">
-                                피크닉 도시락
-                            </span>
+                            <span th:text="${expense.content}">피크닉 도시락</span>
 
                             <span th:text="${#numbers.formatInteger(expense.amount, 1, 'COMMA')} + '원'">
                                 22,000원
                             </span>
                         </li>
-
                     </ul>
+
+                    <div class="expense-action-area">
+                        <a th:href="@{/expense(recordId=${record.id}, mode='connect')}"
+                           class="connect-expense-btn">
+                            + 기존 비용 추가 연결
+                        </a>
+
+                        <a th:href="@{/expense(recordId=${record.id}, mode='create')}"
+                           class="create-expense-btn">
+                            + 새 비용 등록해서 연결
+                        </a>
+                    </div>
                 </div>
 
                 <div class="button-area">
