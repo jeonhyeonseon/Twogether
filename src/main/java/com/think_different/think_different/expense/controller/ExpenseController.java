@@ -27,6 +27,7 @@ public class ExpenseController {
                               @RequestParam(required = false) Integer month,
                               @RequestParam(required = false, defaultValue = "ALL") String category,
                               @RequestParam(required = false) Long recordId,
+                              @RequestParam(required = false) String mode,
                               Model model) {
 
         Member member = customUserDetails.getMember();
@@ -49,6 +50,8 @@ public class ExpenseController {
 
         model.addAttribute("member", member);
         model.addAttribute("recordId", recordId);
+        model.addAttribute("mode", mode);
+
         model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
 
@@ -96,5 +99,17 @@ public class ExpenseController {
         expenseService.deleteExpense(member, expenseId);
 
         return "redirect:/expense";
+    }
+
+    @PostMapping("/{expenseId}/connect-record")
+    public String connectRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                @PathVariable Long expenseId,
+                                @RequestParam Long recordId) {
+
+        Member member = customUserDetails.getMember();
+
+        expenseService.connectRecord(member, expenseId, recordId);
+
+        return "redirect:/record/" + recordId;
     }
 }

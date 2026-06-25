@@ -128,4 +128,32 @@ public class ExpenseService {
 
         expenseRepository.delete(expense);
     }
+
+    public void connectRecord(Member member, Long expenseId, Long recordId) {
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
+
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+
+        DateRecord dateRecord = dateRecordRepository.findById(recordId)
+                .orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
+
+        if (!expense.getCouple().equals(coupleMember.getCouple())) {
+            throw new IllegalArgumentException("연결할 수 없는 비용입니다.");
+        }
+
+        if (!dateRecord.getCouple().equals(coupleMember.getCouple())) {
+            throw new IllegalArgumentException("연결할 수 없는 데이트 기록입니다.");
+        }
+
+        if (dateRecordExpenseRepository.existsByDateRecordIdAndExpenseId(recordId, expenseId)) {
+            return;
+        }
+
+        DateRecordExpense dateRecordExpense =
+                DateRecordExpense.create(dateRecord, expense);
+
+        dateRecordExpenseRepository.save(dateRecordExpense);
+    }
 }
