@@ -10,7 +10,7 @@ public interface DateRecordRepository extends JpaRepository<DateRecord, Long> {
 
     Optional<DateRecord> findByIdAndCoupleId(Long recordId, Long id);
 
-    List<DateRecord> findTop2ByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(Long id);
+    List<DateRecord> findTop3ByCoupleIdOrderByCreatedAtDesc(Long id);
 
     List<DateRecord> findByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(Long id);
 }

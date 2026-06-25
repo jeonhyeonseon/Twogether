@@ -70,7 +70,7 @@ public class DateRecordService {
 
         Couple couple = coupleMember.getCouple();
 
-        return dateRecordRepository.findTop2ByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(couple.getId())
+        return dateRecordRepository.findTop3ByCoupleIdOrderByCreatedAtDesc(couple.getId())
                 .stream()
                 .map(record -> {
                     DateRecordRecentResponseDto dto = new DateRecordRecentResponseDto();
@@ -79,7 +79,8 @@ public class DateRecordService {
                     dto.setTitle(record.getTitle());
                     dto.setDateRecordDate(record.getDateRecordDate());
 
-                    List<DateRecordImage> images = dateRecordImageRepository.findByDateRecordId(record.getId());
+                    List<DateRecordImage> images =
+                            dateRecordImageRepository.findByDateRecordId(record.getId());
 
                     if (!images.isEmpty()) {
                         dto.setThumbnailImageUrl(images.get(0).getImageUrl());
