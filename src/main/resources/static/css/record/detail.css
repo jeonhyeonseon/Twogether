@@ -82,6 +82,50 @@ body {
     color: #ff7b7b;
 }
 
+.main-photo {
+    position: relative;
+}
+
+.photo-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: none;
+    background: transparent;
+
+    color: rgba(255,255,255,.8);
+
+    font-size: 60px;
+    font-weight: 300;
+
+    cursor: pointer;
+    transition: .2s;
+
+    text-shadow: 0 2px 8px rgba(0,0,0,.45);
+}
+
+.photo-prev {
+    left: 24px;
+}
+
+.photo-next {
+    right: 24px;
+}
+
+.photo-arrow:hover {
+    background: transparent;
+    color: #ff7b7b;
+}
+.thumbnail {
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.thumbnail.active {
+    border-color: #ff7b7b;
+}
+
 .record-detail-container {
     display: grid;
     grid-template-columns: 1.1fr 1fr;
