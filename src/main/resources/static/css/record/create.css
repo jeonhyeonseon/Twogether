@@ -92,9 +92,9 @@ body {
     width: 100%;
     height: 420px;
 
-    border: 2px dashed #4ECDC4;
+    border: 2px dashed #ffb6b6;
     border-radius: 12px;
-    background-color: #F8FAFC;
+    background-color: #fffafa;
 
     display: flex;
     flex-direction: column;
@@ -116,12 +116,12 @@ body {
 
 .upload-plus {
     font-size: 48px;
-    color: #4ECDC4;
+    color: #ff7b7b;
 }
 
 .upload-text {
     font-size: 16px;
-    color: #777;
+    color: #ff7b7b;
 }
 
 .thumbnail-list {
@@ -136,15 +136,16 @@ body {
     height: 100px;
 
     border-radius: 12px;
-    border: 1px dashed #d9d9d9;
-    background: #fafafa;
+    border: 2px dashed #ffb6b6;
+    background: #fffafa;
+
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     overflow: hidden;
-    color: #aaa;
+    color: #ff7b7b;
     font-size: 24px;
 }
 
@@ -152,6 +153,11 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.thumbnail.empty:hover {
+    border-color: #ff7b7b;
+    background: #fff0f3;
 }
 
 .info-section {
@@ -220,6 +226,72 @@ body {
 
 .submit-btn {
     border: none;
-    background: #142E4E;
+    background: #ff7b7b;
     color: #fff;
+}
+
+.flatpickr-calendar {
+    width: 360px;
+    border: 1px solid #ffb6b6;
+    border-radius: 16px;
+    padding: 16px;
+}
+
+.flatpickr-innerContainer,
+.flatpickr-rContainer,
+.flatpickr-days,
+.dayContainer {
+    width: 100%;
+    max-width: 100%;
+}
+
+.flatpickr-day {
+    width: 44px;
+    height: 44px;
+    line-height: 44px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+.flatpickr-day.selected {
+    background: #ff7b7b;
+    border-color: #ff7b7b;
+    color: #fff;
+}
+
+.flatpickr-day.today {
+    border-color: #ff7b7b;
+}
+
+.flatpickr-day:hover {
+    background: #ffb6b6;
+    border-color: #ffb6b6;
+}
+
+.flatpickr-current-month {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.flatpickr-weekday {
+    font-size: 15px;
+}
+
+.date-input-wrap {
+    position: relative;
+}
+
+.date-input-wrap input {
+    padding-right: 48px;
+    cursor: pointer;
+}
+
+.date-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    font-size: 20px;
+    pointer-events: none;
 }

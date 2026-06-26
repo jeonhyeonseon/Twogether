@@ -68,4 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
             thumbnailList.appendChild(emptyThumbnail);
         }
     }
+
+    flatpickr("#dateRecordDate", {
+        locale: "ko",
+        dateFormat: "Y-m-d",
+        allowInput: false,
+        clickOpens: true
+    });
 });

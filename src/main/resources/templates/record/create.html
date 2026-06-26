@@ -6,6 +6,7 @@
     <title>Date Record Page</title>
 
     <link rel="stylesheet" th:href="@{/css/record/create.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 
@@ -70,9 +71,17 @@
                     <input type="text" id="title" name="title" placeholder="예: 한강 피크닉">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group date-form-group">
                     <label for="dateRecordDate">날짜</label>
-                    <input type="date" id="dateRecordDate" name="dateRecordDate">
+
+                    <div class="date-input-wrap">
+                        <input type="text"
+                               id="dateRecordDate"
+                               name="dateRecordDate"
+                               placeholder="연도 .   월 .   일 .">
+
+                        <span class="date-icon">📅</span>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -92,6 +101,8 @@
 
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
     <script th:src="@{/js/record/create.js}"></script>
 </body>
 </html>
