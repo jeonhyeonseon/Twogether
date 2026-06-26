@@ -8,7 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
     imageInput.addEventListener('change', function () {
         const files = Array.from(imageInput.files);
 
+        thumbnailList.innerHTML = '';
+
         if (files.length === 0) {
+            mainPreview.removeAttribute('src');
+            mainPreview.style.display = 'none';
+            uploadPlus.style.display = 'block';
+            uploadText.style.display = 'block';
+
+            renderEmptyThumbnails(3);
             return;
         }
 
@@ -24,8 +32,6 @@ document.addEventListener('DOMContentLoaded', function () {
         };
 
         mainReader.readAsDataURL(firstFile);
-
-        thumbnailList.innerHTML = '';
 
         files.forEach(function (file) {
             const reader = new FileReader();
@@ -44,5 +50,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             reader.readAsDataURL(file);
         });
+
+        const emptyCount = Math.max(0, 3 - files.length);
+        renderEmptyThumbnails(emptyCount);
     });
+
+    function renderEmptyThumbnails(count) {
+        for (let i = 0; i < count; i++) {
+            const emptyThumbnail = document.createElement('div');
+            emptyThumbnail.className = 'thumbnail empty';
+            emptyThumbnail.textContent = '+';
+
+            emptyThumbnail.addEventListener('click', function () {
+                imageInput.click();
+            });
+
+            thumbnailList.appendChild(emptyThumbnail);
+        }
+    }
 });
