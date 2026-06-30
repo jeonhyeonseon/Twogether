@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -74,6 +75,9 @@ public class ExpenseService {
 
     public void createExpense(Member member, Long recordId, ExpenseCreateRequestDto createRequestDto) {
 
+        validateExpenseDate(createRequestDto.getExpenseDate());
+        validateAmount(createRequestDto.getAmount());
+
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
@@ -103,6 +107,9 @@ public class ExpenseService {
 
     public void updateExpense(Member member, Long expenseId, ExpenseUpdateRequestDto expenseUpdateRequestDto) {
 
+        validateExpenseDate(expenseUpdateRequestDto.getExpenseDate());
+        validateAmount(expenseUpdateRequestDto.getAmount());
+
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
@@ -116,11 +123,9 @@ public class ExpenseService {
 
     public void deleteExpense(Member member, Long expenseId) {
         
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
-                .orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
-        Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
         if (!expense.getCouple().getId().equals(coupleMember.getCouple().getId())) {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
@@ -130,14 +135,11 @@ public class ExpenseService {
     }
 
     public void connectRecord(Member member, Long expenseId, Long recordId) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
-                .orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
 
-        Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
-        DateRecord dateRecord = dateRecordRepository.findById(recordId)
-                .orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
+        DateRecord dateRecord = dateRecordRepository.findById(recordId).orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
 
         if (!expense.getCouple().equals(coupleMember.getCouple())) {
             throw new IllegalArgumentException("연결할 수 없는 비용입니다.");
@@ -155,5 +157,27 @@ public class ExpenseService {
                 DateRecordExpense.create(dateRecord, expense);
 
         dateRecordExpenseRepository.save(dateRecordExpense);
+    }
+
+    private void validateExpenseDate(LocalDate expenseDate) {
+        LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+
+        if (expenseDate == null) {
+            throw new IllegalArgumentException("비용 날짜는 필수입니다.");
+        }
+
+        if (expenseDate.isAfter(today)) {
+            throw new IllegalArgumentException("미래 날짜로는 비용을 등록할 수 없습니다.");
+        }
+    }
+
+    private void validateAmount(Integer amount) {
+        if (amount == null) {
+            throw new IllegalArgumentException("금액은 필수입니다.");
+        }
+
+        if (amount < 100) {
+            throw new IllegalArgumentException("금액은 100원 이상부터 등록할 수 있습니다.");
+        }
     }
 }
