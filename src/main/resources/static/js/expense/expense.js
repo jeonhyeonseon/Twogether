@@ -209,6 +209,19 @@ document.addEventListener('DOMContentLoaded', function () {
     const expenseForm = document.getElementById('expenseForm');
     const detailEditForm = document.getElementById('detailEditForm');
 
+    const expenseDate = document.getElementById('expenseDate');
+    const editExpenseDate = document.getElementById('editExpenseDate');
+
+    const today = getTodayByKorea();
+
+    if (expenseDate) {
+        expenseDate.max = today;
+    }
+
+    if (editExpenseDate) {
+        editExpenseDate.max = today;
+    }
+
     if (amountDisplay && amount) {
         amountDisplay.addEventListener('input', function () {
             formatAmountInput(amountDisplay, amount);
@@ -223,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (expenseForm) {
         expenseForm.addEventListener('submit', function (event) {
-            if (!validateAmount(amount)) {
+            if (!validateExpenseDate(expenseDate) || !validateAmount(amount)) {
                 event.preventDefault();
             }
         });
@@ -231,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (detailEditForm) {
         detailEditForm.addEventListener('submit', function (event) {
-            if (!validateAmount(editAmount)) {
+            if (!validateExpenseDate(editExpenseDate) || !validateAmount(editAmount)) {
                 event.preventDefault();
             }
         });
