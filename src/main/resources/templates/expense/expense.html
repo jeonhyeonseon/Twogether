@@ -51,18 +51,18 @@
             </div>
 
             <div class="summary-card">
-                <span>데이트 횟수</span>
-                <strong th:text="${dateCount} + '회'">
-                    4회
-                </strong>
-            </div>
-
-            <div class="summary-card">
                 <span>평균 지출</span>
                 <strong th:text="${#numbers.formatInteger(averageAmount, 3, 'COMMA')} + '원'">
                     45,500원
                 </strong>
             </div>
+
+            <a th:href="@{/expense/statistics}" class="summary-card summary-link">
+                <span>지출 통계</span>
+                <strong>
+                    월별 · 카테고리 분석 →
+                </strong>
+            </a>
         </div>
 
         <div class="filter-section">
@@ -344,11 +344,6 @@
                 <div class="detail-row">
                     <span>카테고리</span>
                     <strong id="detailCategory"></strong>
-                </div>
-
-                <div class="detail-row">
-                    <span>결제자</span>
-                    <strong id="detailPaidBy"></strong>
                 </div>
 
                 <div class="detail-row">

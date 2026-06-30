@@ -116,6 +116,23 @@ body {
     color: #222;
 }
 
+.summary-link {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.summary-link strong {
+    font-size: 18px;
+    font-weight: 600;
+    color: #555;
+}
+
+.summary-link:hover strong {
+    color: #FF7B7B;
+}
+
 .filter-section {
     display: flex;
     flex-wrap: wrap;
