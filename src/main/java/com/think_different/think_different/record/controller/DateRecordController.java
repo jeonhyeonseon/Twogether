@@ -8,6 +8,9 @@ import com.think_different.think_different.record.dto.DateRecordListResponseDto;
 import com.think_different.think_different.record.dto.DateRecordUpdateRequestDto;
 import com.think_different.think_different.record.service.DateRecordService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,14 +28,19 @@ public class DateRecordController {
 
     @GetMapping
     public String listDateRecord(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                 @RequestParam(defaultValue = "0") int page,
                                  Model model) {
 
         Member member = customUserDetails.getMember();
 
-        List<DateRecordListResponseDto> records = dateRecordService.getDateRecordList(member);
+        Pageable pageable = PageRequest.of(page, 6);
+
+        Page<DateRecordListResponseDto> recordPage = dateRecordService.getDateRecordList(member, pageable);
 
         model.addAttribute("member", member);
-        model.addAttribute("records", records);
+        model.addAttribute("records", recordPage.getContent());
+        model.addAttribute("recordPage", recordPage);
+        model.addAttribute("currentPage", page);
 
         return "record/list";
     }
