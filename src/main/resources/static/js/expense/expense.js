@@ -270,4 +270,24 @@ document.addEventListener('DOMContentLoaded', function () {
             dateRecordSelect.value = connectRecordId;
         }
     }
+
+    flatpickr("#expenseDate", {
+        locale: "ko",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "Y년 m월 d일",
+        maxDate: today,
+        allowInput: false,
+        clickOpens: true
+    });
+
+    flatpickr("#editExpenseDate", {
+        locale: "ko",
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "Y년 m월 d일",
+        maxDate: today,
+        allowInput: false,
+        clickOpens: true
+    });
 });

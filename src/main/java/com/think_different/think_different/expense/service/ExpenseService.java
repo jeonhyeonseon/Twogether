@@ -76,6 +76,7 @@ public class ExpenseService {
     public void createExpense(Member member, Long recordId, ExpenseCreateRequestDto createRequestDto) {
 
         validateExpenseDate(createRequestDto.getExpenseDate());
+        validateContent(createRequestDto.getContent());
         validateAmount(createRequestDto.getAmount());
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
@@ -108,6 +109,7 @@ public class ExpenseService {
     public void updateExpense(Member member, Long expenseId, ExpenseUpdateRequestDto expenseUpdateRequestDto) {
 
         validateExpenseDate(expenseUpdateRequestDto.getExpenseDate());
+        validateContent(expenseUpdateRequestDto.getContent());
         validateAmount(expenseUpdateRequestDto.getAmount());
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
@@ -168,6 +170,16 @@ public class ExpenseService {
 
         if (expenseDate.isAfter(today)) {
             throw new IllegalArgumentException("미래 날짜로는 비용을 등록할 수 없습니다.");
+        }
+    }
+
+    private void validateContent(String content) {
+        if (content == null || content.isBlank()) {
+            throw new IllegalArgumentException("내용은 필수입니다.");
+        }
+
+        if (content.length() > 30) {
+            throw new IllegalArgumentException("내용은 30자 이하로 입력해주세요.");
         }
     }
 

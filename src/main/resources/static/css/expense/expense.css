@@ -429,3 +429,44 @@ body {
 .hidden {
     display: none;
 }
+
+.date-input-wrap {
+    position: relative;
+}
+
+.date-input-wrap input {
+    padding-right: 48px;
+    cursor: pointer;
+}
+
+.date-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    font-size: 18px;
+    pointer-events: none;
+}
+
+.flatpickr-calendar {
+    width: 330px;
+    border: 1px solid #FFB6B6;
+    border-radius: 16px;
+    padding: 14px;
+}
+
+.flatpickr-day.selected {
+    background: #FF7B7B;
+    border-color: #FF7B7B;
+    color: #fff;
+}
+
+.flatpickr-day.today {
+    border-color: #FF7B7B;
+}
+
+.flatpickr-day:hover {
+    background: #FFB6B6;
+    border-color: #FFB6B6;
+}
