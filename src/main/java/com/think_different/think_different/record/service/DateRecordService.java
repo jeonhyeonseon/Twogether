@@ -16,6 +16,8 @@ import com.think_different.think_different.record.repository.DateRecordImageRepo
 import com.think_different.think_different.record.repository.DateRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,14 +35,14 @@ public class DateRecordService {
     private final DateRecordExpenseRepository dateRecordExpenseRepository;
     private final ExpenseRepository expenseRepository;
 
-    public List<DateRecordListResponseDto> getDateRecordList(Member member) {
+    public Page<DateRecordListResponseDto> getDateRecordList(Member member, Pageable pageable) {
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
-        return dateRecordRepository.findByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(couple.getId())
-                .stream()
+        return dateRecordRepository
+                .findByCoupleIdOrderByDateRecordDateDescCreatedAtDesc(couple.getId(), pageable)
                 .map(record -> {
                     DateRecordListResponseDto dto = new DateRecordListResponseDto();
 
@@ -59,8 +61,7 @@ public class DateRecordService {
                     }
 
                     return dto;
-                })
-                .toList();
+                });
     }
 
     public List<DateRecordRecentResponseDto> getRecentRecords(Member member) {

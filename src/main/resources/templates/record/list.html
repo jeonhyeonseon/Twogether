@@ -72,12 +72,33 @@
                         즐거운 하루였다.
                     </p>
                 </div>
-
             </a>
-
         </section>
 
-    </main>
+        <div class="pagination"
+             th:if="${recordPage.totalPages > 1}">
 
+            <a th:if="${!recordPage.first}"
+               th:href="@{/record(page=${currentPage - 1})}"
+               class="page-btn">
+                이전
+            </a>
+
+            <a th:each="pageNumber : ${#numbers.sequence(0, recordPage.totalPages - 1)}"
+               th:href="@{/record(page=${pageNumber})}"
+               th:text="${pageNumber + 1}"
+               th:classappend="${pageNumber == currentPage} ? ' active' : ''"
+               class="page-btn">
+                1
+            </a>
+
+            <a th:if="${!recordPage.last}"
+               th:href="@{/record(page=${currentPage + 1})}"
+               class="page-btn">
+                다음
+            </a>
+
+        </div>
+    </main>
 </body>
 </html>
