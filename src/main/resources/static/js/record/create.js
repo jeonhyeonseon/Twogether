@@ -45,7 +45,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 img.alt = '선택한 사진';
 
                 thumbnail.appendChild(img);
-                thumbnailList.appendChild(thumbnail);
+
+                thumbnailList.insertBefore(
+                    thumbnail,
+                    thumbnailList.querySelector('.empty')
+                );
             };
 
             reader.readAsDataURL(file);
