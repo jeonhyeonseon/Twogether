@@ -299,11 +299,15 @@
 
                 <div class="form-group">
                     <label>금액</label>
-                    <input type="number"
-                           id="amount"
-                           name="amount"
-                           min="0"
+                    <input type="text"
+                           id="amountDisplay"
+                           inputmode="numeric"
+                           autocomplete="off"
                            required>
+
+                    <input type="hidden"
+                           id="amount"
+                           name="amount">
                 </div>
 
                 <div class="form-group">
@@ -419,11 +423,15 @@
 
                 <div class="form-group">
                     <label>금액</label>
-                    <input type="number"
-                           id="editAmount"
-                           name="amount"
-                           min="0"
+                    <input type="text"
+                           id="editAmountDisplay"
+                           inputmode="numeric"
+                           autocomplete="off"
                            required>
+
+                    <input type="hidden"
+                           id="editAmount"
+                           name="amount">
                 </div>
 
                 <div class="form-group">

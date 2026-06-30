@@ -74,6 +74,8 @@ public class ExpenseService {
 
     public void createExpense(Member member, Long recordId, ExpenseCreateRequestDto createRequestDto) {
 
+        validateAmount(createRequestDto.getAmount());
+
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
@@ -92,7 +94,7 @@ public class ExpenseService {
         Expense savedExpense = expenseRepository.save(expense);
 
         if (recordId != null) {
-            DateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
+            gDateRecord dateRecord = dateRecordRepository.findByIdAndCoupleId(recordId, couple.getId())
                     .orElseThrow(() -> new IllegalArgumentException("데이트 기록을 찾을 수 없습니다."));
 
             DateRecordExpense dateRecordExpense = DateRecordExpense.create(dateRecord, savedExpense);
@@ -102,6 +104,8 @@ public class ExpenseService {
     }
 
     public void updateExpense(Member member, Long expenseId, ExpenseUpdateRequestDto expenseUpdateRequestDto) {
+
+        validateAmount(expenseUpdateRequestDto.getAmount());
 
         CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
@@ -116,11 +120,9 @@ public class ExpenseService {
 
     public void deleteExpense(Member member, Long expenseId) {
         
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
-                .orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
-        Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
         if (!expense.getCouple().getId().equals(coupleMember.getCouple().getId())) {
             throw new IllegalArgumentException("삭제 권한이 없습니다.");
@@ -130,14 +132,11 @@ public class ExpenseService {
     }
 
     public void connectRecord(Member member, Long expenseId, Long recordId) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
-                .orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
 
-        Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
+        Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
-        DateRecord dateRecord = dateRecordRepository.findById(recordId)
-                .orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
+        DateRecord dateRecord = dateRecordRepository.findById(recordId).orElseThrow(() -> new IllegalArgumentException("데이트 기록이 없습니다."));
 
         if (!expense.getCouple().equals(coupleMember.getCouple())) {
             throw new IllegalArgumentException("연결할 수 없는 비용입니다.");
@@ -155,5 +154,15 @@ public class ExpenseService {
                 DateRecordExpense.create(dateRecord, expense);
 
         dateRecordExpenseRepository.save(dateRecordExpense);
+    }
+
+    private void validateAmount(Integer amount) {
+        if (amount == null) {
+            throw new IllegalArgumentException("금액은 필수입니다.");
+        }
+
+        if (amount < 100) {
+            throw new IllegalArgumentException("금액은 100원 이상부터 등록할 수 있습니다.");
+        }
     }
 }

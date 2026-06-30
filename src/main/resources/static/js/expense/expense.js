@@ -19,7 +19,32 @@ function openCreateModal() {
         recordIdInput.value = recordIdValue;
     }
 
+    const amountDisplay = document.getElementById('amountDisplay');
+    const amount = document.getElementById('amount');
+
+    if (amountDisplay) {
+        amountDisplay.value = '';
+    }
+
+    if (amount) {
+        amount.value = '';
+    }
+
     modal.classList.add('show');
+}
+
+function closeExpenseModal() {
+    document.getElementById('expenseModal').classList.remove('show');
+}
+
+function getTodayByKorea() {
+    const now = new Date();
+
+    const koreaDateText = now.toLocaleDateString('en-CA', {
+        timeZone: 'Asia/Seoul'
+    });
+
+    return koreaDateText;
 }
 
 function openDetailModal(item) {
@@ -37,7 +62,13 @@ function openDetailModal(item) {
     document.getElementById('detailTitle').textContent = selectedExpense.content;
     document.getElementById('detailDate').textContent = selectedExpense.date;
     document.getElementById('detailCategory').textContent = selectedExpense.categoryDisplay;
-    document.getElementById('detailPaidBy').textContent = selectedExpense.paidBy;
+
+    const detailPaidBy = document.getElementById('detailPaidBy');
+
+    if (detailPaidBy) {
+        detailPaidBy.textContent = selectedExpense.paidBy;
+    }
+
     document.getElementById('detailAmount').textContent =
         Number(selectedExpense.amount).toLocaleString() + '원';
 
@@ -70,8 +101,18 @@ function switchToEditMode() {
     document.getElementById('editExpenseDate').value = selectedExpense.date;
     document.getElementById('editContent').value = selectedExpense.content;
     document.getElementById('editCategory').value = selectedExpense.category;
-    document.getElementById('editAmount').value = selectedExpense.amount;
     document.getElementById('editMemo').value = selectedExpense.memo;
+
+    const editAmountDisplay = document.getElementById('editAmountDisplay');
+    const editAmount = document.getElementById('editAmount');
+
+    if (editAmountDisplay) {
+        editAmountDisplay.value = Number(selectedExpense.amount).toLocaleString();
+    }
+
+    if (editAmount) {
+        editAmount.value = selectedExpense.amount;
+    }
 }
 
 function switchToViewMode() {
@@ -92,6 +133,59 @@ function confirmDelete() {
     return confirm('비용을 삭제하시겠습니까?');
 }
 
+function formatAmountInput(displayInput, hiddenInput) {
+    let value = displayInput.value;
+
+    value = value.replace(/[^0-9]/g, '');
+
+    if (value.length > 1 && value.startsWith('0')) {
+        value = value.replace(/^0+/, '');
+    }
+
+    displayInput.value = value
+        ? Number(value).toLocaleString()
+        : '';
+
+    hiddenInput.value = value;
+}
+
+function validateAmount(hiddenInput) {
+    const amount = Number(hiddenInput.value);
+
+    if (!amount || amount < 100) {
+        alert('금액은 100원 이상부터 등록할 수 있습니다.');
+        return false;
+    }
+
+    return true;
+}
+
+function getTodayByKorea() {
+    const now = new Date();
+
+    const koreaDateText = now.toLocaleDateString('en-CA', {
+        timeZone: 'Asia/Seoul'
+    });
+
+    return koreaDateText;
+}
+
+function validateExpenseDate(dateInput) {
+    if (!dateInput || !dateInput.value) {
+        alert('날짜를 선택해주세요.');
+        return false;
+    }
+
+    const today = getTodayByKorea();
+
+    if (dateInput.value > today) {
+        alert('미래 날짜로는 비용을 등록할 수 없습니다.');
+        return false;
+    }
+
+    return true;
+}
+
 window.addEventListener('click', function (event) {
     const expenseModal = document.getElementById('expenseModal');
     const detailModal = document.getElementById('expenseDetailModal');
@@ -106,6 +200,43 @@ window.addEventListener('click', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
+    const amountDisplay = document.getElementById('amountDisplay');
+    const amount = document.getElementById('amount');
+
+    const editAmountDisplay = document.getElementById('editAmountDisplay');
+    const editAmount = document.getElementById('editAmount');
+
+    const expenseForm = document.getElementById('expenseForm');
+    const detailEditForm = document.getElementById('detailEditForm');
+
+    if (amountDisplay && amount) {
+        amountDisplay.addEventListener('input', function () {
+            formatAmountInput(amountDisplay, amount);
+        });
+    }
+
+    if (editAmountDisplay && editAmount) {
+        editAmountDisplay.addEventListener('input', function () {
+            formatAmountInput(editAmountDisplay, editAmount);
+        });
+    }
+
+    if (expenseForm) {
+        expenseForm.addEventListener('submit', function (event) {
+            if (!validateAmount(amount)) {
+                event.preventDefault();
+            }
+        });
+    }
+
+    if (detailEditForm) {
+        detailEditForm.addEventListener('submit', function (event) {
+            if (!validateAmount(editAmount)) {
+                event.preventDefault();
+            }
+        });
+    }
+
     const connectRecordIdInput = document.getElementById('connectRecordId');
 
     if (!connectRecordIdInput) {
