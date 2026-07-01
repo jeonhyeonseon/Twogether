@@ -212,6 +212,10 @@ document.addEventListener('DOMContentLoaded', function () {
     const expenseDate = document.getElementById('expenseDate');
     const editExpenseDate = document.getElementById('editExpenseDate');
 
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    const filterForm = document.getElementById('expenseFilterForm');
+
     const today = getTodayByKorea();
 
     if (expenseDate) {
@@ -269,6 +273,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (dateRecordSelect) {
             dateRecordSelect.value = connectRecordId;
         }
+    }
+
+    if (yearSelect && monthSelect && filterForm) {
+        yearSelect.addEventListener('change', function () {
+            filterForm.submit();
+        });
+
+        monthSelect.addEventListener('change', function () {
+            filterForm.submit();
+        });
     }
 
     flatpickr("#expenseDate", {

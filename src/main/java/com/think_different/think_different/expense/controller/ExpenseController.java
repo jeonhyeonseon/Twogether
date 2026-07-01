@@ -35,19 +35,27 @@ public class ExpenseController {
 
         Member member = customUserDetails.getMember();
 
-        // 목록용: 선택한 카테고리 기준
-        List<ExpenseResponseDto> expenses = expenseService.getMonthlyExpense(member, year, month, category);
+        YearMonth now = YearMonth.now(ZoneId.of("Asia/Seoul"));
 
-        // 통계용: 이번 달 전체 기준
-        List<ExpenseResponseDto> allExpenses = expenseService.getMonthlyExpense(member, year, month, "ALL");
+        int selectedYear = year != null ? year : now.getYear();
+        int selectedMonth = month != null ? month : now.getMonthValue();
+
+        List<ExpenseResponseDto> expenses = expenseService.getMonthlyExpense(member, selectedYear, selectedMonth, category);
+
+        List<ExpenseResponseDto> allExpenses = expenseService.getMonthlyExpense(member, selectedYear, selectedMonth, "ALL");
 
         int totalAmount = allExpenses.stream()
                 .mapToInt(ExpenseResponseDto::getAmount)
                 .sum();
 
-        int averageAmount = allExpenses.isEmpty()
-                ? 0
-                : totalAmount / allExpenses.size();
+        int averageAmount = allExpenses.isEmpty() ? 0 : totalAmount / allExpenses.size();
+
+        List<Integer> years = List.of(
+                now.getYear() - 2,
+                now.getYear() - 1,
+                now.getYear(),
+                now.getYear() + 1
+        );
 
         model.addAttribute("member", member);
         model.addAttribute("recordId", recordId);
@@ -55,6 +63,10 @@ public class ExpenseController {
 
         model.addAttribute("expenseResponseDto", expenses);
         model.addAttribute("selectedCategory", category);
+
+        model.addAttribute("selectedYear", selectedYear);
+        model.addAttribute("selectedMonth", selectedMonth);
+        model.addAttribute("years", years);
 
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("averageAmount", averageAmount);
