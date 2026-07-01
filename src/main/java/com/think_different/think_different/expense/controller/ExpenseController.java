@@ -3,6 +3,7 @@ package com.think_different.think_different.expense.controller;
 import com.think_different.think_different.config.webSecurity.CustomUserDetails;
 import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
 import com.think_different.think_different.expense.dto.ExpenseResponseDto;
+import com.think_different.think_different.expense.dto.ExpenseStatisticsResponseDto;
 import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
 import com.think_different.think_different.expense.service.ExpenseService;
 import com.think_different.think_different.member.entity.Member;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.YearMonth;
+import java.time.ZoneId;
 import java.util.List;
 
 @Controller
@@ -108,5 +111,25 @@ public class ExpenseController {
         expenseService.connectRecord(member, expenseId, recordId);
 
         return "redirect:/record/" + recordId;
+    }
+
+    @GetMapping("/statistics")
+    public String showExpenseStatistics(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                        @RequestParam(required = false) Integer year,
+                                        @RequestParam(required = false) Integer month,
+                                        @RequestParam(required = false, defaultValue = "ALL") String category,
+                                        Model model) {
+
+        Member member = customUserDetails.getMember();
+
+        ExpenseStatisticsResponseDto statistics = expenseService.getExpenseStatistics(member, year, month, category);
+
+        model.addAttribute("member", member);
+        model.addAttribute("statistics", statistics);
+        model.addAttribute("selectedYear", statistics.getYear());
+        model.addAttribute("selectedMonth", statistics.getMonth());
+        model.addAttribute("selectedCategory", category);
+
+        return "expense/statistics";
     }
 }
