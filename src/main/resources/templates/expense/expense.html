@@ -35,26 +35,51 @@
         <div class="expense-header">
             <h1>비용 관리</h1>
 
-            <button type="button"
-                    class="add-btn"
-                    onclick="openCreateModal()"
-                    th:text="${recordId != null and mode == 'connect'} ? '새 비용 등록해서 연결' : '비용 추가'">
-                비용 추가
-            </button>
+            <div class="header-actions">
+
+                <form id="expenseFilterForm" method="get" th:action="@{/expense}" class="expense-filter-form">
+
+                    <select name="year" id="yearSelect">
+                        <option th:each="y : ${years}"
+                                th:value="${y}"
+                                th:text="${y}"
+                                th:selected="${y == selectedYear}">
+                        </option>
+                    </select>
+
+                    <select name="month" id="monthSelect">
+                        <option th:each="m : ${#numbers.sequence(1, 12)}"
+                                th:value="${m}"
+                                th:text="${m + '월'}"
+                                th:selected="${m == selectedMonth}">
+                        </option>
+                    </select>
+
+                    <input type="hidden" name="category" id="categoryInput" th:value="${selectedCategory != null ? selectedCategory : 'ALL'}">
+                </form>
+
+                <button type="button"
+                        class="add-btn"
+                        onclick="openCreateModal()"
+                        th:text="${recordId != null and mode == 'connect'} ?
+                        '새 비용 등록해서 연결' : '비용 추가'">
+                    비용 추가
+                </button>
+            </div>
         </div>
 
         <div class="summary-section">
 
             <div class="summary-card">
                 <span>총 지출</span>
-                <strong th:text="${#numbers.formatInteger(totalAmount, 3, 'COMMA')} + '원'">
+                <strong th:text="${#numbers.formatInteger(totalAmount, 1, 'COMMA')} + '원'">
                     182,000원
                 </strong>
             </div>
 
             <div class="summary-card">
                 <span>평균 지출</span>
-                <strong th:text="${#numbers.formatInteger(averageAmount, 3, 'COMMA')} + '원'">
+                <strong th:text="${#numbers.formatInteger(averageAmount, 1, 'COMMA')} + '원'">
                     45,500원
                 </strong>
             </div>
@@ -70,6 +95,8 @@
         <div class="filter-section">
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="ALL">
                 <button type="submit"
                         class="category"
@@ -79,6 +106,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="DATE">
                 <button type="submit"
                         class="category"
@@ -88,6 +117,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="FOOD">
                 <button type="submit"
                         class="category"
@@ -97,6 +128,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="CAFE">
                 <button type="submit"
                         class="category"
@@ -106,6 +139,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="GIFT">
                 <button type="submit"
                         class="category"
@@ -115,6 +150,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="TRAVEL">
                 <button type="submit"
                         class="category"
@@ -124,6 +161,8 @@
             </form>
 
             <form th:action="@{/expense}" method="get">
+                <input type="hidden" name="year" th:value="${selectedYear}">
+                <input type="hidden" name="month" th:value="${selectedMonth}">
                 <input type="hidden" name="category" value="ETC">
                 <button type="submit"
                         class="category"

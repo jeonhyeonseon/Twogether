@@ -5,9 +5,7 @@ import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.expense.domain.Expense;
 import com.think_different.think_different.expense.domain.ExpenseCategory;
-import com.think_different.think_different.expense.dto.ExpenseCreateRequestDto;
-import com.think_different.think_different.expense.dto.ExpenseResponseDto;
-import com.think_different.think_different.expense.dto.ExpenseUpdateRequestDto;
+import com.think_different.think_different.expense.dto.*;
 import com.think_different.think_different.expense.repository.ExpenseRepository;
 import com.think_different.think_different.member.entity.Member;
 import com.think_different.think_different.record.entity.DateRecord;
@@ -191,5 +189,143 @@ public class ExpenseService {
         if (amount < 100) {
             throw new IllegalArgumentException("금액은 100원 이상부터 등록할 수 있습니다.");
         }
+    }
+
+    public ExpenseStatisticsResponseDto getExpenseStatistics(Member member,
+                                                             Integer year,
+                                                             Integer month,
+                                                             String category) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        YearMonth targetMonth;
+
+        if (year == null || month == null) {
+            targetMonth = YearMonth.now();
+        } else {
+            targetMonth = YearMonth.of(year, month);
+        }
+
+        LocalDate startDate = targetMonth.atDay(1);
+        LocalDate endDate = targetMonth.atEndOfMonth();
+
+        List<Expense> monthlyExpenses;
+
+        if (category == null || category.isBlank() || category.equals("ALL")) {
+            monthlyExpenses = expenseRepository.findByCoupleAndExpenseDateBetweenOrderByExpenseDateDesc(
+                            couple,
+                            startDate,
+                            endDate);
+        } else {
+            ExpenseCategory expenseCategory = ExpenseCategory.valueOf(category);
+
+            monthlyExpenses = expenseRepository.findByCoupleAndCategoryAndExpenseDateBetweenOrderByExpenseDateDesc(
+                            couple,
+                            expenseCategory,
+                            startDate,
+                            endDate);
+        }
+
+        int totalAmount = monthlyExpenses.stream()
+                .mapToInt(Expense::getAmount)
+                .sum();
+
+        int averageAmount = monthlyExpenses.isEmpty() ? 0 : totalAmount / monthlyExpenses.size();
+
+        List<MonthlyExpenseStatisticsDto> monthlyStatistics =
+                java.util.stream.IntStream.rangeClosed(0, 5)
+                        .mapToObj(i -> targetMonth.minusMonths(5 - i))
+                        .map(yearMonth -> {
+                            LocalDate monthStartDate = yearMonth.atDay(1);
+                            LocalDate monthEndDate = yearMonth.atEndOfMonth();
+
+                            List<Expense> expenses;
+
+                            if (category == null || category.isBlank() || category.equals("ALL")) {
+                                expenses = expenseRepository.findByCoupleAndExpenseDateBetweenOrderByExpenseDateDesc(
+                                                couple,
+                                                monthStartDate,
+                                                monthEndDate
+                                        );
+                            } else {
+                                ExpenseCategory expenseCategory = ExpenseCategory.valueOf(category);
+
+                                expenses = expenseRepository.findByCoupleAndCategoryAndExpenseDateBetweenOrderByExpenseDateDesc(
+                                                couple,
+                                                expenseCategory,
+                                                monthStartDate,
+                                                monthEndDate
+                                        );
+                            }
+
+                            int amount = expenses.stream()
+                                    .mapToInt(Expense::getAmount)
+                                    .sum();
+
+                            return MonthlyExpenseStatisticsDto.builder()
+                                    .monthLabel(yearMonth.getMonthValue() + "월")
+                                    .amount(amount)
+                                    .heightPercent(0)
+                                    .build();
+                        })
+                        .toList();
+
+        int maxMonthlyAmount = monthlyStatistics.stream()
+                .mapToInt(MonthlyExpenseStatisticsDto::getAmount)
+                .max()
+                .orElse(0);
+
+        monthlyStatistics = monthlyStatistics.stream()
+                .map(dto -> MonthlyExpenseStatisticsDto.builder()
+                        .monthLabel(dto.getMonthLabel())
+                        .amount(dto.getAmount())
+                        .heightPercent(maxMonthlyAmount == 0 ? 0 : Math.max((dto.getAmount() * 100) / maxMonthlyAmount, 8))
+                        .build())
+                .toList();
+
+        List<Expense> categoryBaseExpenses = expenseRepository.findByCoupleAndExpenseDateBetweenOrderByExpenseDateDesc(
+                        couple,
+                        startDate,
+                        endDate);
+
+        List<CategoryExpenseStatisticsDto> categoryStatistics =
+                java.util.Arrays.stream(ExpenseCategory.values())
+                        .map(expenseCategory -> {
+                            int amount = categoryBaseExpenses.stream()
+                                    .filter(expense -> expense.getCategory() == expenseCategory)
+                                    .mapToInt(Expense::getAmount)
+                                    .sum();
+
+                            return CategoryExpenseStatisticsDto.builder()
+                                    .categoryName(expenseCategory.getDisplayName())
+                                    .amount(amount)
+                                    .heightPercent(0)
+                                    .build();
+                        })
+                        .toList();
+
+        int maxCategoryAmount = categoryStatistics.stream()
+                .mapToInt(CategoryExpenseStatisticsDto::getAmount)
+                .max()
+                .orElse(0);
+
+        categoryStatistics = categoryStatistics.stream()
+                .map(dto -> CategoryExpenseStatisticsDto.builder()
+                        .categoryName(dto.getCategoryName())
+                        .amount(dto.getAmount())
+                        .heightPercent(maxCategoryAmount == 0 ? 0 : Math.max((dto.getAmount() * 100) / maxCategoryAmount, 8))
+                        .build())
+                .toList();
+
+        return ExpenseStatisticsResponseDto.builder()
+                .year(targetMonth.getYear())
+                .month(targetMonth.getMonthValue())
+                .totalAmount(totalAmount)
+                .averageAmount(averageAmount)
+                .monthlyStatistics(monthlyStatistics)
+                .categoryStatistics(categoryStatistics)
+                .build();
     }
 }
