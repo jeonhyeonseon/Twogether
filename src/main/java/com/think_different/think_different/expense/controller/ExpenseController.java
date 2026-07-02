@@ -141,12 +141,35 @@ public class ExpenseController {
 
         Member member = customUserDetails.getMember();
 
-        ExpenseStatisticsResponseDto statistics = expenseService.getExpenseStatistics(member, year, month, category);
+        YearMonth defaultYearMonth = expenseService.getDefaultYearMonth(member);
+
+        List<Integer> years = expenseService.getAvailableYears(member);
+
+        int selectedYear = year != null ? year : defaultYearMonth.getYear();
+
+        if (!years.contains(selectedYear)) {
+            selectedYear = defaultYearMonth.getYear();
+        }
+
+        List<Integer> months = expenseService.getAvailableMonths(member, selectedYear);
+
+        int selectedMonth = month != null ? month : defaultYearMonth.getMonthValue();
+
+        if (!months.contains(selectedMonth)) {
+            selectedMonth = months.get(months.size() - 1);
+        }
+
+        ExpenseStatisticsResponseDto statistics =
+                expenseService.getExpenseStatistics(member, selectedYear, selectedMonth, category);
 
         model.addAttribute("member", member);
         model.addAttribute("statistics", statistics);
-        model.addAttribute("selectedYear", statistics.getYear());
-        model.addAttribute("selectedMonth", statistics.getMonth());
+
+        model.addAttribute("years", years);
+        model.addAttribute("months", months);
+
+        model.addAttribute("selectedYear", selectedYear);
+        model.addAttribute("selectedMonth", selectedMonth);
         model.addAttribute("selectedCategory", category);
 
         return "expense/statistics";
