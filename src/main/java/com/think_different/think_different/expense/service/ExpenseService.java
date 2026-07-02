@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -69,6 +70,67 @@ public class ExpenseService {
         }
 
         return expenses.stream().map(ExpenseResponseDto::fromExpense).toList();
+    }
+
+    public YearMonth getDefaultYearMonth(Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        return expenseRepository.findMaxExpenseDateByCouple(couple).map(YearMonth::from).orElse(YearMonth.now(ZoneId.of("Asia/Seoul")));
+    }
+
+    public List<Integer> getAvailableYears(Member member) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        LocalDate minDate = expenseRepository.findMinExpenseDateByCouple(couple).orElse(null);
+        LocalDate maxDate = expenseRepository.findMaxExpenseDateByCouple(couple).orElse(null);
+
+        if (minDate == null || maxDate == null) {
+            return List.of(YearMonth.now(ZoneId.of("Asia/Seoul")).getYear());
+        }
+
+        List<Integer> years = new ArrayList<>();
+
+        for (int year = minDate.getYear(); year <= maxDate.getYear(); year++) {
+            years.add(year);
+        }
+
+        return years;
+    }
+
+    public List<Integer> getAvailableMonths(Member member, int selectedYear) {
+
+        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+
+        Couple couple = coupleMember.getCouple();
+
+        LocalDate minDate = expenseRepository.findMinExpenseDateByCouple(couple).orElse(null);
+        LocalDate maxDate = expenseRepository.findMaxExpenseDateByCouple(couple).orElse(null);
+
+        if (minDate == null || maxDate == null) {
+            return List.of(YearMonth.now(ZoneId.of("Asia/Seoul")).getMonthValue());
+        }
+
+        int startMonth = selectedYear == minDate.getYear()
+                ? minDate.getMonthValue()
+                : 1;
+
+        int endMonth = selectedYear == maxDate.getYear()
+                ? maxDate.getMonthValue()
+                : 12;
+
+        List<Integer> months = new ArrayList<>();
+
+        for (int month = startMonth; month <= endMonth; month++) {
+            months.add(month);
+        }
+
+        return months;
     }
 
     public void createExpense(Member member, Long recordId, ExpenseCreateRequestDto createRequestDto) {

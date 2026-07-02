@@ -48,7 +48,7 @@
                     </select>
 
                     <select name="month" id="monthSelect">
-                        <option th:each="m : ${#numbers.sequence(1, 12)}"
+                        <option th:each="m : ${months}"
                                 th:value="${m}"
                                 th:text="${m + '월'}"
                                 th:selected="${m == selectedMonth}">
