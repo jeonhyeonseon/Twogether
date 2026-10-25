@@ -34,6 +34,7 @@ public class SecurityConfig {
             registry
                     .requestMatchers( // permitAll
                             "/",
+                            "/error",
                             "/members/join",              // 회원가입 화면
                             "/members",                   // 회원가입 POST (컨트롤러가 @PostMapping 이면 여기)
                             "/members/exists/loginId",    // 아이디 중복 체크 API
@@ -45,7 +46,7 @@ public class SecurityConfig {
                     ).permitAll()
                     .requestMatchers( // authenticated
                             "/transaction/**",
-                            "statistics/**",
+                            "/statistics/**",
                             "/board/**"
                     ).authenticated()
                     .anyRequest().authenticated();

@@ -12,4 +12,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        show_sql: true
+        show_sql: false
+
+  mail:
+    username: good_pretty@naver.com
+    password: PE7JPX3MGLHC

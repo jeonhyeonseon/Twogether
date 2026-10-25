@@ -43,6 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
         el.classList.toggle("success-msg", !isError && !!text);
     }
 
+    function csrfHeaders() {
+        const csrfInput = joinForm.querySelector('input[name="_csrf"]');
+        return csrfInput ? { "X-CSRF-TOKEN": csrfInput.value } : {};
+    }
+
     // 이름 - 숫자 키 입력 자체를 차단
     nameInput.addEventListener("keydown", function (e) {
         if (e.ctrlKey || e.metaKey || e.altKey) {
@@ -242,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fetch("/members/email/send-code", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: { "Content-Type": "application/x-www-form-urlencoded", ...csrfHeaders() },
             body: `email=${encodeURIComponent(email)}`
         })
             .then(function (response) {
@@ -271,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fetch("/members/email/verify-code", {
             method: "POST",
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            headers: { "Content-Type": "application/x-www-form-urlencoded", ...csrfHeaders() },
             body: `email=${encodeURIComponent(email)}&code=${encodeURIComponent(code)}`
         })
             .then(function (response) {
