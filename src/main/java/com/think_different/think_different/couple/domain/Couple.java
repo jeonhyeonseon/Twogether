@@ -29,7 +29,15 @@ public class Couple {
     @Enumerated(EnumType.STRING)
     private CoupleStatus coupleStatus;
 
+    private LocalDateTime disconnectedAt; // 연결 해제 시각
+
     public void updateStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    // 커플 연결 해제 (공유 데이터는 삭제하지 않고 상태만 변경)
+    public void disconnect() {
+        this.coupleStatus = CoupleStatus.DISCONNECTED;
+        this.disconnectedAt = LocalDateTime.now();
     }
 }

@@ -41,10 +41,17 @@ public class SecurityConfig {
                             "/members/email/send-code",   // 이메일 인증코드 발송 API
                             "/members/email/verify-code", // 이메일 인증코드 확인 API
                             "/members/login",             // 커스텀 로그인 화면
+                            "/members/find-id",           // 아이디 찾기 화면/확인
+                            "/members/find-id/send-code", // 아이디 찾기 인증코드 발송 API
+                            "/members/find-password",           // 비밀번호 찾기 화면/확인
+                            "/members/find-password/send-code", // 비밀번호 찾기 인증코드 발송 API
+                            "/members/reset-password",          // 비밀번호 재설정 (세션 인증 필요)
                             "/login",
                             "/board"
                     ).permitAll()
                     .requestMatchers( // authenticated
+                            "/mypage",                    // 마이페이지
+                            "/mypage/**",
                             "/transaction/**",
                             "/statistics/**",
                             "/board/**"

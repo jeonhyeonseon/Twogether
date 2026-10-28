@@ -10,4 +10,7 @@ public interface EmailVerificationRepository extends JpaRepository<EmailVerifica
     Optional<EmailVerification> findTopByEmailOrderByIdDesc(String email);
     boolean existsByEmailAndVerifiedTrue(String email);
     long countByEmailAndCreatedAtAfter(String email, LocalDateTime after);
+
+    // 회원 탈퇴 시 이메일 인증 이력 삭제 (개인정보)
+    void deleteByEmail(String email);
 }

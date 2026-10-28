@@ -84,7 +84,7 @@ public class BucketListService {
     }
 
     private Couple resolveCouple(Member member) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         return coupleMember.getCouple();

@@ -33,11 +33,21 @@ public class EmailVerification {
     @Column(nullable = false)
     private LocalDateTime createdAt; // 발송 시각 (재발송 제한 계산용)
 
+    private Integer failedAttempts; // 인증코드 입력 실패 횟수 (아이디/비밀번호 찾기용, 기존 데이터는 null)
+
     public boolean isExpired() {
         return LocalDateTime.now().isAfter(this.expiresAt);
     }
 
     public void verify() {
         this.verified = true;
+    }
+
+    public int getFailedAttemptCount() {
+        return this.failedAttempts == null ? 0 : this.failedAttempts;
+    }
+
+    public void increaseFailedAttempts() {
+        this.failedAttempts = getFailedAttemptCount() + 1;
     }
 }

@@ -1,0 +1,215 @@
+/* join.css 를 기본으로 사용하고, 마이페이지 전용 스타일만 추가 */
+
+.mypage-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.mypage-alert {
+    width: 480px;
+    max-width: 100%;
+    margin: 0;
+    padding: 14px 16px;
+    box-sizing: border-box;
+    border: 1px solid #1a9e6a;
+    border-radius: 8px;
+    background: #f0faf5;
+    color: #1a9e6a;
+    font-size: 14px;
+    text-align: center;
+}
+
+.info-list {
+    margin: 0;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 4px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-row dt {
+    color: #888;
+}
+
+.info-row dd {
+    margin: 0;
+    color: #222;
+    font-weight: 700;
+    word-break: break-all;
+    text-align: right;
+}
+
+/* 내 정보 수정 폼 안의 비밀번호 변경 영역 */
+.password-fields {
+    margin-top: 12px;
+    padding-top: 28px;
+    border-top: 1px solid #eee;
+}
+
+.mypage-subtitle {
+    margin: 0 0 20px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* 보조 버튼 (비밀번호 변경 열기 / 취소) */
+.mypage-outline-btn {
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.mypage-outline-btn:hover {
+    background-color: #f7f7f7;
+}
+
+.mypage-alert.error {
+    border-color: #e0433d;
+    background: #fdecea;
+    color: #c0392b;
+}
+
+.mypage-desc,
+.find-empty {
+    margin: -16px 0 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #555;
+}
+
+.mypage-link-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* 커플 연결 해제 / 회원 탈퇴 버튼 */
+.mypage-danger-btn {
+    color: #c0392b;
+}
+
+.mypage-danger-fill-btn {
+    background-color: #e0433d;
+    color: #fff;
+}
+
+.mypage-danger-fill-btn:hover {
+    background-color: #c9372f;
+}
+
+/* 프로필 사진 */
+.profile-field {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.profile-preview {
+    width: 96px;
+    height: 96px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #f7f7f7;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.profile-actions[hidden],
+.profile-btn[hidden] {
+    display: none;
+}
+
+.profile-btn {
+    height: 32px;
+    padding: 0 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #222;
+    font-size: 13px;
+    line-height: 30px;
+    cursor: pointer;
+}
+
+.profile-btn:hover {
+    background-color: #f7f7f7;
+}
+
+.profile-field .msg {
+    text-align: center;
+}
+
+/* 저장 / 취소 버튼 한 줄 배치 */
+.edit-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.edit-actions[hidden] {
+    display: none;
+}
+
+.edit-actions .join-btn {
+    flex: 1;
+    margin-top: 0;
+}
+
+/* 회원 탈퇴 (정보 수정 모드에서만 링크로 노출) */
+.withdraw-area {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.withdraw-link {
+    font-size: 13px;
+    color: #999;
+    text-decoration: underline;
+}
+
+.withdraw-link:hover {
+    color: #c0392b;
+}
+
+.withdraw-fields {
+    margin-top: 8px;
+    padding-top: 24px;
+    border-top: 1px solid #eee;
+    text-align: left;
+}
+
+.withdraw-fields .mypage-desc {
+    margin: 0 0 16px;
+}
+
+/* 보기 모드 (정보 수정 버튼 누르기 전) */
+.join-form input[readonly] {
+    background-color: #f7f7f7;
+    color: #555;
+}
+
+.join-form input[readonly]:focus {
+    border-color: #ddd;
+}
+
+.join-form input:disabled {
+    background-color: #f7f7f7;
+    color: #888;
+}

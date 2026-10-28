@@ -10,6 +10,12 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByLoginId(String loginId);
 
+    // 아이디 찾기
+    Optional<Member> findByEmail(String email);
+
+    // 비밀번호 찾기 (아이디 + 이메일 일치)
+    Optional<Member> findByLoginIdAndEmail(String loginId, String email);
+
     // 아이디 중복 체크
     boolean existsByLoginId(String loginId);
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/login}">
+<head>
+    <title>Find ID</title>
+    <link rel="stylesheet" th:href="@{/css/member/join.css}">
+    <link rel="stylesheet" th:href="@{/css/member/find.css}">
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="join-container">
+            <div class="join-form">
+                <h2 class="join-title">아이디 찾기</h2>
+
+                <p class="find-desc">회원님의 아이디는 다음과 같습니다.</p>
+
+                <p class="find-result" th:text="${loginId}"></p>
+
+                <a class="join-btn find-link-btn" th:href="@{/members/login}">로그인하기</a>
+
+                <p class="join-help">
+                    비밀번호가 기억나지 않으신가요?
+                    <a th:href="@{/members/find-password}">비밀번호 찾기</a>
+                </p>
+            </div>
+        </div>
+    </th:block>
+</body>
+</html>

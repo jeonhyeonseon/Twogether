@@ -37,7 +37,7 @@ public class DateRecordService {
 
     public Page<DateRecordListResponseDto> getDateRecordList(Member member, Pageable pageable) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -66,7 +66,7 @@ public class DateRecordService {
 
     public List<DateRecordRecentResponseDto> getRecentRecords(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
@@ -96,7 +96,7 @@ public class DateRecordService {
 
     public Long createDateRecord(DateRecordCreateRequestDto dateRecordCreateRequestDto, Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -134,7 +134,7 @@ public class DateRecordService {
 
     public DateRecordDetailResponseDto detailDateRecord(Long recordId, Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -189,7 +189,7 @@ public class DateRecordService {
     }
 
     public void updateDateRecord(Long recordId, DateRecordUpdateRequestDto updateRequestDto, Member member) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -228,7 +228,7 @@ public class DateRecordService {
     }
 
     public void deleteDateRecord(Long recordId, Member member) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
@@ -240,7 +240,7 @@ public class DateRecordService {
     }
 
     public void addImages(Long recordId, List<MultipartFile> images, Member member) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
@@ -266,7 +266,7 @@ public class DateRecordService {
 
     public void connectExpenses(Long recordId, List<Long> expenseIds, Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();

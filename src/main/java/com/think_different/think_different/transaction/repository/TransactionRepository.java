@@ -15,6 +15,9 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
+    // 회원 탈퇴 시 개인 가계부 삭제 (커플과 공유하지 않는 개인 데이터)
+    void deleteByMember(Member member);
+
     List<Transaction> findByMemberAndTransactionDateBetween(Member member, LocalDate start, LocalDate end);
 
     @Query("""

@@ -24,6 +24,11 @@ public class CustomUserDetails implements UserDetails {
         return member.getName();
     }
 
+    // 헤더 프로필 사진 (설정하지 않았으면 기본 이미지)
+    public String getProfileImageUrl() {
+        return member.getDisplayProfileImageUrl();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -58,8 +63,8 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    // 이 계정 사용 가능한 상태인가?
+    // 이 계정 사용 가능한 상태인가? (탈퇴 회원은 로그인 불가)
     public boolean isEnabled() {
-        return true;
+        return !member.isWithdrawn();
     }
 }

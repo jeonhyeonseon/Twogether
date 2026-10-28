@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/login}">
+<head>
+    <title>Find ID</title>
+    <link rel="stylesheet" th:href="@{/css/member/join.css}">
+    <link rel="stylesheet" th:href="@{/css/member/find.css}">
+    <script th:src="@{/js/member/find-account.js}"></script>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="join-container">
+            <form class="join-form find-form" th:action="@{/members/find-id}" th:object="${findIdRequestDto}" method="post"
+                  th:attr="data-send-url=@{/members/find-id/send-code}">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <h2 class="join-title">아이디 찾기</h2>
+
+                <p class="find-desc">가입할 때 사용한 이메일로 인증코드를 보내드려요.</p>
+
+                <div class="form-field">
+                    <div class="input-group">
+                        <input type="email" th:field="*{email}" placeholder="이메일" required>
+                        <button type="button" id="send-code" class="check-btn">인증코드 발송</button>
+                    </div>
+                    <span id="send-msg" class="msg"
+                          th:classappend="${#fields.hasErrors('email')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('email')} ? ${#fields.errors('email')[0]} : ''"></span>
+                </div>
+
+                <div class="form-field">
+                    <input type="text" th:field="*{code}" placeholder="인증코드 6자리" inputmode="numeric" maxlength="6" required>
+                    <span class="msg"
+                          th:classappend="${#fields.hasErrors('code')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('code')} ? ${#fields.errors('code')[0]} : ''"></span>
+                </div>
+
+                <button class="join-btn" type="submit">아이디 찾기</button>
+
+                <p class="join-help">
+                    <a th:href="@{/members/find-password}">비밀번호 찾기</a>
+                    <a th:href="@{/members/login}">로그인</a>
+                </p>
+            </form>
+        </div>
+    </th:block>
+</body>
+</html>

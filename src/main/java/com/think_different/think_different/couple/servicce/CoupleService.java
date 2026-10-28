@@ -4,6 +4,7 @@ import com.think_different.think_different.couple.domain.Couple;
 import com.think_different.think_different.couple.domain.CoupleMember;
 import com.think_different.think_different.couple.domain.CoupleStatus;
 import com.think_different.think_different.couple.domain.InviteCode;
+import com.think_different.think_different.couple.dto.CoupleConnectionResponseDto;
 import com.think_different.think_different.couple.repository.CoupleMemberRepository;
 import com.think_different.think_different.couple.repository.CoupleRepository;
 import com.think_different.think_different.couple.repository.InviteCodeRepository;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -27,7 +29,7 @@ public class CoupleService {
 
     public boolean isConnected(Member member) {
 
-        return coupleMemberRepository.existsByMember(member);
+        return coupleMemberRepository.existsConnectedByMember(member);
     }
 
     public String createInviteCode(Member member) {
@@ -96,6 +98,11 @@ public class CoupleService {
 
         Member inviter = inviteCode.getMember();
 
+        // 탈퇴한 회원의 초대 코드는 사용 불가
+        if (inviter.isWithdrawn()) {
+            throw new IllegalArgumentException("사용할 수 없는 초대 코드입니다.");
+        }
+
         if (inviter.getId().equals(member.getId())) {
             throw new IllegalArgumentException("사용자의 초대 코드는 사용할 수 없습니다.");
         }
@@ -131,7 +138,7 @@ public class CoupleService {
 
     public Member findPartner(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -150,5 +157,28 @@ public class CoupleService {
                 .map(InviteCode::getCode)
                 .orElse("");
 
+    }
+
+    // 마이페이지 - 현재 연결된 커플 정보 (연결 안 됐으면 empty)
+    public Optional<CoupleConnectionResponseDto> getConnection(Member member) {
+        return coupleMemberRepository.findConnectedByMember(member)
+                .map(coupleMember -> CoupleConnectionResponseDto.builder()
+                        .partnerName(findPartner(member).getName())
+                        .connectedAt(coupleMember.getJoinedAt())
+                        .build());
+    }
+
+    // 커플 연결 해제 (한쪽이 바로 해제, 공유 데이터는 삭제하지 않고 커플 상태만 DISCONNECTED 로 변경)
+    // 회원 탈퇴 시에도 재사용
+    public void disconnectCouple(Member member) {
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
+                .orElseThrow(() -> new IllegalArgumentException("연결된 커플이 없습니다."));
+
+        coupleMember.getCouple().disconnect();
+    }
+
+    // 회원 탈퇴 시 사용하지 않은 초대 코드 사용 처리 (탈퇴 회원과 연결되지 않도록)
+    public void expireInviteCodes(Member member) {
+        inviteCodeRepository.findByMemberAndUsedIsFalse(member).ifPresent(InviteCode::use);
     }
 }

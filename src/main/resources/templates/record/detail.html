@@ -25,7 +25,7 @@
                 <span th:text="${member.name}">현선</span> 님
             </span>
 
-                <img th:src="@{/images/default-profile.png}" alt="프로필 이미지">
+                <img th:src="@{${#authentication.principal.profileImageUrl}}" alt="프로필 이미지">
             </a>
         </div>
     </header>

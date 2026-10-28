@@ -22,6 +22,7 @@ public class EmailVerificationService {
     private static final long CODE_EXPIRE_MINUTES = 5;
     private static final long RESEND_COOLDOWN_SECONDS = 60;
     private static final int MAX_SENDS_PER_DAY = 5;
+    private static final int MAX_FAILED_ATTEMPTS = 5;
 
     private final EmailVerificationRepository emailVerificationRepository;
     private final MemberRepository memberRepository;
@@ -33,6 +34,56 @@ public class EmailVerificationService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
+        String code = issueCode(email);
+        emailService.sendVerificationCode(email, code);
+    }
+
+    // 아이디 찾기 인증코드 발송 (가입된 이메일만)
+    public void sendFindIdCode(String email) {
+        if (!memberRepository.existsByEmail(email)) {
+            throw new IllegalArgumentException("가입된 이메일이 아닙니다.");
+        }
+
+        String code = issueCode(email);
+        emailService.sendAccountFindCode(email, code);
+    }
+
+    // 비밀번호 찾기 인증코드 발송 (아이디 + 이메일이 일치하는 회원만)
+    public void sendFindPasswordCode(String loginId, String email) {
+        if (memberRepository.findByLoginIdAndEmail(loginId, email).isEmpty()) {
+            throw new IllegalArgumentException("아이디와 이메일이 일치하는 회원이 없습니다.");
+        }
+
+        String code = issueCode(email);
+        emailService.sendAccountFindCode(email, code);
+    }
+
+    // 아이디/비밀번호 찾기 인증코드 확인 (1회용 + 입력 실패 횟수 제한)
+    // 실패 횟수 증가가 롤백되지 않도록 IllegalArgumentException 은 롤백 제외
+    @Transactional(dontRollbackOn = IllegalArgumentException.class)
+    public void verifyFindCode(String email, String code) {
+        EmailVerification emailVerification = emailVerificationRepository.findTopByEmailOrderByIdDesc(email)
+                .orElseThrow(() -> new IllegalArgumentException("인증코드를 먼저 발송해주세요."));
+
+        if (emailVerification.isVerified()
+                || emailVerification.getFailedAttemptCount() >= MAX_FAILED_ATTEMPTS) {
+            throw new IllegalArgumentException("인증코드를 다시 발송해주세요.");
+        }
+
+        if (emailVerification.isExpired()) {
+            throw new IllegalArgumentException("인증코드가 만료되었습니다. 다시 발송해주세요.");
+        }
+
+        if (!emailVerification.getCode().equals(code)) {
+            emailVerification.increaseFailedAttempts();
+            throw new IllegalArgumentException("인증코드가 일치하지 않습니다.");
+        }
+
+        emailVerification.verify();
+    }
+
+    // 재발송 제한 확인 후 인증코드 생성/저장
+    private String issueCode(String email) {
         LocalDateTime now = LocalDateTime.now();
 
         emailVerificationRepository.findTopByEmailOrderByIdDesc(email).ifPresent(last -> {
@@ -59,7 +110,7 @@ public class EmailVerificationService {
                 .build();
         emailVerificationRepository.save(emailVerification);
 
-        emailService.sendVerificationCode(email, code);
+        return code;
     }
 
     // 인증코드 확인

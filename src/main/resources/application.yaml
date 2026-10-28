@@ -27,6 +27,12 @@ spring:
 server:
   servlet:
     context-path: /
+  # 에러 발생 시 스택트레이스/예외 정보를 화면에 노출하지 않음 (templates/error/error.html 사용)
+  error:
+    include-stacktrace: never
+    include-message: never
+    include-exception: false
+    include-binding-errors: never
 
 holiday:
   api:

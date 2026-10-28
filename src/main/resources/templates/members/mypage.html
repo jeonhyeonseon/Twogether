@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/login}">
+<head>
+    <title>My Page</title>
+    <link rel="stylesheet" th:href="@{/css/member/join.css}">
+    <link rel="stylesheet" th:href="@{/css/member/mypage.css}">
+    <script th:src="@{/js/member/mypage.js}"></script>
+</head>
+<body>
+    <th:block layout:fragment="content">
+        <div class="join-container mypage-container">
+
+            <p class="mypage-alert" th:if="${successMessage}" th:text="${successMessage}"></p>
+            <p class="mypage-alert error" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+
+            <!-- 내 정보 조회 -->
+            <section class="join-form">
+                <h2 class="join-title">마이페이지</h2>
+
+                <dl class="info-list" th:object="${memberInfo}">
+                    <div class="info-row">
+                        <dt>이름</dt>
+                        <dd th:text="*{name}"></dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>아이디</dt>
+                        <dd th:text="*{loginId}"></dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>이메일</dt>
+                        <dd th:text="*{email}"></dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>전화번호</dt>
+                        <dd th:text="*{phone}"></dd>
+                    </div>
+                    <div class="info-row">
+                        <dt>가입일</dt>
+                        <dd th:text="${memberInfo.createdAt != null} ? ${#temporals.format(memberInfo.createdAt, 'yyyy.MM.dd')} : '-'"></dd>
+                    </div>
+                </dl>
+            </section>
+
+            <!-- 내 정보 수정 (이름, 전화번호, 비밀번호를 하나의 폼으로 한 번에 수정)
+                 [정보 수정] 버튼을 누르기 전까지는 읽기 전용, 서버 검증 실패 시에는 수정 모드로 렌더링 -->
+            <form class="join-form" id="info-form" th:action="@{/mypage}" th:object="${memberUpdateRequestDto}" method="post"
+                  enctype="multipart/form-data">
+
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+
+                <h2 class="join-title">내 정보 수정</h2>
+
+                <!-- 프로필 사진 (설정하지 않았으면 기본 이미지, 수정 모드에서만 변경/삭제 가능) -->
+                <div class="profile-field">
+                    <img class="profile-preview" id="profile-preview" alt="프로필 사진"
+                         th:src="@{${memberInfo.profileImageUrl}}"
+                         th:attr="data-original=@{${memberInfo.profileImageUrl}},data-default=@{/images/default-profile.png},data-custom=${memberInfo.customProfileImage}">
+
+                    <div class="profile-actions" id="profile-actions" th:hidden="${editMode == null}">
+                        <label class="profile-btn" for="profileImage">사진 변경</label>
+                        <button type="button" class="profile-btn" id="profile-remove-btn"
+                                th:hidden="${!memberInfo.customProfileImage}">기본 이미지로</button>
+                    </div>
+
+                    <!-- th:field 는 MultipartFile 값을 다시 채울 수 없으므로 name/id 직접 지정 -->
+                    <input type="file" id="profileImage" name="profileImage" accept="image/jpeg,image/png,image/gif,image/webp" hidden>
+                    <input type="hidden" id="removeProfileImage" name="removeProfileImage" value="false">
+
+                    <span id="profile-image-msg" class="msg"
+                          th:classappend="${#fields.hasErrors('profileImage')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('profileImage')} ? ${#fields.errors('profileImage')[0]} : ''"></span>
+                </div>
+
+                <div class="form-field">
+                    <input type="text" th:value="${memberInfo.loginId}" disabled>
+                    <span class="msg">아이디는 수정할 수 없습니다.</span>
+                </div>
+
+                <div class="form-field">
+                    <input type="email" th:value="${memberInfo.email}" disabled>
+                    <span class="msg">이메일은 수정할 수 없습니다.</span>
+                </div>
+
+                <div class="form-field">
+                    <input type="text" th:field="*{name}" placeholder="이름" required
+                           th:readonly="${editMode == null}" th:attr="data-original=${memberInfo.name}">
+                    <span id="name-msg" class="msg"
+                          th:classappend="${#fields.hasErrors('name')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('name')} ? ${#fields.errors('name')[0]} : ''"></span>
+                </div>
+
+                <div class="form-field">
+                    <input type="text" th:field="*{phone}" inputmode="numeric" maxlength="13" required
+                           th:readonly="${editMode == null}" th:attr="data-original=${memberInfo.phone}">
+                    <span id="phone-msg" class="msg"
+                          th:classappend="${#fields.hasErrors('phone')} ? 'error-msg' : ''"
+                          th:text="${#fields.hasErrors('phone')} ? ${#fields.errors('phone')[0]} : ''"></span>
+                </div>
+
+                <!-- 비밀번호 변경 (선택) - 버튼 클릭 시 입력칸 노출, 서버 검증 실패 시에는 열린 상태로 렌더링 -->
+                <button type="button" class="join-btn mypage-outline-btn" id="password-toggle-btn"
+                        th:hidden="${editMode == null or passwordFormOpen != null}">비밀번호 변경</button>
+
+                <!-- 비밀번호 값은 다시 채우지 않도록 th:field 대신 name/id 직접 지정 -->
+                <div class="password-fields" id="password-fields" th:hidden="${passwordFormOpen == null}">
+                    <h3 class="mypage-subtitle">비밀번호 변경</h3>
+
+                    <div class="form-field">
+                        <input type="password" id="currentPassword" name="currentPassword" placeholder="현재 비밀번호">
+                        <span id="current-password-msg" class="msg"
+                              th:classappend="${#fields.hasErrors('currentPassword')} ? 'error-msg' : ''"
+                              th:text="${#fields.hasErrors('currentPassword')} ? ${#fields.errors('currentPassword')[0]} : ''"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <input type="password" id="newPassword" name="newPassword" placeholder="새 비밀번호 (8자 이상, 영문+숫자+특수문자)">
+                        <span id="new-password-format-msg" class="msg"
+                              th:classappend="${#fields.hasErrors('newPassword')} ? 'error-msg' : ''"
+                              th:text="${#fields.hasErrors('newPassword')} ? ${#fields.errors('newPassword')[0]} : ''"></span>
+                    </div>
+
+                    <div class="form-field">
+                        <input type="password" id="newPasswordConfirm" name="newPasswordConfirm" placeholder="새 비밀번호를 다시 입력해주세요">
+                        <span id="new-password-msg" class="msg"
+                              th:classappend="${#fields.hasErrors('newPasswordConfirm')} ? 'error-msg' : ''"
+                              th:text="${#fields.hasErrors('newPasswordConfirm')} ? ${#fields.errors('newPasswordConfirm')[0]} : ''"></span>
+                    </div>
+
+                    <button class="join-btn mypage-outline-btn" type="button" id="password-cancel-btn">비밀번호 변경 취소</button>
+                </div>
+
+                <!-- 보기 모드 -->
+                <button class="join-btn" type="button" id="edit-start-btn" th:hidden="${editMode != null}">정보 수정</button>
+
+                <!-- 수정 모드 -->
+                <div class="edit-actions" id="edit-actions" th:hidden="${editMode == null}">
+                    <button class="join-btn" type="submit">저장</button>
+                    <button class="join-btn mypage-outline-btn" type="button" id="edit-cancel-btn">취소</button>
+                </div>
+
+                <!-- 회원 탈퇴 (수정 모드에서만 링크 노출, 클릭 시 비밀번호 재확인 칸 노출)
+                     폼 중첩이 불가하므로 입력칸/버튼은 form="withdraw-form" 속성으로 아래 탈퇴 폼에 연결 -->
+                <div class="withdraw-area" id="withdraw-area" th:hidden="${editMode == null}">
+                    <!-- 링크를 다시 누르면 입력칸 닫힘 (탈퇴 취소 버튼 대신) -->
+                    <a href="#" class="withdraw-link" id="withdraw-toggle-btn">회원 탈퇴</a>
+
+                    <div class="withdraw-fields" id="withdraw-fields" th:hidden="${withdrawFormOpen == null}">
+                        <p class="mypage-desc">탈퇴하면 계정 정보와 개인 가계부가 삭제되고, 연결된 커플은 해제됩니다.</p>
+
+                        <div class="form-field">
+                            <input type="password" id="withdrawPassword" name="password" form="withdraw-form" placeholder="비밀번호를 입력해주세요">
+                            <span id="withdraw-password-msg" class="msg"
+                                  th:classappend="${withdrawError} ? 'error-msg' : ''"
+                                  th:text="${withdrawError}"></span>
+                        </div>
+
+                        <button class="join-btn mypage-danger-fill-btn" type="submit" form="withdraw-form">탈퇴하기</button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 회원 탈퇴 폼 (입력칸은 위 정보 수정 박스 안에 form 속성으로 연결) -->
+            <form id="withdraw-form" th:action="@{/mypage/withdraw}" method="post" hidden>
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}">
+            </form>
+
+            <!-- 커플 연결 -->
+            <section class="join-form">
+                <h2 class="join-title">커플 연결</h2>
+
+                <th:block th:if="${coupleConnection != null}">
+                    <dl class="info-list" th:object="${coupleConnection}">
+                        <div class="info-row">
+                            <dt>상대방</dt>
+                            <dd th:text="*{partnerName}"></dd>
+                        </div>
+                        <div class="info-row">
+                            <dt>연결일</dt>
+                            <dd th:text="${coupleConnection.connectedAt != null} ? ${#temporals.format(coupleConnection.connectedAt, 'yyyy.MM.dd')} : '-'"></dd>
+                        </div>
+                    </dl>
+
+                    <!-- 확인 창(confirm)을 거친 뒤 전송 -->
+                    <form id="disconnect-form" th:action="@{/mypage/couple/disconnect}" method="post">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+                        <button class="join-btn mypage-outline-btn mypage-danger-btn" type="submit">커플 연결 해제</button>
+                    </form>
+                </th:block>
+
+                <th:block th:if="${coupleConnection == null}">
+                    <p class="find-empty">연결된 커플이 없습니다.</p>
+                    <a class="join-btn mypage-link-btn" th:href="@{/main}">커플 연결하러 가기</a>
+                </th:block>
+            </section>
+
+            <p class="join-help">
+                <a th:href="@{/main}">메인으로 돌아가기</a>
+            </p>
+        </div>
+    </th:block>
+</body>
+</html>

@@ -23,4 +23,14 @@ public class EmailService {
         message.setText("인증코드: " + code);
         javaMailSender.send(message);
     }
+
+    // 아이디/비밀번호 찾기 인증코드
+    public void sendAccountFindCode(String toEmail, String code) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(from);
+        message.setTo(toEmail);
+        message.setSubject("[TwoGether] 아이디/비밀번호 찾기 인증코드");
+        message.setText("인증코드: " + code + "\n\n본인이 요청하지 않았다면 이 메일을 무시해주세요.");
+        javaMailSender.send(message);
+    }
 }

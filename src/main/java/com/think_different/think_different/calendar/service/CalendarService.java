@@ -26,7 +26,7 @@ public class CalendarService {
 
     public List<CalendarResponseDto> getMonthlySchedules(Member member, YearMonth currentMonth) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         LocalDate startDate = currentMonth.atDay(1);
         LocalDate endDate = currentMonth.atEndOfMonth();
@@ -39,14 +39,14 @@ public class CalendarService {
     }
 
     public LocalDate getCoupleStartDate(Member member) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         return coupleMember.getCouple().getStartDate();
     }
 
     public List<CalendarResponseDto> showDailySchedule(Member member, LocalDate scheduleDate) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         return calendarRepository
@@ -60,7 +60,7 @@ public class CalendarService {
     }
 
     public Long registerSchedule(Member member, CalendarRequestDto calendarRequestDto) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Calendar calendar = calendarRequestDto.toCalendar(
@@ -73,7 +73,7 @@ public class CalendarService {
 
     public void updateSchedule(Member member, Long calendarId, CalendarRequestDto calendarRequestDto) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -95,7 +95,7 @@ public class CalendarService {
 
     public void deleteSchedule(Member member, Long calendarId) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member)
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();

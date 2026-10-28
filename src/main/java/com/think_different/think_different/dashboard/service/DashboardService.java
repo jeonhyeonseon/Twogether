@@ -39,7 +39,7 @@ public class DashboardService {
 
     public DashboardResponseDto getDashboard(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -139,8 +139,9 @@ public class DashboardService {
                 .partnerName(partnerCoupleMember.getMember().getName())
                 .myNickname(coupleMember.getNickname())
                 .partnerNickname(partnerCoupleMember.getNickname())
-                .myProfileImageUrl(coupleMember.getProfileImageUrl())
-                .partnerProfileImageUrl(partnerCoupleMember.getProfileImageUrl())
+                // 커플용 사진이 없으면 마이페이지 프로필 사진 사용 (둘 다 없으면 DTO 에서 기본 이미지)
+                .myProfileImageUrl(profileImageOrMemberProfile(coupleMember))
+                .partnerProfileImageUrl(profileImageOrMemberProfile(partnerCoupleMember))
                 .startDate(coupleStartDate)
                 .dDay(dDate)
                 .hasStartDate(coupleStartDate != null)
@@ -157,7 +158,7 @@ public class DashboardService {
     public void updateCoupleInfo(Member member,
                                  CoupleInfoUpdateRequestDto coupleInfoUpdateRequestDto) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -189,5 +190,13 @@ public class DashboardService {
                 coupleInfoUpdateRequestDto.getPartnerNickname(),
                 partnerProfileImageUrl
         );
+    }
+
+    private String profileImageOrMemberProfile(CoupleMember coupleMember) {
+        String coupleProfileImageUrl = coupleMember.getProfileImageUrl();
+        if (coupleProfileImageUrl != null && !coupleProfileImageUrl.isBlank()) {
+            return coupleProfileImageUrl;
+        }
+        return coupleMember.getMember().getProfileImageUrl();
     }
 }

@@ -35,7 +35,7 @@ public class ExpenseService {
 
     public List<ExpenseResponseDto> getMonthlyExpense(Member member, Integer year, Integer month, String category) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -74,7 +74,7 @@ public class ExpenseService {
 
     public YearMonth getDefaultYearMonth(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -83,7 +83,7 @@ public class ExpenseService {
 
     public List<Integer> getAvailableYears(Member member) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -105,7 +105,7 @@ public class ExpenseService {
 
     public List<Integer> getAvailableMonths(Member member, int selectedYear) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -139,7 +139,7 @@ public class ExpenseService {
         validateContent(createRequestDto.getContent());
         validateAmount(createRequestDto.getAmount());
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 
@@ -172,7 +172,7 @@ public class ExpenseService {
         validateContent(expenseUpdateRequestDto.getContent());
         validateAmount(expenseUpdateRequestDto.getAmount());
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
@@ -185,7 +185,7 @@ public class ExpenseService {
 
     public void deleteExpense(Member member, Long expenseId) {
         
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
@@ -197,7 +197,7 @@ public class ExpenseService {
     }
 
     public void connectRecord(Member member, Long expenseId, Long recordId) {
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 정보가 없습니다."));
 
         Expense expense = expenseRepository.findById(expenseId).orElseThrow(() -> new IllegalArgumentException("비용 정보가 없습니다."));
 
@@ -258,7 +258,7 @@ public class ExpenseService {
                                                              Integer month,
                                                              String category) {
 
-        CoupleMember coupleMember = coupleMemberRepository.findByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
+        CoupleMember coupleMember = coupleMemberRepository.findConnectedByMember(member).orElseThrow(() -> new IllegalArgumentException("커플 연결 정보가 없습니다."));
 
         Couple couple = coupleMember.getCouple();
 

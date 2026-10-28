@@ -82,7 +82,7 @@ public class BucketListRecommendationService {
 
     private RecommendationContext resolveContext(Member member) {
 
-        Couple couple = coupleMemberRepository.findByMember(member)
+        Couple couple = coupleMemberRepository.findConnectedByMember(member)
                 .orElseThrow(() -> new IllegalArgumentException("커플 정보를 찾을 수 없습니다."))
                 .getCouple();
 
